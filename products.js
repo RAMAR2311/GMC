@@ -71,21 +71,21 @@ var PRODUCTS = [
 var CAROUSEL_SLIDES = [
   { 
     alt: "Maquinaria Industrial CNC", 
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAUpIiYnYwZgM1yxwbp99hcHuzMPiFL-kyXWRJjSd89RiIaTuPC6PAcbjveUziu1CpCZi4UxJHaDmKSFONJSfgmRzpHBsLteyWG445PJbygLxmkXugicY2qQY1j-NjMnh-HUUeaexeyXvnhcBhik93WIheQ7aOnJ2aKGKNKLoWvR_9xJSTwRtDaAslAvx4xnVEYatTdDsltqCZpI_bc5vCJcoA-rCJ7l49z7MHbzdzL07Zgu5QAZRUhgNRBU8ViSuty6Nw5ms04Mz1M",
+    img: "uploads/carousel_1.png",
     badge: "Tecnología de Vanguardia",
     title: "Líderes en Soluciones de Maquinaria Industrial",
     description: "Potenciamos la capacidad productiva de su empresa con equipos de precisión milimétrica y soporte técnico especializado de clase mundial."
   },
   { 
     alt: "Línea de Ensamblaje Industrial", 
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAEOc8GzYuOY8jQoSxlyWsZPRYBBa1mlXWpgyIlHEf3X6OZHArU5rCuzDHGgkXVy7orCZ4ugQGm9KimSTby0hTq6yiFf7P66SHx_cDKH33xS1wzXxpN5VT0VVKZEJOG1KstdDVTURDKzTXHFW0YRNdl6h1VLtPmssiwEzkiLeF0qRqFfCDjWnkwX676sjixPwLB-mLD-fdTPVv8MzCEMdVlO0JSUrgZFZJRoZNHpfmohzmY3dr1LrADA95a9e0b_OoNGbw91SG1xb6m",
+    img: "uploads/carousel_2.png",
     badge: "Eficiencia y Rapidez",
     title: "Líneas de Ensamblaje Automatizadas",
     description: "Optimice sus tiempos de producción con nuestras soluciones integrales para el ensamblaje continuo y de alta demanda."
   },
   { 
     alt: "Maquinaria Textil de Alta Gama", 
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDj7gWq6h88GhBi4JCGLJwa8KI7wbqCu0Jopw8Vh3GIgKuC1o-QEpyuJsrp5cy_33JerAjos6d8pnIAotkUbCif2OUbIJTiC68LXp4tSya1ZqQHVTaDX0MtKFPre006Xv_y5jQoPJIjBQrOqM6xTP2HwccaM3-6UJNNkXhI1EVFl4ORMTS6OYxiHHomncsgn5a_8JHtNdt_pwR0mLXJ563-InsfKUEsgjGh7kfNV6MrqCXjK61svuIj5Io9QolygCJ_ui35zB1eaOus",
+    img: "uploads/carousel_3.png",
     badge: "Precisión Textil",
     title: "Equipos Premium para la Industria Textil",
     description: "Descubra nuestra gama exclusiva de bordadoras y cosedoras diseñadas para acabados perfectos y durabilidad extrema."
@@ -94,14 +94,7 @@ var CAROUSEL_SLIDES = [
 
 const BRANDS = ["JACK", "KANSEW", "JAKI", "JONTEX", "TYPICAL"];
 
-const SIDEBAR_CATEGORIES = [
-  { icon: "precision_manufacturing", label: "Máquinas de Coser", active: true },
-  { icon: "content_cut", label: "Cortadoras de Tela" },
-  { icon: "auto_fix_high", label: "Bordadoras Industriales" },
-  { icon: "iron", label: "Equipos de Planchado" },
-  { icon: "hardware", label: "Repuestos y Agujas" },
-  { icon: "local_shipping", label: "Logística Textil" }
-];
+var SIDEBAR_CATEGORIES = []; // Se cargará dinámicamente desde PostgreSQL
 
 // Datos del equipo para la sección Nosotros
 var TEAM_MEMBERS = [
@@ -207,13 +200,6 @@ function renderCarouselSlides() {
           <span class="inline-block px-4 py-1.5 mb-4 sm:mb-6 bg-primary text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-sm">${s.badge}</span>
           <h2 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold font-manrope text-white tracking-tight leading-[1.1] mb-4 sm:mb-6">${s.title}</h2>
           <p class="text-base sm:text-lg lg:text-xl text-slate-200 font-body leading-relaxed mb-6 sm:mb-10 max-w-2xl">${s.description || s.desc || ''}</p>
-          <div class="flex flex-wrap gap-3 sm:gap-4 pointer-events-auto">
-            <a href="#product-grid" class="px-6 sm:px-8 py-3 sm:py-4 bg-white text-primary font-bold text-xs uppercase tracking-[0.2em] rounded hover:bg-blue-50 transition-all duration-300 active:scale-95 inline-block">Ver Catálogo Completo</a>
-            <a href="https://wa.me/573000000000?text=Hola,%20me%20gustar%C3%ADa%20solicitar%20asesor%C3%ADa." target="_blank" rel="noopener noreferrer" class="px-6 sm:px-8 py-3 sm:py-4 bg-transparent border-2 border-white text-white font-bold text-xs uppercase tracking-[0.2em] rounded hover:bg-white/10 transition-all duration-300 active:scale-95 inline-flex items-center gap-2">
-              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
-              Solicitar Asesoría
-            </a>
-          </div>
         </div>
       </div>
     </div>`

@@ -465,9 +465,11 @@ async function initCMSData() {
     if (data.services && data.services.length > 0) {
       window.SERVICES_DATA = data.services;
     }
-    // Categorías
+    // Categorías - Forzar limpieza de basura anterior solo si detectamos conflicto
     if (data.categories && data.categories.length > 0) {
+      localStorage.removeItem('maquitec_categories'); // Limpiar caché vieja
       window.SIDEBAR_CATEGORIES = data.categories;
+      console.log("Categorías sincronizadas con PostgreSQL.");
     }
 
     // Carrusel

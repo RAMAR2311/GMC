@@ -11,7 +11,8 @@ CREATE TABLE IF NOT EXISTS products (
     max_speed VARCHAR(50),
     motor_type VARCHAR(100),
     badge VARCHAR(50) DEFAULT 'Nuevo',
-    badge_color VARCHAR(50) DEFAULT 'bg-secondary'
+    badge_color VARCHAR(50) DEFAULT 'bg-secondary',
+    gallery TEXT
 );
 
 -- 2. Tabla de Equipo (Nosotros)
@@ -35,6 +36,24 @@ CREATE TABLE IF NOT EXISTS services (
 CREATE TABLE IF NOT EXISTS cms_texts (
     key VARCHAR(100) PRIMARY KEY,
     value TEXT
+);
+
+-- 5. Tabla de Carrusel Principal
+CREATE TABLE IF NOT EXISTS carousel_slides (
+    id INTEGER PRIMARY KEY,
+    badge VARCHAR(100),
+    title VARCHAR(255),
+    "desc" TEXT,
+    img TEXT,
+    alt VARCHAR(255)
+);
+
+-- 6. Tabla de Categorías
+CREATE TABLE IF NOT EXISTS categories (
+    id VARCHAR(100) PRIMARY KEY,
+    label VARCHAR(100) NOT NULL,
+    icon VARCHAR(100),
+    active BOOLEAN DEFAULT TRUE
 );
 
 -- Insertar algunos datos iniciales de prueba (opcional)

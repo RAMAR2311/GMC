@@ -18,6 +18,7 @@ const DB = {
                 products: JSON.parse(localStorage.getItem('maquitec_products')) || [],
                 team: JSON.parse(localStorage.getItem('maquitec_team')) || [],
                 services: JSON.parse(localStorage.getItem('maquitec_services')) || [],
+                categories: JSON.parse(localStorage.getItem('maquitec_categories')) || [],
                 texts: JSON.parse(localStorage.getItem('maquitec_cms_texts')) || {}
             };
         }
