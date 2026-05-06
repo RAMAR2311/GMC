@@ -21,12 +21,23 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 # --- CONFIGURACIÓN DE BASE DE DATOS ---
 def get_db_connection():
     """Obtiene conexión usando variables de entorno para portabilidad"""
+    # Cargamos valores desde .env
+    db_user = os.getenv("DB_USER")
+    db_pass = os.getenv("DB_PASS")
+    db_host = os.getenv("DB_HOST")
+    db_port = os.getenv("DB_PORT", "5432")
+    db_name = os.getenv("DB_NAME", "postgres")
+
+    # SSL es obligatorio para Supabase/AWS
+    ssl = True if db_host and ("supabase" in db_host or "aws" in db_host or "pooler" in db_host) else False
+    
     return Connection(
-        user=os.getenv("DB_USER", "postgres"),
-        password=os.getenv("DB_PASS", "admin123"),
-        host=os.getenv("DB_HOST", "localhost"),
-        port=int(os.getenv("DB_PORT", 5432)),
-        database=os.getenv("DB_NAME", "Capital_Maquinas")
+        user=db_user,
+        password=db_pass,
+        host=db_host,
+        port=int(db_port),
+        database=db_name,
+        ssl_context=ssl
     )
 
 def init_db():
