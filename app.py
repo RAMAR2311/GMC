@@ -139,7 +139,7 @@ def get_cms_data():
         carousel = [{'id': r[0], 'badge': r[1], 'title': r[2], 'desc': r[3], 'img': r[4], 'alt': r[5]} for r in rows_car]
 
         # Categorías
-        rows_cat = conn.run('SELECT id, label, icon, active FROM categories')
+        rows_cat = conn.run('SELECT id, label, icon, active FROM categories ORDER BY label ASC')
         categories = [{'id': r[0], 'label': r[1], 'icon': r[2], 'active': r[3]} for r in rows_cat]
 
         # Textos
@@ -255,19 +255,19 @@ def save_product():
             exists = conn.run('SELECT id FROM products WHERE id = :id', id=data['id'])
             if exists:
                 conn.run('''
-                    UPDATE products SET name=:name, price=:price, category=:category, img=:img, max_speed=:max_speed, motor_type=:motor_type, gallery=:gallery, description=:description, brand=:brand WHERE id=:id
+                    UPDATE products SET name=:name, price=:price, category=:category, img=:img, max_speed=:max_speed, motor_type=:motor_type, badge=:badge, badge_color=:badge_color, gallery=:gallery, description=:description, brand=:brand WHERE id=:id
                 ''', name=data['name'], price=data['price'], category=data['category'], img=data['img'], 
-                     max_speed=data.get('maxSpeed'), motor_type=data.get('motorType'), gallery=gallery_json, description=description, brand=data.get('brand'), id=data['id'])
+                     max_speed=data.get('maxSpeed'), motor_type=data.get('motorType'), badge=data.get('badge'), badge_color=data.get('badgeColor'), gallery=gallery_json, description=description, brand=data.get('brand'), id=data['id'])
             else:
                 conn.run('''
-                    INSERT INTO products (id, name, price, category, img, max_speed, motor_type, gallery, description, brand) VALUES (:id, :name, :price, :category, :img, :max_speed, :motor_type, :gallery, :description, :brand)
+                    INSERT INTO products (id, name, price, category, img, max_speed, motor_type, badge, badge_color, gallery, description, brand) VALUES (:id, :name, :price, :category, :img, :max_speed, :motor_type, :badge, :badge_color, :gallery, :description, :brand)
                 ''', id=data['id'], name=data['name'], price=data['price'], category=data['category'], img=data['img'], 
-                     max_speed=data.get('maxSpeed'), motor_type=data.get('motorType'), gallery=gallery_json, description=description, brand=data.get('brand'))
+                     max_speed=data.get('maxSpeed'), motor_type=data.get('motorType'), badge=data.get('badge'), badge_color=data.get('badgeColor'), gallery=gallery_json, description=description, brand=data.get('brand'))
         else:
             conn.run('''
-                INSERT INTO products (name, price, category, img, max_speed, motor_type, gallery, description, brand) VALUES (:name, :price, :category, :img, :max_speed, :motor_type, :gallery, :description, :brand)
+                INSERT INTO products (name, price, category, img, max_speed, motor_type, badge, badge_color, gallery, description, brand) VALUES (:name, :price, :category, :img, :max_speed, :motor_type, :badge, :badge_color, :gallery, :description, :brand)
             ''', name=data['name'], price=data['price'], category=data['category'], img=data['img'], 
-                 max_speed=data.get('maxSpeed'), motor_type=data.get('motorType'), gallery=gallery_json, description=description, brand=data.get('brand'))
+                 max_speed=data.get('maxSpeed'), motor_type=data.get('motorType'), badge=data.get('badge'), badge_color=data.get('badgeColor'), gallery=gallery_json, description=description, brand=data.get('brand'))
         conn.close()
         return jsonify({'success': True})
     except Exception as e:

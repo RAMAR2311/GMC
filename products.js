@@ -217,7 +217,8 @@ function renderBrands() {
 function renderSidebar() {
   const el = document.getElementById("sidebar-categories");
   if (!el) return;
-  el.innerHTML = SIDEBAR_CATEGORIES.map(c => {
+  const sorted = [...SIDEBAR_CATEGORIES].sort((a, b) => a.label.localeCompare(b.label));
+  el.innerHTML = sorted.map(c => {
     if (c.active) {
       return `<a onclick="filterCategory(event, '${c.label}')" class="flex items-center space-x-3 px-4 py-3 bg-blue-50 dark:bg-blue-900/20 text-blue-900 dark:text-blue-300 rounded-lg font-manrope text-sm font-semibold cursor-pointer transition-all duration-200" href="#product-grid">
         <span class="material-symbols-outlined text-lg">${c.icon}</span><span>${c.label}</span></a>`;

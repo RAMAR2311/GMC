@@ -1282,7 +1282,8 @@
       if (!tbody || typeof SIDEBAR_CATEGORIES === 'undefined') return;
 
       tbody.innerHTML = '';
-      SIDEBAR_CATEGORIES.forEach((cat, idx) => {
+      const sortedCats = [...SIDEBAR_CATEGORIES].sort((a, b) => a.label.localeCompare(b.label));
+      sortedCats.forEach((cat, idx) => {
         const tr = document.createElement('tr');
         tr.className = 'hover:bg-slate-50 transition-colors';
         tr.innerHTML = `
