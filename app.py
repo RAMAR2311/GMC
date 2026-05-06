@@ -135,7 +135,7 @@ def get_cms_data():
         services = [{'id': r[0], 'title': r[1], 'desc': r[2], 'icon': r[3]} for r in rows_serv]
 
         # Carrusel
-        rows_car = conn.run('SELECT id, badge, title, "desc", img, alt FROM carousel_slides')
+        rows_car = conn.run('SELECT id, badge, title, "desc", img, alt FROM carousel_slides ORDER BY id ASC')
         carousel = [{'id': r[0], 'badge': r[1], 'title': r[2], 'desc': r[3], 'img': r[4], 'alt': r[5]} for r in rows_car]
 
         # Categorías
