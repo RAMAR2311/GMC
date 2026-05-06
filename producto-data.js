@@ -44,8 +44,8 @@ function initProductDetail() {
     Object.keys(elements).forEach(id => {
         const el = document.getElementById(id);
         if (el) {
-            if (id === 'product-price' && typeof elements[id] === 'number') {
-                el.innerText = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(elements[id]);
+            if (id === 'product-price') {
+                el.innerText = window.formatCurrency(elements[id]);
             } else {
                 el.innerText = elements[id];
             }

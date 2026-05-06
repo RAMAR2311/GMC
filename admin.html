@@ -934,6 +934,21 @@
             <label class="block text-sm font-semibold text-slate-600 mb-1">Tipo de Motor</label>
             <input type="text" id="modal-motor-type" placeholder="Direct Drive" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-accent outline-none text-slate-800">
           </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-600 mb-1">Etiqueta (Badge)</label>
+            <input type="text" id="modal-badge" placeholder="Ej. Nuevo, En Stock, Premium" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-accent outline-none text-slate-800">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-600 mb-1">Color Etiqueta</label>
+            <select id="modal-badge-color" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-accent outline-none text-slate-800">
+              <option value="bg-primary">Azul (Principal)</option>
+              <option value="bg-secondary">Gris (Secundario)</option>
+              <option value="bg-blue-600">Celeste (Oferta)</option>
+              <option value="bg-error">Rojo (Agotado)</option>
+              <option value="bg-green-600">Verde (Disponible)</option>
+              <option value="bg-amber-500">Naranja (Limitado)</option>
+            </select>
+          </div>
           <div class="md:col-span-2">
             <label class="block text-sm font-semibold text-slate-600 mb-1">Descripción Completa</label>
             <textarea id="modal-description" rows="4" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-accent outline-none text-slate-800 resize-none"></textarea>
@@ -1251,7 +1266,7 @@
             </div>
           </td>
           <td class="px-6 py-3 font-semibold text-slate-800">${product.name}</td>
-          <td class="px-6 py-3 font-medium">${product.price}</td>
+          <td class="px-6 py-3 font-medium">${window.formatCurrency(product.price)}</td>
           <td class="px-6 py-3"><span class="bg-slate-100 text-slate-600 px-2 py-1 rounded text-xs font-semibold">${product.category || 'Sin Categoría'}</span></td>
           <td class="px-6 py-3 text-right">
             <button onclick="openProductModal(${product.id})" class="text-brand hover:text-blue-800 font-semibold text-sm mr-3 transition-colors">Editar</button>
@@ -1399,6 +1414,8 @@
       const imgPreview = document.getElementById('modal-img-preview');
       const maxSpeedInput = document.getElementById('modal-max-speed');
       const motorTypeInput = document.getElementById('modal-motor-type');
+      const badgeInput = document.getElementById('modal-badge');
+      const badgeColorSelect = document.getElementById('modal-badge-color');
       
       // Llenar select de categorías
       if (typeof SIDEBAR_CATEGORIES !== 'undefined') {
@@ -1420,6 +1437,8 @@
           categorySelect.value = product.category || SIDEBAR_CATEGORIES[0].label;
           maxSpeedInput.value = product.maxSpeed || '';
           motorTypeInput.value = product.motorType || '';
+          badgeInput.value = product.badge || '';
+          badgeColorSelect.value = product.badgeColor || 'bg-secondary';
           document.getElementById('modal-brand').value = product.brand || '';
           document.getElementById('modal-description').value = product.description || '';
           
@@ -1438,6 +1457,8 @@
         priceInput.value = '';
         maxSpeedInput.value = '';
         motorTypeInput.value = '';
+        badgeInput.value = '';
+        badgeColorSelect.selectedIndex = 0;
         document.getElementById('modal-description').value = '';
         imgPreview.src = '';
         if (categorySelect.options.length > 0) categorySelect.selectedIndex = 0;
@@ -1513,7 +1534,10 @@
 
       const description = document.getElementById('modal-description').value;
       const brand = document.getElementById('modal-brand').value;
-      const product = { name, price, category, maxSpeed, motorType, img, gallery, description, brand };
+      const badge = document.getElementById('modal-badge').value;
+      const badgeColor = document.getElementById('modal-badge-color').value;
+
+      const product = { name, price, category, maxSpeed, motorType, img, gallery, description, brand, badge, badgeColor };
       if (id) product.id = id;
 
       // Validación simple

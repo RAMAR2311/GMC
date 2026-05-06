@@ -395,6 +395,18 @@ window.toggleUserMenu = function() {
   }
 }
 
+// Utilidad para formatear precios con separadores de miles
+window.formatCurrency = function(value) {
+  const num = typeof value === 'string' ? parseFloat(value.replace(/[^0-9.]/g, '')) : value;
+  if (isNaN(num)) return value;
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(num);
+};
+
 // Cierra los dropdowns al hacer clic afuera
 document.addEventListener('click', (e) => {
   // Carrito

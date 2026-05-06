@@ -142,9 +142,8 @@ var SERVICES_DATA = [
 function renderProductCard(p, idx) {
   const stagger = `stagger-${(idx % 8) + 1}`;
   const txtColor = p.badgeText || "text-white";
-  const rawPrice = p.price || "0";
-  const numPrice = typeof rawPrice === 'number' ? rawPrice : parseFloat(String(rawPrice).replace(/[$,]/g, '')) || 0;
-  const displayPrice = typeof rawPrice === 'number' ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(rawPrice) : rawPrice;
+  const displayPrice = window.formatCurrency(p.price || 0);
+  const numPrice = typeof p.price === 'number' ? p.price : parseFloat(String(p.price || 0).replace(/[$,]/g, '')) || 0;
   const safeName = (p.name || "Sin Nombre").replace(/"/g, '&quot;');
   const productData = `{ name: &quot;${safeName}&quot;, price: ${numPrice}, img: &quot;${p.img}&quot; }`;
   
