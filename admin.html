@@ -300,6 +300,28 @@
             </div>
           </div>
 
+          <!-- SUBSECCIÓN: TEXTOS DE PORTADA (HERO) -->
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-8">
+            <div class="p-6 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
+              <h3 class="font-bold text-slate-800 flex items-center"><span class="material-symbols-outlined mr-2 text-brand">edit_note</span> Textos de Portada del Inventario</h3>
+            </div>
+            <div class="p-6 md:p-8 space-y-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-500 mb-1">Título de Portada</label>
+                <textarea id="inventario-hero-title-admin" rows="2" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800 resize-none"></textarea>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-500 mb-1">Descripción de Portada</label>
+                <textarea id="inventario-hero-desc-admin" rows="3" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800 resize-none"></textarea>
+              </div>
+              <div class="flex justify-end pt-2">
+                <button onclick="saveInventarioHero(this)" class="bg-brand text-white px-8 py-2.5 rounded-lg text-sm font-bold hover:bg-blue-900 shadow-lg transition-all flex items-center">
+                  <span class="material-symbols-outlined mr-2">save</span> Guardar Textos de Portada
+                </button>
+              </div>
+            </div>
+          </div>
+
           <!-- SUBSECCIÓN: CATÁLOGO DE PRODUCTOS -->
           <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
             <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
@@ -1568,6 +1590,15 @@
       renderAdminProducts();
     }
 
+    async function saveInventarioHero(btn) {
+      const data = {
+        'inventario-hero-title': document.getElementById('inventario-hero-title-admin').value,
+        'inventario-hero-desc': document.getElementById('inventario-hero-desc-admin').value
+      };
+      await window.CMS_DB.saveTexts(data);
+      await saveFeedback(btn);
+    }
+
     function openCategoryModal(cat = null) {
       const modal = document.getElementById('category-modal');
       const title = document.getElementById('cat-modal-title');
@@ -1691,7 +1722,9 @@
           'soporte-form-desc': 'admin-soporte-form-desc',
           'nosotros-inst-1': 'preview-inst-1',
           'nosotros-inst-2': 'preview-inst-2',
-          'nosotros-inst-3': 'preview-inst-3'
+          'nosotros-inst-3': 'preview-inst-3',
+          'inventario-hero-title': 'inventario-hero-title-admin',
+          'inventario-hero-desc': 'inventario-hero-desc-admin'
         };
 
         Object.keys(map).forEach(cmsKey => {
