@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Máquina de Coser Automática Industrial | Grupo Capital Máquinas</title>
+  <meta name="description" content="Detalle de máquina de coser automática industrial avanzada."/>
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <!-- Shared Config & Components -->
+  <script src="db-service.js"></script>
+  <script src="shared.js"></script>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body class="bg-background text-on-background antialiased" data-page="">
+
+<!-- ═══ NAVBAR (inyectado por shared.js) ═══ -->
+<div id="navbar-placeholder"></div>
+
+<main class="pt-24 pb-12">
+  <!-- ── Breadcrumb & Actions ── -->
+  <section class="max-w-[1440px] mx-auto px-4 sm:px-8 py-4 sm:py-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <nav class="flex flex-wrap items-center gap-2 text-xs uppercase tracking-widest text-on-surface-variant font-label" aria-label="Breadcrumb">
+      <a class="hover:text-primary transition-colors" href="index.html">Inventario</a>
+      <span class="material-symbols-outlined text-[12px]">chevron_right</span>
+      <a class="hover:text-primary transition-colors" href="#">Máquinas de Coser</a>
+      <span class="material-symbols-outlined text-[12px]">chevron_right</span>
+      <span class="text-primary font-bold">Industrial Automática S-7300A</span>
+    </nav>
+    <div class="flex gap-2 sm:gap-4 w-full sm:w-auto">
+      <button class="flex-1 sm:flex-none justify-center items-center gap-2 px-4 py-2 text-sm font-semibold text-primary border border-outline-variant/20 rounded-lg hover:bg-surface-container-low transition-colors">
+        <span class="material-symbols-outlined text-sm">share</span> <span class="hidden sm:inline">Compartir</span>
+      </button>
+      <button class="flex-1 sm:flex-none justify-center items-center gap-2 px-4 py-2 text-sm font-semibold text-primary border border-outline-variant/20 rounded-lg hover:bg-surface-container-low transition-colors">
+        <span class="material-symbols-outlined text-sm">favorite</span> <span class="hidden sm:inline">Lista de Seguimiento</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ── Product Hero: Gallery + Info ── -->
+  <section class="max-w-[1440px] mx-auto px-4 sm:px-8 pb-12 sm:pb-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+    
+    <!-- Gallery -->
+    <div class="lg:col-span-7 space-y-4 sm:space-y-6">
+      <div class="bg-surface-container-lowest rounded-xl p-8 sm:p-12 overflow-hidden aspect-square sm:aspect-[4/3] flex items-center justify-center">
+        <img id="main-product-img" alt="Máquina S-7300A" class="w-full h-full object-contain mix-blend-multiply transition-opacity duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBED4xZjhLsZPiYGkj7WAYVry8391BgDrBNpV8k7EdtxVIUPvHigzdYOc8MX4X-h1uUI_dUzUPbhTXsVJpgHtfQZEE-zTd2FSqtCT02xm9VMXvECp_LVUhNGtsrFzalrmYm0fTYq6FX6YoCx7Cp94HDZcAMjdL51cSXHLZlMbqTJykMbFkBgHDgBfJOLtUEtMg4Dgy7Ux4hbeFAc3u-TM6wccUWkNbafrF8jjGornsKrPBjIdDgkutyrarHKF8k8TrCYl4Askt0AyrH"/>
+      </div>
+      <div class="grid grid-cols-4 gap-2 sm:gap-4">
+        <div class="gallery-thumb aspect-square bg-surface-container rounded-lg overflow-hidden cursor-pointer border-2 border-primary transition-all hover:opacity-90" data-src="https://lh3.googleusercontent.com/aida-public/AB6AXuCORZTAIM9OYRrnU2bzKTim2WdJED8PvEKQAE3VFawoLP0XkzBxljhjvrwhfbtol6yAxeMWiqhPqfCucReRafKrkp5cMWd_nh1A4MWDwZYKUNM2TMLdCBDPy0v1a3d9Njh3MqagyJbnZLnJrfTVKD0TdFuAZcQhGmzJuYuCzaoARiwwPjfziB30iabLJZi18t79Tddk9rCoXVokH_5FQuosTkHOSvaU2-4CLnUm8s8eG0XEDn3gHHPYwzc4S5nf_A4tqAAfdqNPmvQ3">
+          <img alt="Detalle 1" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCORZTAIM9OYRrnU2bzKTim2WdJED8PvEKQAE3VFawoLP0XkzBxljhjvrwhfbtol6yAxeMWiqhPqfCucReRafKrkp5cMWd_nh1A4MWDwZYKUNM2TMLdCBDPy0v1a3d9Njh3MqagyJbnZLnJrfTVKD0TdFuAZcQhGmzJuYuCzaoARiwwPjfziB30iabLJZi18t79Tddk9rCoXVokH_5FQuosTkHOSvaU2-4CLnUm8s8eG0XEDn3gHHPYwzc4S5nf_A4tqAAfdqNPmvQ3"/>
+        </div>
+        <div class="gallery-thumb aspect-square bg-surface-container rounded-lg overflow-hidden cursor-pointer border-transparent hover:opacity-80 transition-all" data-src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5LcODhnowvC75q8IPp8mGjTgexZyHJmnVydx4w4iSasTUF5gVNutNAylk5qqyW_1UTU3YlorpJgp3M9vbsI99DpVJddGlgVDu2IwEkl0YMV6AUqdDqNHyPG3JsyvWZ89VYp5-4L8_pU8evBhv59Lsnpfku5GOHRLFuU6LKZuUO5smYfa2deRcCUweDbGh13gSnCF8nlsch9uX6FX2FG8xBG35xB-HWYbMO3HJCi_TABA_yLOoxgXyBcP2wefor7UnQYjySPwxb4sg">
+          <img alt="Detalle 2" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5LcODhnowvC75q8IPp8mGjTgexZyHJmnVydx4w4iSasTUF5gVNutNAylk5qqyW_1UTU3YlorpJgp3M9vbsI99DpVJddGlgVDu2IwEkl0YMV6AUqdDqNHyPG3JsyvWZ89VYp5-4L8_pU8evBhv59Lsnpfku5GOHRLFuU6LKZuUO5smYfa2deRcCUweDbGh13gSnCF8nlsch9uX6FX2FG8xBG35xB-HWYbMO3HJCi_TABA_yLOoxgXyBcP2wefor7UnQYjySPwxb4sg"/>
+        </div>
+        <div class="gallery-thumb aspect-square bg-surface-container rounded-lg overflow-hidden cursor-pointer border-transparent hover:opacity-80 transition-all" data-src="https://lh3.googleusercontent.com/aida-public/AB6AXuBu9D2MgtKWBEHzTEfr5k8W9H814fidSm1TnVSpbkZw_8C7zJgc1Ocldhx0No5vCMoXyPuyjHjsHzrylfI39iJKvI73ra8B7WhrYl_vThUClfBRVIsgC7LM1D8TCCPkGW6EFfB2cHgck6hl5AKxWjOw_OJx3IGEGhUsHcrqGwT6-UufUIrRhiNQUY2n_sEwZQoS1r92ooiBBEMAnyu0vLLz5yqK9qQwdAbX55B_5PuFC28Hz0FFkqthgCYwTr6_JSkuP00M22qN9_7U">
+          <img alt="Detalle 3" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBu9D2MgtKWBEHzTEfr5k8W9H814fidSm1TnVSpbkZw_8C7zJgc1Ocldhx0No5vCMoXyPuyjHjsHzrylfI39iJKvI73ra8B7WhrYl_vThUClfBRVIsgC7LM1D8TCCPkGW6EFfB2cHgck6hl5AKxWjOw_OJx3IGEGhUsHcrqGwT6-UufUIrRhiNQUY2n_sEwZQoS1r92ooiBBEMAnyu0vLLz5yqK9qQwdAbX55B_5PuFC28Hz0FFkqthgCYwTr6_JSkuP00M22qN9_7U"/>
+        </div>
+        <div class="gallery-thumb aspect-square bg-surface-container rounded-lg overflow-hidden cursor-pointer border-transparent hover:opacity-80 transition-all" data-src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSgfWot9DB73HE94xgC_HgzGLMwG_r_Rk_7ZL2norfc6BX615xE4MxPfqjYQUEDVvXrot8TXwaJg4gQKukCUGYanWssdEbUxghfAsGsz29BU03eLtWXhKm-7aHzF9KbVWqpQ3TKM1J1L81Kwikfewpg6SxiKetPiLblKRlHBj7Yf22J-DZYJXm85HM5Bd-SA7cX_F0bkllarc8qDV3LyvRN_j_VT2VcDn7gJKoUHCTKDpxa3-AY5P7wjuS6FTWBBqRNQFHVRiIThSq">
+          <img alt="Detalle 4" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSgfWot9DB73HE94xgC_HgzGLMwG_r_Rk_7ZL2norfc6BX615xE4MxPfqjYQUEDVvXrot8TXwaJg4gQKukCUGYanWssdEbUxghfAsGsz29BU03eLtWXhKm-7aHzF9KbVWqpQ3TKM1J1L81Kwikfewpg6SxiKetPiLblKRlHBj7Yf22J-DZYJXm85HM5Bd-SA7cX_F0bkllarc8qDV3LyvRN_j_VT2VcDn7gJKoUHCTKDpxa3-AY5P7wjuS6FTWBBqRNQFHVRiIThSq"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Info -->
+    <div class="lg:col-span-5 space-y-6 sm:space-y-8">
+      <div>
+        <div class="inline-flex items-center px-3 py-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold uppercase tracking-widest rounded-full mb-4">En Stock y Listo para Envío</div>
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-primary tracking-tight leading-tight mb-4 font-headline">Máquina de Coser Automática Industrial Avanzada</h1>
+        <p class="text-on-surface-variant text-base sm:text-lg leading-relaxed">La serie S-7300A Nexio representa la cima de la precisión industrial. Con arquitectura de vanguardia, presenta el primer Control de Alimentación Electrónico del mundo conectado directamente al motor, permitiendo una confiabilidad sin precedentes en la calidad de puntada y manejo de materiales.</p>
+      </div>
+      
+      <!-- Metrics -->
+      <div class="grid grid-cols-2 gap-4">
+        <div class="p-4 sm:p-6 bg-surface-container-low rounded-xl">
+          <span class="block text-[10px] sm:text-xs uppercase tracking-widest text-on-surface-variant mb-1 font-label">Velocidad Máx</span>
+          <span class="text-xl sm:text-2xl font-black text-primary font-headline">5,000 ppm</span>
+        </div>
+        <div class="p-4 sm:p-6 bg-surface-container-low rounded-xl">
+          <span class="block text-[10px] sm:text-xs uppercase tracking-widest text-on-surface-variant mb-1 font-label">Tipo de Motor</span>
+          <span class="text-xl sm:text-2xl font-black text-primary font-headline">Direct Drive</span>
+        </div>
+      </div>
+
+      <!-- Pricing -->
+      <div class="p-6 sm:p-8 bg-surface-container-lowest border border-outline-variant/10 rounded-2xl shadow-sm">
+        <div class="flex items-baseline gap-2 mb-6">
+          <span class="text-3xl sm:text-4xl font-black text-primary">$4,850.00</span>
+          <span class="text-on-surface-variant text-sm">USD / Unidad</span>
+        </div>
+        <div class="space-y-3 sm:space-y-4">
+          <div class="flex gap-3">
+            <button onclick="addToCart(event)" class="flex-1 py-3 sm:py-4 bg-primary text-white font-bold rounded-lg hover:bg-primary-container transition-all flex items-center justify-center gap-2 sm:gap-3 active:scale-[0.98] text-sm">
+              <span class="material-symbols-outlined text-lg sm:text-xl">add_shopping_cart</span> Añadir al Carrito
+            </button>
+            <button class="px-4 sm:px-6 py-3 sm:py-4 bg-surface-container-high text-primary font-bold rounded-lg hover:bg-secondary-container transition-all flex items-center justify-center active:scale-[0.98]" title="Solicitar Cotización">
+              <span class="material-symbols-outlined text-lg sm:text-xl">request_quote</span>
+            </button>
+          </div>
+          <button class="w-full py-3 sm:py-4 bg-transparent text-primary font-bold border border-primary/20 rounded-lg hover:bg-surface-container transition-all flex items-center justify-center gap-3 active:scale-[0.98] text-sm">
+            <span class="material-symbols-outlined text-lg sm:text-xl">contact_support</span> Hablar con un Especialista
+          </button>
+        </div>
+        <p class="mt-4 sm:mt-6 text-center text-[10px] text-on-surface-variant uppercase tracking-tighter">Financiamiento disponible desde $185/mes para empresas calificadas.</p>
+      </div>
+
+      <!-- Specs -->
+      <div class="space-y-3">
+        <h3 class="text-sm font-bold uppercase tracking-widest text-primary font-headline">Especificaciones Principales</h3>
+        <div class="flex flex-col sm:flex-row sm:justify-between py-2 border-b border-surface-variant gap-1 sm:gap-0">
+          <span class="text-sm text-on-surface-variant">Largo de Puntada</span>
+          <span class="text-sm font-bold text-on-surface">0.05 - 5.0 mm</span>
+        </div>
+        <div class="flex flex-col sm:flex-row sm:justify-between py-2 border-b border-surface-variant gap-1 sm:gap-0">
+          <span class="text-sm text-on-surface-variant">Levantamiento de Prensatelas</span>
+          <span class="text-sm font-bold text-on-surface">Auto: 15mm / Manual: 8mm</span>
+        </div>
+        <div class="flex flex-col sm:flex-row sm:justify-between py-2 border-b border-surface-variant gap-1 sm:gap-0">
+          <span class="text-sm text-on-surface-variant">Sistema de Aguja</span>
+          <span class="text-sm font-bold text-on-surface">DB x 1 (#11-#18)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Bento Grid: Especificaciones de Rendimiento ── -->
+  <section class="bg-surface-container-low py-16 sm:py-24">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-8">
+      <div class="mb-10 sm:mb-16">
+        <span class="text-xs sm:text-sm font-bold text-secondary uppercase tracking-[0.2em] mb-2 block">Excelencia Técnica</span>
+        <h2 class="text-3xl sm:text-4xl font-black text-primary tracking-tight font-headline">Especificaciones de Rendimiento</h2>
+      </div>
+      
+      <!-- Grid apilable móvil -> 3 cols tablet/desktop -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        
+        <!-- Col 1 -->
+        <div class="space-y-6 sm:space-y-8">
+          <div class="bg-surface-container-lowest p-6 sm:p-8 rounded-2xl shadow-sm border border-outline-variant/10">
+            <span class="material-symbols-outlined text-4xl text-primary mb-4 sm:mb-6">speed</span>
+            <h4 class="text-lg sm:text-xl font-bold text-primary mb-3 sm:mb-4 font-headline">Velocidad de Producción</h4>
+            <p class="text-sm text-on-surface-variant mb-4 sm:mb-6 leading-relaxed">Optimizada para entornos de manufactura de alto volumen sin comprometer la integridad de la puntada.</p>
+            <ul class="space-y-3 text-sm">
+              <li class="flex justify-between border-b border-surface-container pb-2"><span class="text-on-surface-variant">RPM Máx</span> <span class="font-bold">5,000</span></li>
+              <li class="flex justify-between border-b border-surface-container pb-2"><span class="text-on-surface-variant">Lubricación</span> <span class="font-bold">Semi-Seca</span></li>
+              <li class="flex justify-between pb-1"><span class="text-on-surface-variant">Corta-hilos</span> <span class="font-bold text-primary">Automático</span></li>
+            </ul>
+          </div>
+          <div class="bg-primary text-white p-6 sm:p-8 rounded-2xl relative overflow-hidden">
+            <h4 class="text-lg sm:text-xl font-bold mb-3 sm:mb-4 font-headline relative z-10">Conectividad IoT</h4>
+            <p class="text-sm text-on-primary-container leading-relaxed mb-4 relative z-10">Totalmente compatible con sistemas de gestión de planta mediante módulos USB e inalámbricos integrados.</p>
+            <span class="material-symbols-outlined text-6xl opacity-10 absolute bottom-4 right-4">sensors</span>
+          </div>
+        </div>
+
+        <!-- Col 2: Graphic -->
+        <div class="md:col-span-1 lg:col-span-1 bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden flex flex-col border border-outline-variant/10">
+          <div class="p-6 sm:p-8">
+            <h4 class="text-lg sm:text-xl font-bold text-primary mb-2 font-headline">Control de Alimentación Electrónico</h4>
+            <p class="text-sm text-on-surface-variant">El primer mecanismo de alimentación motorizado del mundo.</p>
+          </div>
+          <div class="flex-grow flex items-center justify-center p-4">
+            <img alt="Tecnología de Alimentación Electrónica" class="w-full h-auto max-w-[280px]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmAo9KDxlmJDbHyYZY2IT0YTKwrjWDTz2ljqZshJ_n4LUt-wMpmKHjWp2BLEYAJE5rTYqsYVl2iZuKuZ-PsGwP24GZyJiMlJCf2AoMptOWbJEfqRmutZQDwfyo6WPlwUKg1WiCgpibP3EAGUzsizeYV1boxuGxyzBw_v4tl5RBvYT7OzHYs-XVZzsl-KFjYdxwiFv0SX1_4i_Q241brvmRdPhf8zUwW869zMTRLR7sXTtOBSh1g5dHTsXYSPLBj8Sl-pPU8fEWRfM9"/>
+          </div>
+          <div class="p-6 sm:p-8 bg-surface-container-high/50">
+            <div class="flex items-center gap-4">
+              <div class="h-12 w-12 rounded-full bg-secondary-container flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-on-secondary-container">precision_manufacturing</span>
+              </div>
+              <div>
+                <span class="block text-[10px] sm:text-xs uppercase font-bold tracking-widest font-label">Clasificación de Precisión</span>
+                <span class="text-base sm:text-lg font-bold font-headline">Tolerancia de ± 0.01mm</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Col 3 -->
+        <div class="space-y-6 sm:space-y-8 md:col-span-2 lg:col-span-1">
+          <div class="bg-surface-container-lowest p-6 sm:p-8 rounded-2xl shadow-sm border border-outline-variant/10">
+            <span class="material-symbols-outlined text-4xl text-primary mb-4 sm:mb-6">settings_suggest</span>
+            <h4 class="text-lg sm:text-xl font-bold text-primary mb-3 sm:mb-4 font-headline">Durabilidad de Construcción</h4>
+            <p class="text-sm text-on-surface-variant mb-4 sm:mb-6 leading-relaxed">Bastidor de hierro fundido con tecnología de amortiguación de vibraciones para turnos industriales de 24/7.</p>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="text-center p-3 sm:p-4 bg-surface-container rounded-xl">
+                <span class="block text-lg sm:text-xl font-black text-primary font-headline">82kg</span>
+                <span class="text-[9px] sm:text-[10px] uppercase font-bold text-on-surface-variant">Peso Neto</span>
+              </div>
+              <div class="text-center p-3 sm:p-4 bg-surface-container rounded-xl">
+                <span class="block text-lg sm:text-xl font-black text-primary font-headline">IP54</span>
+                <span class="text-[9px] sm:text-[10px] uppercase font-bold text-on-surface-variant">Clasificación</span>
+              </div>
+            </div>
+          </div>
+          <div class="p-6 sm:p-8 bg-tertiary-container text-white rounded-2xl">
+            <div class="flex items-start justify-between">
+              <div>
+                <h4 class="text-lg sm:text-xl font-bold mb-2 font-headline">Clasificación Energy Star</h4>
+                <p class="text-[10px] sm:text-xs text-on-ter-container opacity-80 uppercase tracking-widest font-label">Excelencia en Eficiencia</p>
+              </div>
+              <span class="material-symbols-outlined text-4xl text-on-tertiary-container">eco</span>
+            </div>
+            <div class="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-white/10">
+              <span class="text-2xl sm:text-3xl font-black font-headline">-35%</span>
+              <p class="text-[10px] sm:text-xs text-slate-400 mt-1 uppercase tracking-tight">Reducción del consumo eléctrico vs generación anterior</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Lifestyle / Trust ── -->
+  <section class="max-w-[1440px] mx-auto px-4 sm:px-8 py-16 sm:py-24">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 items-center">
+      <div class="relative group order-2 md:order-1 mt-8 md:mt-0">
+        <div class="absolute -inset-4 bg-blue-100/50 rounded-[40px] -z-10 group-hover:bg-blue-200/50 transition-colors"></div>
+        <img alt="Máquina en contexto industrial" class="rounded-[24px] sm:rounded-[32px] w-full aspect-video sm:aspect-auto md:aspect-[4/3] lg:aspect-video object-cover shadow-2xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8-qH7USxI93oRVTIJRcZ-RwWi4oYgUG-gpZKV5puVEgx7_THFGlOFBfJIeHb_qzWVQ8YJiSk1Z_ZVGoS6LoEte25Woql3JFP02sL36JQRZfibdadMcdDWx15oj5Lk21sG5qZJMxxEbcwd02ssEurbITyj2myk4iXYTPlO4Qjh2Nwj-UM42rtwM5xeQHsdAsXRrsJihgDPkWcjs_YaEZ6xMDl1koSCxw0WlAWo6CnwBPYYTF1cVoUCJMU6hZ3uKmZ18s-xswVU70Br"/>
+      </div>
+      <div class="space-y-6 sm:space-y-8 order-1 md:order-2">
+        <h2 class="text-3xl sm:text-4xl font-black text-primary tracking-tight leading-tight font-headline">Arquitectura y Confiabilidad para su Planta</h2>
+        <p class="text-base sm:text-lg text-on-surface-variant leading-relaxed">Diseñada no solo para rendir, sino para perdurar. Nuestra filosofía de ingeniería se centra en el mandato de 'Cero Tiempo de Inactividad', asegurando que cada componente, desde el motor direct-drive hasta el resorte de tensión más pequeño, cumpla con tolerancias de grado aeroespacial.</p>
+        <div class="flex flex-col sm:flex-row gap-4 sm:items-center">
+          <div class="flex -space-x-4">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-4 border-white bg-slate-200 overflow-hidden"><img alt="Usuario" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrk1S4OYPKG3LDupOx7RYM5cQ7901V9blHIc5LM7-0XWsokX8IEJorsaNLPdX2uuw-lykyz6i2xMWHVT_oe2-lQK_P3mbudltS2ZR5kzP4Nt7FFPMFNOgqKIcAOcvqaGMNUHpiskHUGqH5W4Wcqi6jsDeJBeCU_z47GxltvofTmj50BGNO0GGDwPneDUhjccdh-oqI64vhuPUekfsCeTJAlPuS5BFTLS4T2b9rw3gl-Ey-PBD_I6Js3zyKiD_svFo3mUIhTcN8aZjx"/></div>
+            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-4 border-white bg-slate-200 overflow-hidden"><img alt="Usuario" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNEFLoQS_J99vbi4fHCn7CA7PZOn4ULjHRQFPlA6hGYfvVAH1AKDhE041L7xlW1UcjiH3i4-Zub3WpWKyYpTD_CaealZabsRM9YRJZROgZ4e5_yY489kPXxndvsnIlqgWkK4Y0UIFejC6d-AP16DhIsZCqGb_8fcqimrAQ23G0uW5VOClwMySIwivNrvTORCZlKxrjKqk4wOnr5V3YSakSxsTsjgIo9S2-ZDvh-ZMF-SpyPX46MgoKynTJqGAgbrATihcJR26JFa4T"/></div>
+            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-4 border-white bg-slate-200 overflow-hidden"><img alt="Usuario" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdMTCqDf48g2eaa96jigpBalxDTuP1EmYpaQ4MOfPPzZHm1DTKz3LzVM_-DnLc335Bh_NGHLvRsxdn7R9gc4xrN540_3KzdUYmbYBAoZTaV4-WMDSzRb7I4m8zCYqbe-ODOtS-8WS9wflW3meZxmqNsQiiUL9eGQFt5m1y_N1eyuHpp6xucXSV4exCItstNb__JM9LsKcO71Q8JJQHOemVscfWLfPYxAAB7WJZAXVulvaTPJzWA-tbiX4rWJDaDuf-xove1_Uv75LD"/></div>
+          </div>
+          <div class="text-sm">
+            <span class="block font-bold text-primary">Con la confianza de más de 250 distribuidores</span>
+            <span class="text-on-surface-variant">Soporte técnico disponible globalmente 24/7</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ═══ FOOTER (inyectado por shared.js) ═══ -->
+<div id="footer-placeholder"></div>
+
+<!-- Lógica de galería para este producto -->
+<script src="producto-data.js"></script>
+</body>
+</html>

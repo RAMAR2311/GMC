@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Inventario de Maquinaria Industrial | Grupo Capital Máquinas</title>
+  <meta name="description" content="Catálogo de maquinaria industrial de precisión. Máquinas de coser, equipo CNC, metalmecánica y más. Grupo Capital Máquinas."/>
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <!-- Shared Config & Components -->
+  <script src="db-service.js"></script>
+  <script src="shared.js"></script>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body class="bg-surface text-on-surface" data-page="inventario">
+
+<!-- ═══ NAVBAR (inyectado por shared.js) ═══ -->
+<div id="navbar-placeholder"></div>
+
+<!-- ═══ LAYOUT: Sidebar + Main ═══ -->
+<div class="flex pt-20 min-h-screen">
+
+  <!-- ═══ SIDEBAR (Desktop) ═══ -->
+  <aside class="w-64 flex-col p-6 space-y-2 h-[calc(100vh-5rem)] sticky top-20 bg-slate-50 dark:bg-slate-950 border-r border-slate-200 dark:border-slate-800 hidden md:flex" role="complementary" aria-label="Categorías de productos">
+    <div class="mb-8 px-2 animate-fade-in-up">
+      <h2 class="text-lg font-bold text-blue-900 font-manrope">Categorías</h2>
+      <p class="text-xs text-slate-500 uppercase tracking-widest font-semibold mt-1">Precisión Industrial</p>
+    </div>
+    <nav id="sidebar-categories" class="space-y-1" aria-label="Categorías"></nav>
+    <!-- CTA Box -->
+    <div class="mt-auto p-4 bg-primary-container rounded-xl animate-fade-in-up stagger-4">
+      <p class="text-on-primary-container text-xs font-bold uppercase tracking-tighter mb-2">Consulta Experta</p>
+      <p class="text-white text-sm font-medium mb-3">¿Necesita asesoramiento especializado para su línea de producción?</p>
+      <a href="https://wa.me/573000000000?text=Hola,%20necesito%20asesoramiento%20especializado%20para%20mi%20l%C3%ADnea%20de%20producci%C3%B3n." target="_blank" rel="noopener noreferrer" class="w-full py-2 bg-white text-primary text-xs font-bold rounded-lg uppercase tracking-wider hover:bg-slate-100 transition-colors duration-200 active:scale-95 flex justify-center items-center">Contactar Agente</a>
+    </div>
+  </aside>
+
+  <!-- ═══ MAIN CONTENT ═══ -->
+  <main class="flex-1 bg-surface-container overflow-y-auto" role="main">
+
+    <!-- ── Hero Carousel ── -->
+    <section class="carousel-container relative w-full group" aria-label="Banner principal">
+      <div id="carousel-slides"></div>
+      <!-- Nav Arrows -->
+      <button class="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 z-40 p-2 text-white/50 hover:text-white transition-colors duration-300 opacity-0 group-hover:opacity-100" id="prevBtn" aria-label="Slide anterior">
+        <span class="material-symbols-outlined text-4xl">chevron_left</span>
+      </button>
+      <button class="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-40 p-2 text-white/50 hover:text-white transition-colors duration-300 opacity-0 group-hover:opacity-100" id="nextBtn" aria-label="Slide siguiente">
+        <span class="material-symbols-outlined text-4xl">chevron_right</span>
+      </button>
+      <!-- Indicators -->
+      <div class="absolute bottom-8 sm:bottom-10 left-1/2 -translate-x-1/2 z-40 flex gap-3">
+        <button class="indicator w-2 h-2 rounded-full bg-white active-indicator" data-index="0" aria-label="Slide 1"></button>
+        <button class="indicator w-2 h-2 rounded-full bg-white/30 hover:bg-white/60 transition-all duration-300" data-index="1" aria-label="Slide 2"></button>
+        <button class="indicator w-2 h-2 rounded-full bg-white/30 hover:bg-white/60 transition-all duration-300" data-index="2" aria-label="Slide 3"></button>
+      </div>
+      <!-- Progress Bar -->
+      <div class="absolute bottom-0 left-0 w-full h-1 z-40 flex">
+        <div class="h-full w-0 bg-primary transition-all duration-[5000ms] linear" id="progress-bar"></div>
+        <div class="h-full flex-1 bg-white/10"></div>
+      </div>
+    </section>
+
+    <!-- ── Marcas Destacadas ── -->
+    <section class="bg-white py-8 sm:py-12 px-4 sm:px-8 lg:px-12 border-b border-slate-100 animate-fade-in-up stagger-1" aria-label="Marcas destacadas">
+      <div class="max-w-[1600px] mx-auto">
+        <div class="flex items-center gap-4 mb-8">
+          <h2 class="text-sm font-extrabold font-manrope text-blue-900 uppercase tracking-[0.3em] whitespace-nowrap">Marcas Destacadas</h2>
+          <div class="h-[1px] w-full bg-slate-100"></div>
+        </div>
+        <div id="brands-list" class="flex flex-wrap items-center justify-center sm:justify-between gap-6 sm:gap-8 md:gap-12"></div>
+      </div>
+    </section>
+
+    <!-- ── Catálogo de Productos ── -->
+    <div class="p-4 sm:p-8 lg:p-12 max-w-[1600px] mx-auto">
+      <header class="mb-8 sm:mb-12 animate-fade-in-up stagger-2">
+        <div class="flex items-center gap-2 mb-4">
+          <span class="px-3 py-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold uppercase tracking-[0.2em] rounded-full">Inventario 2026</span>
+          <div class="h-[1px] flex-1 bg-outline-variant/30"></div>
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-extrabold font-manrope text-primary tracking-tight leading-tight">
+          Maquinaria de Costura <br class="hidden sm:block"/>
+          <span class="text-on-primary-container">Industrial de Precisión.</span>
+        </h1>
+        <p class="mt-4 sm:mt-6 text-on-surface-variant max-w-2xl font-body leading-relaxed text-sm sm:text-base">Maquinaria curada de alto rendimiento diseñada para integridad estructural y textiles de alta producción. Cada unidad es inspeccionada por nuestros ingenieros mecánicos senior para cumplimiento técnico.</p>
+      </header>
+
+      <!-- Product Grid: 1 col mobile → 2 tablet → 4 desktop -->
+      <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"></div>
+
+      <!-- Load More -->
+      <div class="mt-12 sm:mt-16 flex justify-center animate-fade-in-up stagger-4">
+        <button id="load-more-btn" onclick="loadMoreProducts()" class="px-8 sm:px-12 py-4 sm:py-5 bg-surface-container-high text-primary font-bold text-xs uppercase tracking-[0.3em] hover:bg-surface-container-highest hover:tracking-[0.4em] transition-all duration-300 active:scale-95 flex items-center justify-center">
+          Cargar más inventario
+        </button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ═══ FOOTER (inyectado por shared.js) ═══ -->
+<div id="footer-placeholder"></div>
+
+<!-- Page-specific data renderer -->
+<script src="products.js"></script>
+</body>
+</html>

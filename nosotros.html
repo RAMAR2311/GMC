@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sobre Nosotros | Grupo Capital Máquinas</title>
+  <meta name="description" content="Conoce nuestra misión, visión, a nuestro equipo de expertos y la ubicación de nuestras instalaciones."/>
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <!-- Shared Config & Components -->
+  <script src="db-service.js"></script>
+  <script src="shared.js"></script>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body class="bg-surface text-on-surface antialiased" data-page="nosotros">
+
+<!-- ═══ NAVBAR (inyectado por shared.js) ═══ -->
+<div id="navbar-placeholder"></div>
+
+<main class="pt-20">
+  <!-- ── Hero Banner ── -->
+  <section class="relative w-full h-[40vh] sm:h-[50vh] flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 bg-blue-950/70 z-10"></div>
+    <img id="nosotros-hero-img" src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" alt="Instalaciones de Grupo Capital" class="absolute inset-0 w-full h-full object-cover animate-scale-in" />
+    <div class="relative z-20 text-center px-4 max-w-4xl animate-fade-in-up">
+      <span class="inline-block px-3 py-1 mb-4 bg-primary text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-full">Nuestra Historia</span>
+      <h1 id="nosotros-hero-title" class="text-4xl sm:text-6xl font-extrabold font-headline text-white tracking-tight mb-4">Sobre Nosotros</h1>
+      <p id="nosotros-hero-desc" class="text-base sm:text-lg text-slate-200 font-body max-w-2xl mx-auto">Más de 20 años siendo líderes en la importación, distribución y soporte técnico de maquinaria de costura industrial y tecnología textil de vanguardia.</p>
+    </div>
+  </section>
+
+  <!-- ── Misión y Visión ── -->
+  <section class="py-16 sm:py-24 px-4 sm:px-8 max-w-[1440px] mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12">
+      <!-- Misión -->
+      <div class="bg-surface-container-lowest p-8 sm:p-12 rounded-2xl shadow-sm border border-outline-variant/10 animate-fade-in-up stagger-1 transition-all hover:shadow-lg">
+        <div class="w-14 h-14 bg-primary-container rounded-xl flex items-center justify-center mb-6">
+          <span class="material-symbols-outlined text-3xl text-on-primary-container">rocket_launch</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-primary font-headline mb-4">Nuestra Misión</h2>
+        <p id="nosotros-mision-text" class="text-on-surface-variant leading-relaxed">Proveer a la industria textil de la maquinaria más avanzada y confiable del mercado, acompañada de un soporte técnico especializado que garantice el máximo rendimiento y el cero tiempo de inactividad en las líneas de producción de nuestros clientes.</p>
+      </div>
+      <!-- Visión -->
+      <div class="bg-primary text-white p-8 sm:p-12 rounded-2xl shadow-sm animate-fade-in-up stagger-2 relative overflow-hidden">
+        <span class="material-symbols-outlined text-9xl text-white/10 absolute -bottom-4 -right-4">visibility</span>
+        <div class="w-14 h-14 bg-white/20 rounded-xl flex items-center justify-center mb-6 relative z-10">
+          <span class="material-symbols-outlined text-3xl text-white">visibility</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white font-headline mb-4 relative z-10">Nuestra Visión</h2>
+        <p id="nosotros-vision-text" class="text-blue-100 leading-relaxed relative z-10">Consolidarnos como el aliado estratégico número uno en tecnología textil en toda la región, impulsando la innovación y la automatización inteligente en los procesos de manufactura para llevar la industria local a estándares de calidad globales.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Nuestro Equipo ── -->
+  <section class="bg-surface-container-low py-16 sm:py-24 px-4 sm:px-8">
+    <div class="max-w-[1440px] mx-auto text-center mb-12 sm:mb-16">
+      <span class="text-sm font-bold text-secondary uppercase tracking-[0.2em] mb-2 block">El Motor de Nuestra Empresa</span>
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-primary tracking-tight font-headline">Conozca a Nuestro Equipo</h2>
+    </div>
+    <div id="team-container" class="max-w-[1200px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Inyectado por JS -->
+    </div>
+
+    <script>
+      function renderTeam() {
+        const container = document.getElementById('team-container');
+        if (container && typeof TEAM_MEMBERS !== 'undefined') {
+          container.innerHTML = TEAM_MEMBERS.map((member, idx) => `
+            <div class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm border border-outline-variant/10 group animate-fade-in-up" style="animation-delay: ${idx * 100}ms">
+              <div class="h-64 sm:h-72 overflow-hidden bg-slate-100">
+                <img src="${member.img}" alt="${member.name}" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"/>
+              </div>
+              <div class="p-6 text-center">
+                <h3 class="text-xl font-bold text-primary font-headline">${member.name}</h3>
+                <p class="text-sm text-on-surface-variant font-bold uppercase tracking-widest mt-1 mb-3">${member.role}</p>
+                <p class="text-sm text-slate-500">${member.desc}</p>
+              </div>
+            </div>
+          `).join('');
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', renderTeam);
+      document.addEventListener('cmsDataReady', renderTeam);
+    </script>
+  </section>
+
+  <!-- ── Instalaciones y Ubicación ── -->
+  <section class="py-16 sm:py-24 px-4 sm:px-8 max-w-[1440px] mx-auto">
+    <div class="mb-12">
+      <span class="text-sm font-bold text-secondary uppercase tracking-[0.2em] mb-2 block">Sede Principal</span>
+      <h2 class="text-3xl sm:text-4xl font-black text-primary tracking-tight font-headline">Nuestras Instalaciones</h2>
+    </div>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+      <!-- Galería de fotos del lugar -->
+      <div class="grid grid-cols-2 gap-4 h-full">
+        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Oficinas" class="w-full h-full object-cover rounded-2xl shadow-sm row-span-2" />
+        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Sala de reuniones" class="w-full h-48 sm:h-full object-cover rounded-2xl shadow-sm" />
+        <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Taller de reparación" class="w-full h-48 sm:h-full object-cover rounded-2xl shadow-sm" />
+      </div>
+
+      <!-- Ubicación y Mapa -->
+      <div class="flex flex-col h-full">
+        <div class="bg-surface-container-lowest p-6 sm:p-8 rounded-t-2xl border border-outline-variant/10 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h3 class="text-xl font-bold text-primary font-headline mb-2">Grupo Capital Máquinas</h3>
+            <p class="text-on-surface-variant flex items-center gap-2">
+              <span class="material-symbols-outlined text-secondary">location_on</span>
+              Zona Industrial, Edificio Textil 45
+            </p>
+            <p class="text-on-surface-variant flex items-center gap-2 mt-2">
+              <span class="material-symbols-outlined text-secondary">call</span>
+              +57 (601) 555-0198
+            </p>
+          </div>
+          <button class="px-6 py-3 bg-primary text-white font-bold text-xs uppercase tracking-[0.2em] rounded-lg hover:bg-primary-container transition-all shadow-md active:scale-95 whitespace-nowrap">
+            Cómo Llegar
+          </button>
+        </div>
+        <div class="flex-grow w-full min-h-[300px] rounded-b-2xl overflow-hidden border-x border-b border-outline-variant/10 shadow-sm">
+          <!-- Google Maps Iframe genérico centrado en una zona industrial de Bogotá como ejemplo -->
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15907.393433604928!2d-74.110255!3d4.620958!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f9bd2a1762c2f%3A0x6b87c06eb6f5e27a!2sZona%20Industrial%2C%20Bogot%C3%A1!5e0!3m2!1ses!2sco!4v1700000000000!5m2!1ses!2sco" 
+            width="100%" 
+            height="100%" 
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ═══ FOOTER (inyectado por shared.js) ═══ -->
+<div id="footer-placeholder"></div>
+
+</body>
+</html>

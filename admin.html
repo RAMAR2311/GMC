@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="es" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Panel de Administración | Master Dashboard</title>
+  
+  <!-- Fonts y Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ["Inter", "sans-serif"] },
+          colors: {
+            brand: "#00113a", // Azul corporativo
+            accent: "#435b9f",
+            bgLight: "#f8f9fa",
+          }
+        }
+      }
+    };
+  </script>
+  
+  <style>
+    /* Estilos personalizados para animaciones y utilidades */
+    .fade-in { animation: fadeIn 0.3s ease-in-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    
+    .drag-active { border-color: #435b9f !important; background-color: #f0f4f8 !important; }
+    
+    /* Scrollbar minimalista */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  </style>
+  
+  <!-- Datos Originales -->
+  <script src="db-service.js"></script>
+  <script src="products.js"></script>
+</head>
+<body class="bg-bgLight text-slate-800 flex h-screen overflow-hidden font-sans">
+
+  <!-- Validar Sesión -->
+  <script>
+    if (!localStorage.getItem('adminToken')) {
+      window.location.href = 'login.html';
+    }
+  </script>
+
+  <!-- Sidebar Móvil Overlay -->
+  <div id="mobile-overlay" class="fixed inset-0 bg-slate-900/50 z-20 hidden md:hidden" onclick="toggleSidebar()"></div>
+
+  <!-- Menú Lateral -->
+  <aside id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-white border-r border-slate-200 flex flex-col z-30 transform -translate-x-full md:translate-x-0 md:relative transition-transform duration-300">
+    <!-- Header Sidebar -->
+    <div class="h-16 flex items-center justify-between px-6 border-b border-slate-100 shrink-0">
+      <div class="flex items-center text-brand">
+        <span class="material-symbols-outlined mr-2">admin_panel_settings</span>
+        <h1 class="font-bold text-lg tracking-tight">Panel Editor</h1>
+      </div>
+      <button class="md:hidden text-slate-500" onclick="toggleSidebar()">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    
+    <!-- Navegación -->
+    <nav class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+      <button onclick="openTab('inventario')" id="btn-inventario" class="nav-btn w-full flex items-center px-4 py-3 rounded-lg bg-slate-100 text-brand font-semibold transition-all">
+        <span class="material-symbols-outlined mr-3 text-lg">inventory_2</span> Inventario
+      </button>
+      <button onclick="openTab('nosotros')" id="btn-nosotros" class="nav-btn w-full flex items-center px-4 py-3 rounded-lg text-slate-500 hover:bg-slate-50 hover:text-slate-900 font-medium transition-all">
+        <span class="material-symbols-outlined mr-3 text-lg">groups</span> Nosotros
+      </button>
+      <button onclick="openTab('servicios')" id="btn-servicios" class="nav-btn w-full flex items-center px-4 py-3 rounded-lg text-slate-500 hover:bg-slate-50 hover:text-slate-900 font-medium transition-all">
+        <span class="material-symbols-outlined mr-3 text-lg">build</span> Servicios
+      </button>
+      <button onclick="openTab('soporte')" id="btn-soporte" class="nav-btn w-full flex items-center px-4 py-3 rounded-lg text-slate-500 hover:bg-slate-50 hover:text-slate-900 font-medium transition-all">
+        <span class="material-symbols-outlined mr-3 text-lg">support_agent</span> Soporte
+      </button>
+    </nav>
+    
+    <!-- Perfil y Logout -->
+    <div class="p-4 border-t border-slate-100 shrink-0">
+      <button onclick="logout()" class="w-full flex items-center justify-center px-4 py-2 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg transition-colors text-sm font-semibold">
+        <span class="material-symbols-outlined text-[18px] mr-2">logout</span> Salir
+      </button>
+    </div>
+  </aside>
+
+  <!-- Contenido Principal -->
+  <main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+    
+    <!-- Topbar -->
+    <header class="h-16 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-4 sm:px-8 shrink-0 z-10">
+      <div class="flex items-center">
+        <button class="md:hidden text-slate-600 mr-4" onclick="toggleSidebar()">
+          <span class="material-symbols-outlined text-2xl">menu</span>
+        </button>
+        <h2 id="header-title" class="text-xl font-bold text-slate-800">Inventario de Productos</h2>
+      </div>
+      <a href="index.html" target="_blank" class="flex items-center text-sm font-medium text-accent hover:text-brand bg-slate-50 px-3 py-1.5 rounded-md transition-colors border border-slate-200">
+        <span class="material-symbols-outlined text-[18px] mr-1">open_in_new</span> Ver Web
+      </a>
+    </header>
+
+    <!-- Área Dinámica de Contenido -->
+    <div class="flex-1 overflow-y-auto p-4 sm:p-8">
+      <div class="max-w-4xl mx-auto">
+        
+        <!-- ============================== -->
+        <!-- MÓDULO: INVENTARIO (CARRUSEL Y PRODUCTOS) -->
+        <!-- ============================== -->
+        <section id="sec-inventario" class="tab-section fade-in">
+          
+          <!-- SUBSECCIÓN: GESTIÓN DEL CARRUSEL PRINCIPAL -->
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-8">
+            <div class="p-6 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
+              <h3 class="font-bold text-slate-800 flex items-center"><span class="material-symbols-outlined mr-2 text-brand">view_carousel</span> Gestión del Carrusel Principal</h3>
+            </div>
+            
+            <div class="p-6 md:p-8 space-y-10">
+              
+              <!-- SLIDE 1 -->
+              <div class="flex flex-col lg:flex-row gap-6 border border-slate-200 rounded-xl p-6 bg-slate-50/50">
+                <div class="w-full lg:w-1/3">
+                  <h4 class="font-bold text-slate-700 mb-3 flex items-center"><span class="bg-brand text-white w-6 h-6 rounded-full inline-flex items-center justify-center text-xs mr-2">1</span> Primer Slide</h4>
+                  <div class="aspect-video relative overflow-hidden bg-slate-200 rounded-lg group border border-slate-200">
+                    <img id="preview-slide-1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUpIiYnYwZgM1yxwbp99hcHuzMPiFL-kyXWRJjSd89RiIaTuPC6PAcbjveUziu1CpCZi4UxJHaDmKSFONJSfgmRzpHBsLteyWG445PJbygLxmkXugicY2qQY1j-NjMnh-HUUeaexeyXvnhcBhik93WIheQ7aOnJ2aKGKNKLoWvR_9xJSTwRtDaAslAvx4xnVEYatTdDsltqCZpI_bc5vCJcoA-rCJ7l49z7MHbzdzL07Zgu5QAZRUhgNRBU8ViSuty6Nw5ms04Mz1M" class="w-full h-full object-cover">
+                    <label class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                      <span class="material-symbols-outlined text-3xl mb-1">cameraswitch</span>
+                      <span class="text-xs font-bold">Cambiar Foto</span>
+                      <input type="file" class="hidden" accept="image/*" onchange="handleFileSelect(event, 'preview-slide-1')">
+                    </label>
+                  </div>
+                </div>
+                <div class="flex-1 space-y-4">
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label class="block text-xs font-semibold text-slate-500 mb-1">Etiqueta (Badge)</label>
+                      <input id="slide-1-badge" type="text" value="Tecnología de Vanguardia" class="w-full px-3 py-2 text-sm bg-white border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800">
+                    </div>
+                    <div>
+                      <label class="block text-xs font-semibold text-slate-500 mb-1">Texto Alternativo (SEO)</label>
+                      <input id="slide-1-alt" type="text" value="Maquinaria Industrial CNC" class="w-full px-3 py-2 text-sm bg-white border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800">
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1">Título Grande</label>
+                    <input id="slide-1-title" type="text" value="Líderes en Soluciones de Maquinaria Industrial" class="w-full px-3 py-2 text-sm bg-white border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800 font-semibold">
+                  </div>
+                  <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1">Párrafo Descriptivo</label>
+                    <textarea id="slide-1-desc" rows="2" class="w-full px-3 py-2 text-sm bg-white border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800 resize-none">Potenciamos la capacidad productiva de su empresa con equipos de precisión milimétrica y soporte técnico especializado de clase mundial.</textarea>
+                  </div>
+                  <div class="flex justify-end">
+                    <button onclick="saveCarouselSlide(this, 1)" class="bg-brand text-white px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-blue-900 transition-all flex items-center">
+                      Guardar Slide 1
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SLIDE 2 -->
+              <div class="flex flex-col lg:flex-row gap-6 border border-slate-200 rounded-xl p-6 bg-slate-50/50">
+                <div class="w-full lg:w-1/3">
+                  <h4 class="font-bold text-slate-700 mb-3 flex items-center"><span class="bg-brand text-white w-6 h-6 rounded-full inline-flex items-center justify-center text-xs mr-2">2</span> Segundo Slide</h4>
+                  <div class="aspect-video relative overflow-hidden bg-slate-200 rounded-lg group border border-slate-200">
+                    <img id="preview-slide-2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEOc8GzYuOY8jQoSxlyWsZPRYBBa1mlXWpgyIlHEf3X6OZHArU5rCuzDHGgkXVy7orCZ4ugQGm9KimSTby0hTq6yiFf7P66SHx_cDKH33xS1wzXxpN5VT0VVKZEJOG1KstdDVTURDKzTXHFW0YRNdl6h1VLtPmssiwEzkiLeF0qRqFfCDjWnkwX676sjixPwLB-mLD-fdTPVv8MzCEMdVlO0JSUrgZFZJRoZNHpfmohzmY3dr1LrADA95a9e0b_OoNGbw91SG1xb6m" class="w-full h-full object-cover">
+                    <label class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                      <span class="material-symbols-outlined text-3xl mb-1">cameraswitch</span>
+                      <span class="text-xs font-bold">Cambiar Foto</span>
+                      <input type="file" class="hidden" accept="image/*" onchange="handleFileSelect(event, 'preview-slide-2')">
+                    </label>
+                  </div>
+                </div>
+                <div class="flex-1 space-y-4">
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label class="block text-xs font-semibold text-slate-500 mb-1">Etiqueta (Badge)</label>
+                      <input id="slide-2-badge" type="text" value="Eficiencia y Rapidez" class="w-full px-3 py-2 text-sm bg-white border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800">
+                    </div>
+                    <div>
+                      <label class="block text-xs font-semibold text-slate-500 mb-1">Texto Alternativo (SEO)</label>
+                      <input id="slide-2-alt" type="text" value="Línea de Ensamblaje Industrial" class="w-full px-3 py-2 text-sm bg-white border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800">
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1">Título Grande</label>
+                    <input id="slide-2-title" type="text" value="Líneas de Ensamblaje Automatizadas" class="w-full px-3 py-2 text-sm bg-white border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800 font-semibold">
+                  </div>
+                  <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1">Párrafo Descriptivo</label>
+                    <textarea id="slide-2-desc" rows="2" class="w-full px-3 py-2 text-sm bg-white border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800 resize-none">Optimice sus tiempos de producción con nuestras soluciones integrales para el ensamblaje continuo y de alta demanda.</textarea>
+                  </div>
+                  <div class="flex justify-end">
+                    <button onclick="saveCarouselSlide(this, 2)" class="bg-brand text-white px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-blue-900 transition-all flex items-center">
+                      Guardar Slide 2
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SLIDE 3 -->
+              <div class="flex flex-col lg:flex-row gap-6 border border-slate-200 rounded-xl p-6 bg-slate-50/50">
+                <div class="w-full lg:w-1/3">
+                  <h4 class="font-bold text-slate-700 mb-3 flex items-center"><span class="bg-brand text-white w-6 h-6 rounded-full inline-flex items-center justify-center text-xs mr-2">3</span> Tercer Slide</h4>
+                  <div class="aspect-video relative overflow-hidden bg-slate-200 rounded-lg group border border-slate-200">
+                    <img id="preview-slide-3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDj7gWq6h88GhBi4JCGLJwa8KI7wbqCu0Jopw8Vh3GIgKuC1o-QEpyuJsrp5cy_33JerAjos6d8pnIAotkUbCif2OUbIJTiC68LXp4tSya1ZqQHVTaDX0MtKFPre006Xv_y5jQoPJIjBQrOqM6xTP2HwccaM3-6UJNNkXhI1EVFl4ORMTS6OYxiHHomncsgn5a_8JHtNdt_pwR0mLXJ563-InsfKUEsgjGh7kfNV6MrqCXjK61svuIj5Io9QolygCJ_ui35zB1eaOus" class="w-full h-full object-cover">
+                    <label class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                      <span class="material-symbols-outlined text-3xl mb-1">cameraswitch</span>
+                      <span class="text-xs font-bold">Cambiar Foto</span>
+                      <input type="file" class="hidden" accept="image/*" onchange="handleFileSelect(event, 'preview-slide-3')">
+                    </label>
+                  </div>
+                </div>
+                <div class="flex-1 space-y-4">
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label class="block text-xs font-semibold text-slate-500 mb-1">Etiqueta (Badge)</label>
+                      <input id="slide-3-badge" type="text" value="Precisión Textil" class="w-full px-3 py-2 text-sm bg-white border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800">
+                    </div>
+                    <div>
+                      <label class="block text-xs font-semibold text-slate-500 mb-1">Texto Alternativo (SEO)</label>
+                      <input id="slide-3-alt" type="text" value="Maquinaria Textil de Alta Gama" class="w-full px-3 py-2 text-sm bg-white border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800">
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1">Título Grande</label>
+                    <input id="slide-3-title" type="text" value="Equipos Premium para la Industria Textil" class="w-full px-3 py-2 text-sm bg-white border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800 font-semibold">
+                  </div>
+                  <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1">Párrafo Descriptivo</label>
+                    <textarea id="slide-3-desc" rows="2" class="w-full px-3 py-2 text-sm bg-white border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800 resize-none">Descubra nuestra gama exclusiva de bordadoras y cosedoras diseñadas para acabados perfectos y durabilidad extrema.</textarea>
+                  </div>
+                  <div class="flex justify-end">
+                    <button onclick="saveCarouselSlide(this, 3)" class="bg-brand text-white px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-blue-900 transition-all flex items-center">
+                      Guardar Slide 3
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- SUBSECCIÓN: GESTIÓN DE CATEGORÍAS -->
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-8">
+            <div class="p-6 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
+              <h3 class="font-bold text-slate-800 flex items-center"><span class="material-symbols-outlined mr-2 text-brand">category</span> Gestión de Categorías</h3>
+              <button onclick="openCategoryModal()" class="bg-slate-800 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-slate-700 transition-colors flex items-center">
+                <span class="material-symbols-outlined text-[18px] mr-1">add</span> Nueva Categoría
+              </button>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-sm text-slate-600">
+                <thead class="bg-white text-slate-500 uppercase text-xs font-semibold border-b border-slate-100">
+                  <tr>
+                    <th class="px-6 py-4 w-16 text-center">Icono</th>
+                    <th class="px-6 py-4">Nombre de la Categoría</th>
+                    <th class="px-6 py-4">Estado</th>
+                    <th class="px-6 py-4 text-right">Acción</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-categories-tbody" class="divide-y divide-slate-100">
+                  <!-- JS dynamically fills this -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- SUBSECCIÓN: CATÁLOGO DE PRODUCTOS -->
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+              <h3 class="font-bold text-slate-800 flex items-center"><span class="material-symbols-outlined mr-2 text-brand">list_alt</span> Catálogo de Productos</h3>
+              <button onclick="openProductModal()" class="bg-brand text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-900 transition-colors flex items-center">
+                <span class="material-symbols-outlined text-[18px] mr-1">add</span> Nuevo Producto
+              </button>
+            </div>
+            
+            <!-- Tabla de Productos -->
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-sm text-slate-600">
+                <thead class="bg-white text-slate-500 uppercase text-xs font-semibold border-b border-slate-100">
+                  <tr>
+                    <th class="px-6 py-4">Imagen</th>
+                    <th class="px-6 py-4">Producto</th>
+                    <th class="px-6 py-4">Precio (USD)</th>
+                    <th class="px-6 py-4">Categoría</th>
+                    <th class="px-6 py-4 text-right">Acción</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-products-tbody" class="divide-y divide-slate-100">
+                  <!-- Se cargará dinámicamente vía JS -->
+                </tbody>
+              </table>
+            </div>
+            <div class="p-6 bg-slate-50 border-t border-slate-100 flex justify-end">
+              <button onclick="saveProducts(this)" class="bg-brand text-white px-8 py-2.5 rounded-lg font-semibold hover:bg-blue-900 transition-all flex items-center">
+                Guardar Todo el Inventario
+              </button>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ============================== -->
+        <!-- MÓDULO: NOSOTROS (Texto + Imagen) -->
+        <!-- ============================== -->
+        <section id="sec-nosotros" class="tab-section hidden fade-in">
+          
+          <!-- SUBSECCIÓN: HISTORIA, MISIÓN Y VISIÓN -->
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-8">
+            <div class="p-6 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
+              <h3 class="font-bold text-slate-800 flex items-center"><span class="material-symbols-outlined mr-2 text-brand">history_edu</span> Historia, Misión y Visión</h3>
+            </div>
+            <div class="p-6 md:p-8 space-y-8">
+              
+              <!-- Nuestra Historia -->
+              <div>
+                <h4 class="text-sm font-bold text-brand uppercase tracking-widest mb-4">Nuestra Historia</h4>
+                <div class="flex flex-col md:flex-row gap-6">
+                  <div class="flex-1 space-y-4">
+                    <div>
+                      <label class="block text-xs font-semibold text-slate-500 mb-1">Título de la Portada</label>
+                      <input id="admin-nosotros-title" type="text" value="Sobre Nosotros" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800">
+                    </div>
+                    <div>
+                      <label class="block text-xs font-semibold text-slate-500 mb-1">Párrafo Descriptivo</label>
+                      <textarea id="admin-nosotros-desc" rows="3" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800 resize-none">Más de 20 años siendo líderes en la importación, distribución y soporte técnico de maquinaria de costura industrial y tecnología textil de vanguardia.</textarea>
+                    </div>
+                  </div>
+                  <div class="w-full md:w-1/3">
+                    <label class="block text-xs font-semibold text-slate-500 mb-1">Imagen de Fondo (Portada)</label>
+                    <div class="aspect-video bg-slate-100 rounded-lg border border-slate-200 overflow-hidden relative group">
+                      <img id="preview-nosotros-hero" src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" class="w-full h-full object-cover">
+                      <label class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                        <span class="material-symbols-outlined text-2xl mb-1">cameraswitch</span>
+                        <input type="file" class="hidden" accept="image/*" onchange="handleFileSelect(event, 'preview-nosotros-hero')">
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <hr class="border-slate-100">
+
+              <!-- Misión y Visión -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h4 class="text-sm font-bold text-brand uppercase tracking-widest mb-3 flex items-center"><span class="material-symbols-outlined mr-2 text-lg">rocket_launch</span> Nuestra Misión</h4>
+                  <textarea id="admin-nosotros-mision" rows="4" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800 resize-none">Proveer a la industria textil de la maquinaria más avanzada y confiable del mercado, acompañada de un soporte técnico especializado que garantice el máximo rendimiento y el cero tiempo de inactividad en las líneas de producción de nuestros clientes.</textarea>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-brand uppercase tracking-widest mb-3 flex items-center"><span class="material-symbols-outlined mr-2 text-lg">visibility</span> Nuestra Visión</h4>
+                  <textarea id="admin-nosotros-vision" rows="4" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800 resize-none">Consolidarnos como el aliado estratégico número uno en tecnología textil en toda la región, impulsando la innovación y la automatización inteligente en los procesos de manufactura para llevar la industria local a estándares de calidad globales.</textarea>
+                </div>
+              </div>
+              
+              <div class="flex justify-end pt-4">
+                <button onclick="saveFeedback(this)" class="bg-brand text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-900 transition-all flex items-center">
+                  Guardar Textos
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- SUBSECCIÓN: GESTIÓN DEL EQUIPO -->
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+              <h3 class="font-bold text-slate-800 flex items-center"><span class="material-symbols-outlined mr-2 text-brand">groups</span> Nuestro Equipo</h3>
+              <button onclick="openTeamModal()" class="bg-brand text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-900 transition-colors flex items-center">
+                <span class="material-symbols-outlined text-[18px] mr-1">add</span> Añadir Miembro
+              </button>
+            </div>
+            
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-sm text-slate-600">
+                <thead class="bg-white text-slate-500 uppercase text-xs font-semibold border-b border-slate-100">
+                  <tr>
+                    <th class="px-6 py-4 w-20">Foto</th>
+                    <th class="px-6 py-4">Nombre</th>
+                    <th class="px-6 py-4">Cargo</th>
+                    <th class="px-6 py-4 hidden md:table-cell w-1/3">Descripción Breve</th>
+                    <th class="px-6 py-4 text-right">Acción</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-team-tbody" class="divide-y divide-slate-100">
+                  <!-- Se cargará dinámicamente vía JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- SUBSECCIÓN: INSTALACIONES Y UBICACIÓN -->
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mt-8">
+            <div class="p-6 border-b border-slate-100 bg-slate-50">
+              <h3 class="font-bold text-slate-800 flex items-center"><span class="material-symbols-outlined mr-2 text-brand">domain</span> Instalaciones y Ubicación</h3>
+            </div>
+            <div class="p-6 md:p-8 space-y-8">
+              
+              <!-- Galería de Fotos -->
+              <div>
+                <h4 class="text-sm font-bold text-brand uppercase tracking-widest mb-4 flex items-center"><span class="material-symbols-outlined mr-2 text-lg">photo_library</span> Galería de Fotos</h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <!-- Foto 1 -->
+                  <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-2">Foto Principal (Vertical)</label>
+                    <div class="aspect-[3/4] bg-slate-100 rounded-xl border border-slate-200 overflow-hidden relative group">
+                      <img id="preview-inst-1" src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                      <label class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                        <span class="material-symbols-outlined text-2xl mb-1">cameraswitch</span>
+                        <input type="file" class="hidden" accept="image/*" onchange="handleFileSelect(event, 'preview-inst-1')">
+                      </label>
+                    </div>
+                  </div>
+                  <!-- Foto 2 -->
+                  <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-2">Foto Secundaria 1</label>
+                    <div class="aspect-video bg-slate-100 rounded-xl border border-slate-200 overflow-hidden relative group">
+                      <img id="preview-inst-2" src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover">
+                      <label class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                        <span class="material-symbols-outlined text-2xl mb-1">cameraswitch</span>
+                        <input type="file" class="hidden" accept="image/*" onchange="handleFileSelect(event, 'preview-inst-2')">
+                      </label>
+                    </div>
+                  </div>
+                  <!-- Foto 3 -->
+                  <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-2">Foto Secundaria 2</label>
+                    <div class="aspect-video bg-slate-100 rounded-xl border border-slate-200 overflow-hidden relative group">
+                      <img id="preview-inst-3" src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover">
+                      <label class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                        <span class="material-symbols-outlined text-2xl mb-1">cameraswitch</span>
+                        <input type="file" class="hidden" accept="image/*" onchange="handleFileSelect(event, 'preview-inst-3')">
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <hr class="border-slate-100">
+
+              <!-- Contacto y Mapa -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="space-y-4">
+                  <h4 class="text-sm font-bold text-brand uppercase tracking-widest mb-2 flex items-center"><span class="material-symbols-outlined mr-2 text-lg">location_on</span> Detalles de Sede</h4>
+                  <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1">Nombre Sede</label>
+                    <input type="text" value="Grupo Capital Máquinas" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800">
+                  </div>
+                  <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1">Dirección</label>
+                    <input type="text" value="Zona Industrial, Edificio Textil 45" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800">
+                  </div>
+                  <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1">Teléfono Fijo</label>
+                    <input type="text" value="+57 (601) 555-0198" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800">
+                  </div>
+                </div>
+                
+                <div>
+                  <h4 class="text-sm font-bold text-brand uppercase tracking-widest mb-2 flex items-center"><span class="material-symbols-outlined mr-2 text-lg">map</span> Mapa Interactivo</h4>
+                  <label class="block text-xs font-semibold text-slate-500 mb-1">URL o Iframe de Google Maps</label>
+                  <textarea rows="4" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800 resize-none font-mono text-xs text-slate-500">https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15907.393433604928!2d-74.110255!3d4.620958!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f9bd2a1762c2f%3A0x6b87c06eb6f5e27a!2sZona%20Industrial%2C%20Bogot%C3%A1!5e0!3m2!1ses!2sco!4v1700000000000!5m2!1ses!2sco</textarea>
+                  <p class="text-[10px] text-slate-400 mt-2">Pega aquí el enlace de inserción (src) generado por Google Maps.</p>
+                </div>
+              </div>
+
+              <div class="flex justify-end pt-4">
+                <button onclick="saveFeedback(this)" class="bg-brand text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-900 transition-all flex items-center">
+                  Guardar Instalaciones
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================== -->
+        <!-- MÓDULO: SERVICIOS -->
+        <!-- ============================== -->
+        <section id="sec-servicios" class="tab-section hidden fade-in">
+          <!-- SUBSECCIÓN: HERO SERVICIOS -->
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-8">
+            <div class="p-6 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
+              <h3 class="font-bold text-slate-800 flex items-center"><span class="material-symbols-outlined mr-2 text-brand">design_services</span> Portada de Servicios</h3>
+            </div>
+            <div class="p-6 md:p-8 space-y-6">
+              <div class="flex flex-col md:flex-row gap-6">
+                <div class="flex-1 space-y-4">
+                  <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1">Título de Portada</label>
+                    <input id="admin-servicios-title" type="text" value="Nuestros Servicios" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800">
+                  </div>
+                  <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1">Descripción de Portada</label>
+                    <textarea id="admin-servicios-desc" rows="3" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800 resize-none">No solo vendemos maquinaria; aseguramos su óptimo funcionamiento. Conoce nuestro catálogo de servicios especializados para la industria textil.</textarea>
+                  </div>
+                </div>
+                <div class="w-full md:w-1/3">
+                  <label class="block text-xs font-semibold text-slate-500 mb-1">Imagen de Fondo</label>
+                  <div class="aspect-video bg-slate-100 rounded-lg border border-slate-200 overflow-hidden relative group">
+                    <img id="preview-servicios-hero" src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" class="w-full h-full object-cover">
+                    <label class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                      <span class="material-symbols-outlined text-2xl mb-1">cameraswitch</span>
+                      <input type="file" class="hidden" accept="image/*" onchange="handleFileSelect(event, 'preview-servicios-hero')">
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="flex justify-end pt-4">
+                <button onclick="saveServiciosHero(this)" class="bg-brand text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-900 transition-all">Guardar Portada</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- SUBSECCIÓN: LISTADO DE SERVICIOS -->
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+              <h3 class="font-bold text-slate-800 flex items-center"><span class="material-symbols-outlined mr-2 text-brand">settings_suggest</span> Catálogo de Servicios</h3>
+              <button onclick="openServiceModal()" class="bg-brand text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-900 transition-colors flex items-center">
+                <span class="material-symbols-outlined text-[18px] mr-1">add</span> Nuevo Servicio
+              </button>
+            </div>
+            
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-sm text-slate-600">
+                <thead class="bg-white text-slate-500 uppercase text-xs font-semibold border-b border-slate-100">
+                  <tr>
+                    <th class="px-6 py-4 w-16 text-center">Icono</th>
+                    <th class="px-6 py-4">Servicio</th>
+                    <th class="px-6 py-4 hidden md:table-cell w-1/3">Descripción</th>
+                    <th class="px-6 py-4 text-right">Acción</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-services-tbody" class="divide-y divide-slate-100">
+                  <!-- JS dynamically fills this -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- SUBSECCIÓN: CTA (Llamado a la acción) -->
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mt-8">
+            <div class="p-6 border-b border-slate-100 bg-slate-50">
+              <h3 class="font-bold text-slate-800 flex items-center"><span class="material-symbols-outlined mr-2 text-brand">call_to_action</span> Sección de Contacto Final</h3>
+            </div>
+            <div class="p-6 md:p-8 space-y-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-500 mb-1">Título de Invitación</label>
+                  <input type="text" value="¿Necesita un plan de servicio corporativo?" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800">
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-500 mb-1">Texto del Botón</label>
+                  <input type="text" value="Contactar Asesor Comercial" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800">
+                </div>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-500 mb-1">Descripción del Plan</label>
+                <textarea rows="3" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800 resize-none">Ofrecemos pólizas de mantenimiento anuales diseñadas a la medida de la capacidad instalada de su empresa.</textarea>
+              </div>
+              <div class="flex justify-end pt-4">
+                <button onclick="saveServiciosCTA(this)" class="bg-brand text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-900 transition-all flex items-center">
+                  Guardar CTA
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================== -->
+        <!-- MÓDULO: SOPORTE -->
+        <!-- ============================== -->
+        <section id="sec-soporte" class="tab-section hidden fade-in">
+          
+          <!-- SUBSECCIÓN: HERO SOPORTE -->
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-8">
+            <div class="p-6 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
+              <h3 class="font-bold text-slate-800 flex items-center"><span class="material-symbols-outlined mr-2 text-brand">help_center</span> Portada de Soporte</h3>
+            </div>
+            <div class="p-6 md:p-8 space-y-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-500 mb-1">Título de Portada</label>
+                  <input type="text" value="Centro de Soporte" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800">
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-500 mb-1">Descripción de Portada</label>
+                  <textarea rows="2" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800 resize-none">Estamos aquí para ayudarle. Encuentre respuestas rápidas o contáctenos directamente para resolver cualquier incidente técnico.</textarea>
+                </div>
+              </div>
+              <div class="flex justify-end pt-2">
+                <button onclick="saveSoporteHero(this)" class="bg-brand text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-900 transition-all">Guardar Portada</button>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            <!-- SUBSECCIÓN: CANALES DE CONTACTO -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+              <div class="p-6 border-b border-slate-100 bg-slate-50">
+                <h3 class="font-bold text-slate-800 flex items-center"><span class="material-symbols-outlined mr-2 text-brand">contact_support</span> Canales de Contacto Directo</h3>
+              </div>
+              <div class="p-6 space-y-4">
+                <!-- WhatsApp -->
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                  <h4 class="text-[10px] font-bold text-green-600 uppercase mb-3 flex items-center"><span class="material-symbols-outlined text-sm mr-1">chat</span> WhatsApp</h4>
+                  <div class="space-y-3">
+                    <div>
+                      <label class="block text-[10px] font-semibold text-slate-500 mb-1">Subtítulo / Horario</label>
+                      <input type="text" value="Respuesta rápida (L-V 8am-6pm)" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs outline-none">
+                    </div>
+                    <div>
+                      <label class="block text-[10px] font-semibold text-slate-500 mb-1">Número de Celular (Link)</label>
+                      <input type="text" value="573000000000" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs outline-none">
+                    </div>
+                  </div>
+                </div>
+                <!-- Teléfono -->
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                  <h4 class="text-[10px] font-bold text-blue-600 uppercase mb-3 flex items-center"><span class="material-symbols-outlined text-sm mr-1">call</span> Línea Telefónica</h4>
+                  <input type="text" value="+57 (601) 555-0198" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs outline-none">
+                </div>
+                <!-- Email -->
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                  <h4 class="text-[10px] font-bold text-slate-600 uppercase mb-3 flex items-center"><span class="material-symbols-outlined text-sm mr-1">mail</span> Correo Electrónico</h4>
+                  <input type="text" value="soporte@grupocapitalmaquinas.com" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs outline-none">
+                </div>
+                
+                <div class="flex justify-end pt-2">
+                  <button onclick="saveSoporteCanales(this)" class="bg-brand text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-900 transition-all text-sm">Guardar Canales</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- SUBSECCIÓN: FORMULARIO DE TICKET -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+              <div class="p-6 border-b border-slate-100 bg-slate-50">
+                <h3 class="font-bold text-slate-800 flex items-center"><span class="material-symbols-outlined mr-2 text-brand">confirmation_number</span> Textos del Formulario</h3>
+              </div>
+              <div class="p-6 space-y-6">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-500 mb-1">Título del Formulario</label>
+                  <input type="text" value="Abrir un Ticket de Servicio" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800">
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-500 mb-1">Instrucciones</label>
+                  <textarea rows="4" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800 resize-none">Por favor, detalle el problema que presenta su equipo. Un técnico especializado le contactará a la brevedad.</textarea>
+                </div>
+                <div class="pt-4 p-4 bg-blue-50 rounded-xl border border-blue-100">
+                  <p class="text-[10px] text-blue-700 leading-relaxed italic"><strong>Nota:</strong> Los campos del formulario (Nombre, Empresa, etc.) son estructurales. Aquí solo editas los textos informativos para el cliente.</p>
+                </div>
+                <div class="flex justify-end pt-2">
+                  <button onclick="saveSoporteForm(this)" class="bg-brand text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-900 transition-all text-sm">Guardar Formulario</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal Editar/Añadir Miembro del Equipo -->
+  <div id="team-modal" class="fixed inset-0 bg-slate-900/60 z-50 hidden flex items-center justify-center fade-in">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg m-4 flex flex-col">
+      <div class="flex justify-between items-center p-6 border-b border-slate-100">
+        <h3 class="font-bold text-lg text-slate-800" id="team-modal-title">Añadir Miembro al Equipo</h3>
+        <button onclick="closeTeamModal()" class="text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-full w-8 h-8 flex items-center justify-center transition-colors">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+      
+      <div class="p-6 space-y-4">
+        <input type="hidden" id="team-modal-id">
+        <div class="flex justify-center mb-4">
+          <div class="w-32 h-32 rounded-full bg-slate-100 border-2 border-slate-200 overflow-hidden relative group">
+            <img id="team-modal-img" src="https://via.placeholder.com/300?text=Foto" class="w-full h-full object-cover">
+            <label class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+              <span class="material-symbols-outlined mb-1">cameraswitch</span>
+              <span class="text-[10px] font-bold">Cambiar</span>
+              <input type="file" class="hidden" accept="image/*" onchange="handleFileSelect(event, 'team-modal-img')">
+            </label>
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-slate-600 mb-1">Nombre Completo</label>
+          <input type="text" id="team-modal-name" placeholder="Ej. Carlos Rodríguez" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-accent outline-none text-slate-800">
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-slate-600 mb-1">Cargo / Puesto</label>
+          <input type="text" id="team-modal-role" placeholder="Ej. Director de Ingeniería" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-accent outline-none text-slate-800">
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-slate-600 mb-1">Descripción Breve</label>
+          <textarea id="team-modal-desc" rows="3" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-accent outline-none text-slate-800 resize-none" placeholder="Experiencia o rol dentro de la empresa..."></textarea>
+        </div>
+      </div>
+      
+      <div class="p-6 border-t border-slate-100 bg-slate-50 flex justify-end gap-3 rounded-b-2xl">
+        <button onclick="closeTeamModal()" class="px-5 py-2 text-slate-600 font-semibold hover:bg-slate-200 rounded-lg transition-colors">Cancelar</button>
+        <button onclick="saveTeamModal(this)" class="bg-brand text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-900 transition-all">Guardar Miembro</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Editar/Añadir Servicio -->
+  <div id="service-modal" class="fixed inset-0 bg-slate-900/60 z-50 hidden flex items-center justify-center fade-in">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg m-4 flex flex-col">
+      <div class="flex justify-between items-center p-6 border-b border-slate-100">
+        <h3 class="font-bold text-lg text-slate-800" id="service-modal-title">Editar Servicio</h3>
+        <button onclick="closeServiceModal()" class="text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-full w-8 h-8 flex items-center justify-center transition-colors">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+      
+      <div class="p-6 space-y-4">
+        <input type="hidden" id="service-modal-id">
+        <div>
+          <label class="block text-sm font-semibold text-slate-600 mb-1">Título del Servicio</label>
+          <input type="text" id="service-modal-title-input" placeholder="Ej. Mantenimiento Preventivo" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-accent outline-none text-slate-800">
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-slate-600 mb-1">Icono (Material Symbol)</label>
+          <div class="flex gap-2">
+            <input type="text" id="service-modal-icon-input" placeholder="Ej. build_circle" class="flex-1 px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-accent outline-none text-slate-800">
+            <div class="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center border border-slate-200">
+              <span id="service-modal-icon-preview" class="material-symbols-outlined text-brand">build_circle</span>
+            </div>
+          </div>
+          <p class="text-[10px] text-slate-400 mt-1">Usa nombres de <a href="https://fonts.google.com/icons" target="_blank" class="underline">Material Symbols</a>.</p>
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-slate-600 mb-1">Descripción</label>
+          <textarea id="service-modal-desc-input" rows="4" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-accent outline-none text-slate-800 resize-none" placeholder="Describe brevemente el servicio..."></textarea>
+        </div>
+      </div>
+      
+      <div class="p-6 border-t border-slate-100 bg-slate-50 flex justify-end gap-3 rounded-b-2xl">
+        <button onclick="closeServiceModal()" class="px-5 py-2 text-slate-600 font-semibold hover:bg-slate-200 rounded-lg transition-colors">Cancelar</button>
+        <button onclick="saveServiceModal(this)" class="bg-brand text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-900 transition-all">Guardar Servicio</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Categorías -->
+  <div id="category-modal" class="fixed inset-0 bg-slate-900/60 z-50 hidden flex items-center justify-center fade-in">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md m-4">
+      <div class="flex justify-between items-center p-6 border-b border-slate-100">
+        <h3 class="font-bold text-lg text-slate-800" id="cat-modal-title">Nueva Categoría</h3>
+        <button onclick="closeCategoryModal()" class="text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-full w-8 h-8 flex items-center justify-center transition-colors">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+      <div class="p-6 space-y-4">
+        <input type="hidden" id="cat-modal-id">
+        <div>
+          <label class="block text-sm font-semibold text-slate-600 mb-1">Nombre (ID interno)</label>
+          <input type="text" id="cat-modal-slug" placeholder="ej: industrial" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg outline-none text-slate-800">
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-slate-600 mb-1">Etiqueta Visual</label>
+          <input type="text" id="cat-modal-label" placeholder="ej: Máquinas Industriales" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg outline-none text-slate-800">
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-slate-600 mb-1">Icono (Material Symbols)</label>
+          <input type="text" id="cat-modal-icon" placeholder="ej: precision_manufacturing" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg outline-none text-slate-800">
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="checkbox" id="cat-modal-active" class="w-4 h-4 text-brand rounded border-slate-300">
+          <label for="cat-modal-active" class="text-sm font-semibold text-slate-600">Categoría Activa</label>
+        </div>
+      </div>
+      <div class="p-6 border-t border-slate-100 bg-slate-50 flex justify-end gap-3 rounded-b-2xl">
+        <button onclick="closeCategoryModal()" class="px-5 py-2 text-slate-600 font-semibold hover:bg-slate-200 rounded-lg">Cancelar</button>
+        <button onclick="saveCategoryModal(this)" class="bg-brand text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-900">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Editar Producto -->
+  <div id="product-modal" class="fixed inset-0 bg-slate-900/60 z-50 hidden flex items-center justify-center fade-in">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto m-4 flex flex-col">
+      <div class="flex justify-between items-center p-6 border-b border-slate-100 sticky top-0 bg-white/95 backdrop-blur z-10">
+        <h3 class="font-bold text-lg text-slate-800" id="modal-title">Editar Producto</h3>
+        <button onclick="closeProductModal()" class="text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-full w-8 h-8 flex items-center justify-center transition-colors">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+      
+      <div class="p-6 space-y-6">
+        <input type="hidden" id="modal-product-id">
+        <!-- Fotos del producto (Principal y Galería) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 md:col-span-2">
+          <!-- Principal -->
+          <div>
+            <label class="block text-sm font-semibold text-slate-600 mb-2">Foto Principal</label>
+            <div class="flex items-center gap-4">
+              <div class="w-24 h-24 rounded-lg bg-slate-100 border border-slate-200 overflow-hidden relative group">
+                <img id="modal-img-preview" src="https://via.placeholder.com/600x400?text=Sin+Imagen" class="w-full h-full object-cover">
+                <label class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                  <span class="material-symbols-outlined text-xl mb-1">cameraswitch</span>
+                  <input type="file" class="hidden" accept="image/*" onchange="handleFileSelect(event, 'modal-img-preview')">
+                </label>
+              </div>
+            </div>
+          </div>
+          <!-- Secundarias -->
+          <div>
+            <label class="block text-sm font-semibold text-slate-600 mb-2">Galería (Secundarias)</label>
+            <div class="flex gap-2">
+              <div class="w-16 h-16 rounded-lg bg-slate-100 border border-slate-200 overflow-hidden relative group">
+                <img id="modal-gallery-0" src="https://via.placeholder.com/150" class="w-full h-full object-cover">
+                <label class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                  <span class="material-symbols-outlined text-sm">cameraswitch</span>
+                  <input type="file" class="hidden" accept="image/*" onchange="handleFileSelect(event, 'modal-gallery-0')">
+                </label>
+              </div>
+              <div class="w-16 h-16 rounded-lg bg-slate-100 border border-slate-200 overflow-hidden relative group">
+                <img id="modal-gallery-1" src="https://via.placeholder.com/150" class="w-full h-full object-cover">
+                <label class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                  <span class="material-symbols-outlined text-sm">cameraswitch</span>
+                  <input type="file" class="hidden" accept="image/*" onchange="handleFileSelect(event, 'modal-gallery-1')">
+                </label>
+              </div>
+              <div class="w-16 h-16 rounded-lg bg-slate-100 border border-slate-200 overflow-hidden relative group">
+                <img id="modal-gallery-2" src="https://via.placeholder.com/150" class="w-full h-full object-cover">
+                <label class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                  <span class="material-symbols-outlined text-sm">cameraswitch</span>
+                  <input type="file" class="hidden" accept="image/*" onchange="handleFileSelect(event, 'modal-gallery-2')">
+                </label>
+              </div>
+              <div class="w-16 h-16 rounded-lg bg-slate-100 border border-slate-200 overflow-hidden relative group">
+                <img id="modal-gallery-3" src="https://via.placeholder.com/150" class="w-full h-full object-cover">
+                <label class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                  <span class="material-symbols-outlined text-sm">cameraswitch</span>
+                  <input type="file" class="hidden" accept="image/*" onchange="handleFileSelect(event, 'modal-gallery-3')">
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="md:col-span-2">
+            <label class="block text-sm font-semibold text-slate-600 mb-1">Nombre del Producto</label>
+            <input type="text" id="modal-name" value="Overlock Industrial de Alta Resistencia" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-accent outline-none text-slate-800">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-600 mb-1">Precio ($)</label>
+            <input type="text" id="modal-price" value="4,850.00" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-accent outline-none text-slate-800">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-600 mb-1">Categoría</label>
+            <select id="modal-category" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-accent outline-none text-slate-800">
+              <!-- Cargado por JS -->
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-600 mb-1">Velocidad Máx (ej. 5,000 ppm)</label>
+            <input type="text" id="modal-max-speed" placeholder="5,000 ppm" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-accent outline-none text-slate-800">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-600 mb-1">Tipo de Motor</label>
+            <input type="text" id="modal-motor-type" placeholder="Direct Drive" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-accent outline-none text-slate-800">
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-semibold text-slate-600 mb-1">Descripción Completa</label>
+            <textarea rows="4" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-accent outline-none text-slate-800 resize-none">Máquina overlock de 5 hilos de alta velocidad con motor Direct Drive integrado. Ideal para el cerrado de costados en prendas de punto y plano. Incluye panel digital y sistema de lubricación automática sellada.</textarea>
+          </div>
+        </div>
+      </div>
+      
+      <div class="p-6 border-t border-slate-100 bg-slate-50 flex justify-end gap-3 sticky bottom-0">
+        <button onclick="closeProductModal()" class="px-5 py-2 text-slate-600 font-semibold hover:bg-slate-200 rounded-lg transition-colors">Cancelar</button>
+        <button onclick="saveProductModal(this)" class="bg-brand text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-900 transition-all">Guardar Detalles</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    // --- Lógica del Sidebar y Pestañas ---
+    const tabs = ['inventario', 'nosotros', 'servicios', 'soporte'];
+    
+    function openTab(tabName) {
+      // 1. Ocultar todos los módulos
+      tabs.forEach(tab => {
+        document.getElementById(`sec-${tab}`).classList.add('hidden');
+        
+        // 2. Restaurar estilos inactivos en los botones del sidebar
+        const btn = document.getElementById(`btn-${tab}`);
+        btn.classList.remove('bg-slate-100', 'text-brand', 'font-semibold');
+        btn.classList.add('text-slate-500', 'hover:bg-slate-50');
+      });
+
+      // 3. Mostrar el módulo seleccionado
+      document.getElementById(`sec-${tabName}`).classList.remove('hidden');
+      
+      // 4. Aplicar estilos activos al botón
+      const activeBtn = document.getElementById(`btn-${tabName}`);
+      activeBtn.classList.remove('text-slate-500', 'hover:bg-slate-50');
+      activeBtn.classList.add('bg-slate-100', 'text-brand', 'font-semibold');
+
+      // 5. Actualizar título del Header
+      const titles = {
+        'inventario': 'Inventario de Productos',
+        'nosotros': 'Sección: Nosotros',
+        'servicios': 'Sección: Servicios',
+        'soporte': 'Sección: Soporte'
+      };
+      document.getElementById('header-title').innerText = titles[tabName];
+
+      // Cerrar sidebar en móvil
+      if (window.innerWidth < 768) toggleSidebar();
+    }
+
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('mobile-overlay');
+      sidebar.classList.toggle('-translate-x-full');
+      overlay.classList.toggle('hidden');
+    }
+
+    // --- Lógica de Zona de Imágenes (Drag & Drop y Preview) ---
+    
+    async function handleFileSelect(event, previewId) {
+      const file = event.target.files[0];
+      if (!file) return;
+      
+      // Mostrar preview inmediato con base64
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById(previewId).src = e.target.result;
+      }
+      reader.readAsDataURL(file);
+
+      // Subir al servidor y reemplazar src con URL real
+      const formData = new FormData();
+      formData.append('file', file);
+      try {
+        const response = await fetch('http://localhost:5000/api/upload', {
+          method: 'POST',
+          body: formData
+        });
+        const result = await response.json();
+        if (result.success && result.url) {
+          document.getElementById(previewId).src = result.url;
+        }
+      } catch (e) {
+        console.error('Error subiendo imagen:', e);
+      }
+    }
+
+    function removeImage(previewId) {
+      document.getElementById(previewId).src = 'https://via.placeholder.com/600x400?text=Sin+Imagen';
+    }
+
+    // --- Funciones Generales ---
+    
+    // --- Funciones Generales de Guardado ---
+    async function saveCMSData(data) {
+      await window.CMS_DB.saveTexts(data);
+    }
+
+    async function saveFeedback(btn, data = null) {
+      const originalText = btn.innerText;
+      btn.innerHTML = '<span class="material-symbols-outlined animate-spin mr-2">refresh</span> Guardando...';
+      btn.disabled = true;
+      btn.classList.add('opacity-80');
+      
+      // Si se pasó data, guardarla en el CMS
+      if (data) await saveCMSData(data);
+      
+      setTimeout(() => {
+        btn.innerHTML = '<span class="material-symbols-outlined mr-2">check</span> Guardado';
+        btn.classList.remove('bg-brand');
+        btn.classList.add('bg-green-600');
+        
+        setTimeout(() => {
+          btn.innerText = originalText;
+          btn.disabled = false;
+          btn.classList.remove('bg-green-600', 'opacity-80');
+          btn.classList.add('bg-brand');
+        }, 2000);
+      }, 800);
+    }
+
+    // Funciones específicas para capturar datos de formularios
+    async function saveNosotrosTexts(btn) {
+      const data = {
+        'nosotros-hero-title': document.getElementById('admin-nosotros-title').value,
+        'nosotros-hero-desc': document.getElementById('admin-nosotros-desc').value,
+        'nosotros-mision-text': document.getElementById('admin-nosotros-mision').value,
+        'nosotros-vision-text': document.getElementById('admin-nosotros-vision').value
+      };
+      const heroImg = document.getElementById('preview-nosotros-hero');
+      if (heroImg) data['nosotros-hero-img'] = heroImg.src;
+      
+      await saveFeedback(btn, data);
+    }
+
+    async function saveServiciosHero(btn) {
+      const data = {
+        'servicios-hero-title': document.getElementById('admin-servicios-title').value,
+        'servicios-hero-desc': document.getElementById('admin-servicios-desc').value
+      };
+      const img = document.getElementById('preview-servicios-hero');
+      if (img) data['servicios-hero-img'] = img.src;
+      
+      await saveFeedback(btn, data);
+    }
+
+    async function saveServiciosCTA(btn) {
+      const container = btn.closest('.bg-white');
+      const inputs = container.querySelectorAll('input, textarea');
+      const data = {
+        'servicios-cta-title': inputs[0].value,
+        'servicios-cta-btn': inputs[1].value,
+        'servicios-cta-desc': inputs[2].value
+      };
+      await saveFeedback(btn, data);
+    }
+
+    async function saveSoporteHero(btn) {
+      const container = btn.closest('.bg-white');
+      const inputs = container.querySelectorAll('input, textarea');
+      const data = {
+        'soporte-hero-title': inputs[0].value,
+        'soporte-hero-desc': inputs[1].value
+      };
+      await saveFeedback(btn, data);
+    }
+
+    async function saveSoporteCanales(btn) {
+      const container = btn.closest('.bg-white');
+      const inputs = container.querySelectorAll('input');
+      const data = {
+        'soporte-wa-sub': inputs[0].value,
+        'soporte-phone-val': inputs[2].value,
+        'soporte-email-val': inputs[3].value
+      };
+      await saveFeedback(btn, data);
+    }
+
+    async function saveSoporteForm(btn) {
+      const container = btn.closest('.bg-white');
+      const inputs = container.querySelectorAll('input, textarea');
+      const data = {
+        'soporte-form-title': inputs[0].value,
+        'soporte-form-desc': inputs[1].value
+      };
+      await saveFeedback(btn, data);
+    }
+
+    // --- Funciones de Servicios ---
+    function renderAdminServices() {
+      const tbody = document.getElementById('admin-services-tbody');
+      if (!tbody || typeof SERVICES_DATA === 'undefined') return;
+
+      tbody.innerHTML = '';
+      SERVICES_DATA.forEach((service, index) => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50 transition-colors';
+        tr.innerHTML = `
+          <td class="px-6 py-4 text-center">
+            <span class="material-symbols-outlined text-brand text-2xl">${service.icon}</span>
+          </td>
+          <td class="px-6 py-4 font-semibold text-slate-800">${service.title}</td>
+          <td class="px-6 py-4 hidden md:table-cell text-slate-500 text-xs line-clamp-2 mt-3 border-none">${service.desc}</td>
+          <td class="px-6 py-4 text-right">
+            <button onclick="openServiceModal(${index})" class="text-brand hover:text-blue-800 font-semibold text-sm mr-3 transition-colors">Editar</button>
+            <button onclick="deleteService(${service.id})" class="text-slate-400 hover:text-red-500 transition-colors p-1" title="Eliminar"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function openServiceModal(index = null) {
+      const modal = document.getElementById('service-modal');
+      const title = document.getElementById('service-modal-title');
+      const titleInput = document.getElementById('service-modal-title-input');
+      const iconInput = document.getElementById('service-modal-icon-input');
+      const iconPreview = document.getElementById('service-modal-icon-preview');
+      const descInput = document.getElementById('service-modal-desc-input');
+
+      if (index !== null && typeof SERVICES_DATA !== 'undefined') {
+        const service = SERVICES_DATA[index];
+        title.innerText = 'Editar Servicio';
+        document.getElementById('service-modal-id').value = service.id || '';
+        titleInput.value = service.title;
+        iconInput.value = service.icon;
+        iconPreview.innerText = service.icon;
+        descInput.value = service.desc;
+      } else {
+        title.innerText = 'Nuevo Servicio';
+        document.getElementById('service-modal-id').value = '';
+        titleInput.value = '';
+        iconInput.value = 'build_circle';
+        iconPreview.innerText = 'build_circle';
+        descInput.value = '';
+      }
+      modal.classList.remove('hidden');
+
+      // Escuchar cambios en el input del icono para previsualizar
+      iconInput.oninput = () => {
+        iconPreview.innerText = iconInput.value || 'help';
+      };
+    }
+
+    function closeServiceModal() {
+      document.getElementById('service-modal').classList.add('hidden');
+    }
+
+    async function saveServiceModal(btn) {
+      const id = document.getElementById('service-modal-id').value;
+      const title = document.getElementById('service-modal-title-input').value;
+      const icon = document.getElementById('service-modal-icon-input').value;
+      const desc = document.getElementById('service-modal-desc-input').value;
+
+      const service = { title, desc, icon };
+      if (id) service.id = id;
+
+      await window.CMS_DB.saveService(service);
+      
+      saveFeedback(btn);
+      setTimeout(async () => {
+        closeServiceModal();
+        const data = await window.CMS_DB.getAllData();
+        if(data.services) window.SERVICES_DATA = data.services;
+        renderAdminServices();
+      }, 2000);
+    }
+
+    function logout() {
+      localStorage.removeItem('adminToken');
+      window.location.href = 'login.html';
+    }
+
+    // --- Funciones del Modal de Productos y Renderizado ---
+    function renderAdminProducts() {
+      const tbody = document.getElementById('admin-products-tbody');
+      if (!tbody) return;
+      
+      tbody.innerHTML = '';
+      PRODUCTS.forEach(product => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50 transition-colors';
+        tr.innerHTML = `
+          <td class="px-6 py-3">
+            <div class="w-12 h-12 rounded bg-slate-200 overflow-hidden border border-slate-200">
+              <img src="${product.img}" class="w-full h-full object-cover">
+            </div>
+          </td>
+          <td class="px-6 py-3 font-semibold text-slate-800">${product.name}</td>
+          <td class="px-6 py-3 font-medium">${product.price}</td>
+          <td class="px-6 py-3"><span class="bg-slate-100 text-slate-600 px-2 py-1 rounded text-xs font-semibold">${product.category || 'Sin Categoría'}</span></td>
+          <td class="px-6 py-3 text-right">
+            <button onclick="openProductModal(${product.id})" class="text-brand hover:text-blue-800 font-semibold text-sm mr-3 transition-colors">Editar</button>
+            <button onclick="deleteProduct(${product.id})" class="text-slate-400 hover:text-red-500 transition-colors p-1" title="Eliminar"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderAdminCategories() {
+      const tbody = document.getElementById('admin-categories-tbody');
+      if (!tbody || typeof SIDEBAR_CATEGORIES === 'undefined') return;
+
+      tbody.innerHTML = '';
+      SIDEBAR_CATEGORIES.forEach((cat, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50 transition-colors';
+        tr.innerHTML = `
+          <td class="px-6 py-3 text-center">
+            <span class="material-symbols-outlined text-slate-400 text-xl">${cat.icon}</span>
+          </td>
+          <td class="px-6 py-3 font-semibold text-slate-800">${cat.label}</td>
+          <td class="px-6 py-3">
+            <span class="${cat.active ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-600'} px-2 py-1 rounded text-xs font-semibold">
+              ${cat.active ? 'Activa (Principal)' : 'Activa'}
+            </span>
+          </td>
+          <td class="px-6 py-3 text-right">
+            <button class="edit-cat-btn text-brand hover:text-blue-800 font-semibold text-sm mr-3 transition-colors">Editar</button>
+            <button class="del-cat-btn text-slate-400 hover:text-red-500 transition-colors p-1" title="Eliminar"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+          </td>
+        `;
+        // Wire up edit
+        tr.querySelector('.edit-cat-btn').addEventListener('click', () => openCategoryModal(cat));
+        // Wire up delete
+        tr.querySelector('.del-cat-btn').addEventListener('click', () => deleteCategory(cat.id));
+        tbody.appendChild(tr);
+      });
+    }
+
+    async function deleteCategory(id) {
+      if (!confirm('Seguro que desea eliminar esta categoria?')) return;
+      await window.CMS_DB.deleteCategory(id);
+      const data = await window.CMS_DB.getAllData();
+      if (data.categories) window.SIDEBAR_CATEGORIES = data.categories;
+      renderAdminCategories();
+    }
+
+    // Cargar datos guardados desde la base de datos (Postgres)
+    async function loadCMS() {
+      if (!window.CMS_DB) return;
+      
+      try {
+        const data = await window.CMS_DB.getAllData();
+        if (data) {
+          if (data.products) window.PRODUCTS = data.products;
+          if (data.team) window.TEAM_MEMBERS = data.team;
+          if (data.services) window.SERVICES_DATA = data.services;
+          
+          if (data.texts) {
+            const cms = data.texts;
+            const map = {
+              'nosotros-hero-title': 'admin-nosotros-title',
+              'nosotros-hero-desc': 'admin-nosotros-desc',
+              'nosotros-mision-text': 'admin-nosotros-mision',
+              'nosotros-vision-text': 'admin-nosotros-vision',
+              'servicios-hero-title': 'admin-servicios-title',
+              'servicios-hero-desc': 'admin-servicios-desc',
+              'nosotros-hero-img': 'preview-nosotros-hero',
+              'servicios-hero-img': 'preview-servicios-hero'
+            };
+
+            Object.keys(map).forEach(cmsKey => {
+              const inputId = map[cmsKey];
+              const val = cms[cmsKey];
+              const el = document.getElementById(inputId);
+              if (el && val) {
+                if (el.tagName === 'IMG') el.src = val;
+                else el.value = val;
+              }
+            });
+          }
+        }
+      } catch (e) {
+        console.error("Error cargando CMS en admin:", e);
+      }
+    }
+
+    // Ejecutar render al cargar la página
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Esperar a que los datos se carguen de la DB
+      await loadCMS();
+      
+      // Renderizar todo
+      renderAdminProducts();
+      renderAdminCategories();
+      renderAdminTeam();
+      renderAdminServices();
+    });
+
+    // --- Funciones del Equipo ---
+    function renderAdminTeam() {
+      const tbody = document.getElementById('admin-team-tbody');
+      if (!tbody || typeof TEAM_MEMBERS === 'undefined') return;
+
+      tbody.innerHTML = '';
+      TEAM_MEMBERS.forEach((member, index) => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50 transition-colors';
+        tr.innerHTML = `
+          <td class="px-6 py-3">
+            <div class="w-10 h-10 rounded-full bg-slate-200 overflow-hidden border border-slate-200">
+              <img src="${member.img}" class="w-full h-full object-cover">
+            </div>
+          </td>
+          <td class="px-6 py-3 font-semibold text-slate-800">${member.name}</td>
+          <td class="px-6 py-3 font-medium text-xs uppercase tracking-wider text-slate-500">${member.role}</td>
+          <td class="px-6 py-3 hidden md:table-cell text-slate-500 text-xs line-clamp-2 mt-2 border-none">${member.desc}</td>
+          <td class="px-6 py-3 text-right">
+            <button onclick="openTeamModal(${index})" class="text-brand hover:text-blue-800 font-semibold text-sm mr-3 transition-colors">Editar</button>
+            <button onclick="deleteTeamMember(${member.id})" class="text-slate-400 hover:text-red-500 transition-colors p-1" title="Eliminar"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function openTeamModal(index = null) {
+      const modal = document.getElementById('team-modal');
+      const title = document.getElementById('team-modal-title');
+      const idInput = document.getElementById('team-modal-id');
+      const nameInput = document.getElementById('team-modal-name');
+      const roleInput = document.getElementById('team-modal-role');
+      const descInput = document.getElementById('team-modal-desc');
+      const imgPreview = document.getElementById('team-modal-img');
+
+      if (index !== null && typeof TEAM_MEMBERS !== 'undefined') {
+        const member = TEAM_MEMBERS[index];
+        title.innerText = 'Editar Miembro';
+        idInput.value = member.id || '';
+        nameInput.value = member.name;
+        roleInput.value = member.role;
+        descInput.value = member.desc;
+        imgPreview.src = member.img;
+      } else {
+        title.innerText = 'Añadir Miembro';
+        idInput.value = '';
+        nameInput.value = '';
+        roleInput.value = '';
+        descInput.value = '';
+        imgPreview.src = 'https://via.placeholder.com/300?text=Foto';
+      }
+      modal.classList.remove('hidden');
+    }
+
+    function closeTeamModal() {
+      document.getElementById('team-modal').classList.add('hidden');
+    }
+
+    async function saveTeamModal(btn) {
+      const id = document.getElementById('team-modal-id').value;
+      const name = document.getElementById('team-modal-name').value;
+      const role = document.getElementById('team-modal-role').value;
+      const desc = document.getElementById('team-modal-desc').value;
+      const img = document.getElementById('team-modal-img').src;
+
+      const member = { name, role, desc, img };
+      if (id) member.id = id;
+
+      await window.CMS_DB.saveTeamMember(member);
+      
+      saveFeedback(btn);
+      setTimeout(async () => {
+        closeTeamModal();
+        const data = await window.CMS_DB.getAllData();
+        if(data.team) window.TEAM_MEMBERS = data.team;
+        renderAdminTeam();
+      }, 2000);
+    }
+
+    function openProductModal(productId = null) {
+      const modal = document.getElementById('product-modal');
+      const title = document.getElementById('modal-title');
+      const idInput = document.getElementById('modal-product-id');
+      const nameInput = document.getElementById('modal-name');
+      const priceInput = document.getElementById('modal-price');
+      const categorySelect = document.getElementById('modal-category');
+      const imgPreview = document.getElementById('modal-img-preview');
+      const maxSpeedInput = document.getElementById('modal-max-speed');
+      const motorTypeInput = document.getElementById('modal-motor-type');
+      
+      // Llenar select de categorías
+      if (typeof SIDEBAR_CATEGORIES !== 'undefined') {
+        categorySelect.innerHTML = SIDEBAR_CATEGORIES.map(c => 
+          `<option value="${c.label}">${c.label}</option>`
+        ).join('');
+      }
+      
+      if(productId) {
+        // Buscar el producto en la BD (products.js)
+        // Buscar el producto en la lista (usando comparación no estricta para evitar fallos de tipo string vs number)
+        const product = PRODUCTS.find(p => String(p.id) === String(productId));
+        if (product) {
+          title.innerText = 'Editar Producto';
+          idInput.value = productId;
+          nameInput.value = product.name;
+          priceInput.value = typeof product.price === 'number' ? product.price : product.price.replace('$', '').replace(',', '');
+          imgPreview.src = product.img;
+          categorySelect.value = product.category || SIDEBAR_CATEGORIES[0].label;
+          maxSpeedInput.value = product.maxSpeed || '';
+          motorTypeInput.value = product.motorType || '';
+          
+          // Cargar galería
+          if(product.gallery) {
+            for(let i=0; i<4; i++) {
+              const gImg = document.getElementById(`modal-gallery-${i}`);
+              if(gImg) gImg.src = product.gallery[i] || 'https://via.placeholder.com/150';
+            }
+          }
+        }
+      } else {
+        title.innerText = 'Nuevo Producto';
+        idInput.value = '';
+        nameInput.value = '';
+        priceInput.value = '';
+        maxSpeedInput.value = '';
+        motorTypeInput.value = '';
+        imgPreview.src = 'https://via.placeholder.com/600x400?text=Sin+Imagen';
+        if (categorySelect.options.length > 0) categorySelect.selectedIndex = 0;
+        
+        for(let i=0; i<4; i++) {
+          const gImg = document.getElementById(`modal-gallery-${i}`);
+          if(gImg) gImg.src = 'https://via.placeholder.com/150';
+        }
+      }
+      
+      modal.classList.remove('hidden');
+    }
+
+    function closeProductModal() {
+      document.getElementById('product-modal').classList.add('hidden');
+    }
+
+    async function saveCarouselSlide(btn, slideNum) {
+      const slide = {
+        id: slideNum,
+        badge: document.getElementById(`slide-${slideNum}-badge`).value,
+        title: document.getElementById(`slide-${slideNum}-title`).value,
+        desc: document.getElementById(`slide-${slideNum}-desc`).value,
+        img: document.getElementById(`preview-slide-${slideNum}`).src,
+        alt: document.getElementById(`slide-${slideNum}-alt`).value
+      };
+      
+      await window.CMS_DB.saveCarouselSlide(slide);
+      await saveFeedback(btn);
+    }
+
+    async function saveProducts(btn) {
+      // Guardar cada producto en PostgreSQL
+      for (const p of PRODUCTS) {
+        await window.CMS_DB.saveProduct(p);
+      }
+      await saveFeedback(btn);
+    }
+
+    async function saveProductModal(btn) {
+      const id = document.getElementById('modal-product-id').value;
+      const name = document.getElementById('modal-name').value;
+      const price = parseFloat(document.getElementById('modal-price').value.replace(/[^0-9.]/g, ''));
+      const category = document.getElementById('modal-category').value;
+      const maxSpeed = document.getElementById('modal-max-speed').value;
+      const motorType = document.getElementById('modal-motor-type').value;
+      const img = document.getElementById('modal-img-preview').src;
+
+      const product = { name, price, category, maxSpeed, motorType, img };
+      if (id) product.id = id;
+
+      // Validación simple
+      if (!name) {
+        alert("⚠️ El nombre del producto es obligatorio.");
+        return;
+      }
+
+      // Guardar en Postgres
+      await window.CMS_DB.saveProduct(product);
+      
+      saveFeedback(btn);
+      setTimeout(async () => {
+        closeProductModal();
+        // Recargar datos desde la DB
+        const data = await window.CMS_DB.getAllData();
+        if(data.products) window.PRODUCTS = data.products;
+        renderAdminProducts();
+      }, 2000);
+    }
+
+    async function deleteProduct(id) {
+      if (!confirm('¿Está seguro de que desea eliminar este producto?')) return;
+      await window.CMS_DB.deleteProduct(id);
+      const data = await window.CMS_DB.getAllData();
+      if(data.products) window.PRODUCTS = data.products;
+      renderAdminProducts();
+    }
+
+    function openCategoryModal(cat = null) {
+      const modal = document.getElementById('category-modal');
+      const title = document.getElementById('cat-modal-title');
+      const slugInput = document.getElementById('cat-modal-slug');
+      const labelInput = document.getElementById('cat-modal-label');
+      const iconInput = document.getElementById('cat-modal-icon');
+      const activeCheck = document.getElementById('cat-modal-active');
+
+      if (cat) {
+        title.innerText = 'Editar Categoría';
+        slugInput.value = cat.id;
+        slugInput.disabled = true; // El ID no se debe cambiar
+        labelInput.value = cat.label;
+        iconInput.value = cat.icon;
+        activeCheck.checked = cat.active;
+      } else {
+        title.innerText = 'Nueva Categoría';
+        slugInput.value = '';
+        slugInput.disabled = false;
+        labelInput.value = '';
+        iconInput.value = '';
+        activeCheck.checked = false;
+      }
+      modal.classList.remove('hidden');
+    }
+
+    function closeCategoryModal() {
+      document.getElementById('category-modal').classList.add('hidden');
+    }
+
+    async function saveCategoryModal(btn) {
+      const cat = {
+        id: document.getElementById('cat-modal-slug').value,
+        label: document.getElementById('cat-modal-label').value,
+        icon: document.getElementById('cat-modal-icon').value,
+        active: document.getElementById('cat-modal-active').checked
+      };
+
+      if (!cat.id || !cat.label) {
+        alert("⚠️ El ID y la Etiqueta son obligatorios.");
+        return;
+      }
+
+      await window.CMS_DB.saveCategory(cat);
+      await saveFeedback(btn);
+      
+      setTimeout(async () => {
+        closeCategoryModal();
+        const data = await window.CMS_DB.getAllData();
+        if(data.categories) window.SIDEBAR_CATEGORIES = data.categories;
+        renderAdminCategories();
+      }, 1500);
+    }
+
+    async function deleteTeamMember(id) {
+      if (!confirm('¿Está seguro de que desea eliminar a este miembro del equipo?')) return;
+      await window.CMS_DB.deleteTeamMember(id);
+      const data = await window.CMS_DB.getAllData();
+      if(data.team) window.TEAM_MEMBERS = data.team;
+      renderAdminTeam();
+    }
+
+    async function deleteService(id) {
+      if (!confirm('¿Está seguro de que desea eliminar este servicio?')) return;
+      await window.CMS_DB.deleteService(id);
+      const data = await window.CMS_DB.getAllData();
+      if(data.services) window.SERVICES_DATA = data.services;
+      renderAdminServices();
+    }
+
+    // --- Cargar datos de PostgreSQL al admin cuando estén listos ---
+    document.addEventListener('cmsDataReady', function() {
+      // Poblar campos del carrusel desde la DB
+      if (typeof CAROUSEL_SLIDES !== 'undefined') {
+        CAROUSEL_SLIDES.forEach((slide, i) => {
+          const num = slide.id || (i + 1);
+          const badge = document.getElementById(`slide-${num}-badge`);
+          const title = document.getElementById(`slide-${num}-title`);
+          const desc = document.getElementById(`slide-${num}-desc`);
+          const alt = document.getElementById(`slide-${num}-alt`);
+          const img = document.getElementById(`preview-slide-${num}`);
+          if (badge) badge.value = slide.badge || '';
+          if (title) title.value = slide.title || '';
+          if (desc) desc.value = slide.desc || slide.description || '';
+          if (alt) alt.value = slide.alt || '';
+          if (img && slide.img) img.src = slide.img;
+        });
+      }
+
+      // Re-renderizar tablas admin
+      renderAdminProducts();
+      renderAdminTeam();
+      renderAdminServices();
+      renderAdminCategories();
+    });
+  </script>
+</body>
+</html>
