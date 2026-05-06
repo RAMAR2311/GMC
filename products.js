@@ -150,8 +150,8 @@ function renderProductCard(p, idx) {
   return `
   <article class="bg-surface-container-lowest overflow-hidden group transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10 opacity-0 animate-fade-in-up ${stagger}">
     <a href="producto.html?id=${p.id}" class="block">
-      <div class="aspect-[4/3] bg-surface relative overflow-hidden">
-        <img alt="${p.name}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-700" src="${p.img}"/>
+      <div class="aspect-[4/3] bg-white relative overflow-hidden flex items-center justify-center p-4">
+        <img alt="${p.name}" loading="lazy" class="max-w-full max-h-full object-contain group-hover:scale-110 transition-all duration-700" src="${p.img}"/>
         <div class="absolute top-4 left-4">
           <span class="${p.badgeColor || 'bg-primary'} ${txtColor} text-[9px] font-bold px-2 py-1 uppercase tracking-widest shadow-lg">${p.badge || 'Maquinaria'}</span>
         </div>
