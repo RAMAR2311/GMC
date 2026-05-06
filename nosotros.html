@@ -70,8 +70,8 @@
         if (container && typeof TEAM_MEMBERS !== 'undefined') {
           container.innerHTML = TEAM_MEMBERS.map((member, idx) => `
             <div class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm border border-outline-variant/10 group animate-fade-in-up" style="animation-delay: ${idx * 100}ms">
-              <div class="h-64 sm:h-72 overflow-hidden bg-slate-100">
-                <img src="${member.img}" alt="${member.name}" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"/>
+              <div class="h-72 sm:h-80 overflow-hidden bg-white flex items-center justify-center p-2">
+                <img src="${member.img}" alt="${member.name}" class="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-500"/>
               </div>
               <div class="p-6 text-center">
                 <h3 class="text-xl font-bold text-primary font-headline">${member.name}</h3>
