@@ -6,28 +6,28 @@ const DEFAULT_GALLERY = ["", "", "", ""];
 var PRODUCTS = [
   {
     id: 1, name: "Overlock Industrial de Alta Resistencia", price: "$4,850.00",
-    badge: "En Stock", badgeColor: "bg-primary", category: "Máquinas de Coser",
+    badge: "En Stock", badgeColor: "bg-primary", category: "Máquinas de Coser", brand: "JACK",
     img: "",
     gallery: [...DEFAULT_GALLERY],
     maxSpeed: "5,000 ppm", motorType: "Direct Drive"
   },
   {
     id: 2, name: "Cosedora de Patrones CNC Automatizada", price: "$12,400.00",
-    badge: "Novedad", badgeColor: "bg-secondary", category: "Máquinas de Coser",
+    badge: "Novedad", badgeColor: "bg-secondary", category: "Máquinas de Coser", brand: "KANSEW",
     img: "",
     gallery: [...DEFAULT_GALLERY],
     maxSpeed: "3,200 ppm", motorType: "Servo Motor"
   },
   {
     id: 3, name: "Puntada Recta Electrónica Serie-G", price: "$2,150.00",
-    badge: "Oferta", badgeColor: "bg-blue-600", category: "Máquinas de Coser",
+    badge: "Oferta", badgeColor: "bg-blue-600", category: "Máquinas de Coser", brand: "JACK",
     img: "",
     gallery: [...DEFAULT_GALLERY],
     maxSpeed: "4,500 ppm", motorType: "Direct Drive"
   },
   {
     id: 4, name: "Bordadora Multi-cabezal 12 Agujas", price: "$18,900.00",
-    badge: "Premium", badgeColor: "bg-tertiary-fixed-dim", category: "Bordadoras Industriales",
+    badge: "Premium", badgeColor: "bg-tertiary-fixed-dim", category: "Bordadoras Industriales", brand: "JONTEX",
     badgeText: "text-on-tertiary-fixed",
     img: "",
     gallery: [...DEFAULT_GALLERY],
@@ -35,28 +35,28 @@ var PRODUCTS = [
   },
   {
     id: 5, name: "Ojaladora Electrónica de Alta Velocidad", price: "$5,600.00",
-    badge: "En Stock", badgeColor: "bg-primary", category: "Máquinas de Coser",
+    badge: "En Stock", badgeColor: "bg-primary", category: "Máquinas de Coser", brand: "TYPICAL",
     img: "",
     gallery: [...DEFAULT_GALLERY],
     maxSpeed: "4,200 ppm", motorType: "Direct Drive AC"
   },
   {
     id: 6, name: "Máquina de Poste para Calzado Pro-X", price: "$3,900.00",
-    badge: "Especializado", badgeColor: "bg-secondary", category: "Máquinas de Coser",
+    badge: "Especializado", badgeColor: "bg-secondary", category: "Máquinas de Coser", brand: "JAKI",
     img: "",
     gallery: [...DEFAULT_GALLERY],
     maxSpeed: "2,500 ppm", motorType: "Clutch Motor"
   },
   {
     id: 7, name: "Zig-Zag Industrial de Cama Plana", price: "$2,850.00",
-    badge: "En Stock", badgeColor: "bg-primary", category: "Máquinas de Coser",
+    badge: "En Stock", badgeColor: "bg-primary", category: "Máquinas de Coser", brand: "JACK",
     img: "",
     gallery: [...DEFAULT_GALLERY],
     maxSpeed: "3,500 ppm", motorType: "Servo Integrado"
   },
   {
     id: 8, name: "Cortadora Vertical de 10\" Precision-Cut", price: "$1,450.00",
-    badge: "Últimas Unidades", badgeColor: "bg-error", category: "Cortadoras de Tela",
+    badge: "Últimas Unidades", badgeColor: "bg-error", category: "Cortadoras de Tela", brand: "KANSEW",
     img: "",
     gallery: [...DEFAULT_GALLERY],
     maxSpeed: "3,400 RPM", motorType: "Inducción Monofásico"
@@ -228,17 +228,21 @@ function renderSidebar() {
   }).join("");
 }
 
-/* ── Category Filter Functionality ── */
+let FILTERED_PRODUCTS = [];
+
 window.filterCategory = function(e, label) {
-  e.preventDefault();
+  if(e) e.preventDefault();
   
-  // Actualizar estado activo en la UI
-  SIDEBAR_CATEGORIES.forEach(c => {
-    c.active = (c.label === label);
-  });
-  renderSidebar();
+  console.log("Filtrando por:", label);
   
-  // Simular filtrado en la grilla
+  // Actualizar estado activo en la UI (Sidebar)
+  if (typeof SIDEBAR_CATEGORIES !== 'undefined') {
+    SIDEBAR_CATEGORIES.forEach(c => {
+      c.active = (c.label === label);
+    });
+    renderSidebar();
+  }
+  
   const grid = document.getElementById("product-grid");
   const loadBtn = document.getElementById("load-more-btn");
   
@@ -247,25 +251,46 @@ window.filterCategory = function(e, label) {
     grid.style.transition = 'opacity 0.3s ease';
     
     setTimeout(() => {
-      // Simular que mostramos diferentes productos al filtrar (mezclando el array original)
-      const shuffled = [...PRODUCTS].sort(() => 0.5 - Math.random()).slice(0, 4 + Math.floor(Math.random() * 4));
-      grid.innerHTML = shuffled.map((p, i) => renderProductCard(p, i)).join("");
+      // Filtrado real: Buscar por categoría o por marca
+      FILTERED_PRODUCTS = PRODUCTS.filter(p => 
+        p.category === label || 
+        p.brand === label || 
+        (label === 'Todos')
+      );
+
+      // Si no hay resultados, mostramos todos (opcional, o mostrar mensaje vacío)
+      if (FILTERED_PRODUCTS.length === 0 && label !== 'Todos') {
+        console.warn("No se encontraron productos para:", label);
+        grid.innerHTML = `<div class="col-span-full py-20 text-center">
+          <span class="material-symbols-outlined text-6xl text-slate-200 mb-4">search_off</span>
+          <p class="text-slate-500 font-medium">No encontramos productos en la categoría "${label}"</p>
+          <button onclick="filterCategory(null, 'Todos')" class="mt-4 text-brand font-bold underline">Ver todo el inventario</button>
+        </div>`;
+      } else {
+        productsShown = 8;
+        const initialBatch = FILTERED_PRODUCTS.slice(0, productsShown);
+        grid.innerHTML = initialBatch.map((p, i) => renderProductCard(p, i)).join("");
+      }
+
       grid.style.opacity = '1';
       
-      // Restaurar el botón de cargar más si existe
+      // Gestionar visibilidad del botón "Cargar más"
       if (loadBtn) {
-        loadBtn.innerHTML = "Cargar más inventario";
-        loadBtn.classList.remove('text-on-surface-variant', 'bg-surface-container-low', 'cursor-default', 'opacity-70', 'cursor-not-allowed');
-        loadBtn.classList.add('hover:bg-surface-container-highest', 'active:scale-95', 'text-primary');
-        loadBtn.disabled = false;
-        loadBtn.onclick = loadMoreProducts;
+        if (FILTERED_PRODUCTS.length <= productsShown) {
+          loadBtn.classList.add('hidden');
+        } else {
+          loadBtn.classList.remove('hidden');
+          loadBtn.innerHTML = "Cargar más inventario";
+          loadBtn.disabled = false;
+          loadBtn.onclick = loadMoreProducts;
+        }
       }
       
-      // Hacer scroll suave hacia la grilla si estábamos más arriba
+      // Hacer scroll suave hacia la grilla
       if (window.scrollY < grid.offsetTop - 100) {
         window.scrollTo({ top: grid.offsetTop - 80, behavior: 'smooth' });
       }
-    }, 600);
+    }, 400);
   }
 }
 
@@ -276,12 +301,12 @@ window.loadMoreProducts = function() {
   const btn = document.getElementById('load-more-btn');
   if (!btn) return;
   
+  const sourceArray = (FILTERED_PRODUCTS.length > 0 || document.querySelector('.active')) ? FILTERED_PRODUCTS : PRODUCTS;
+
   // Si ya mostramos todos, no hacer nada
-  if (productsShown >= PRODUCTS.length) {
+  if (productsShown >= sourceArray.length) {
     btn.innerHTML = "No hay más resultados";
-    btn.classList.remove('hover:bg-surface-container-highest', 'active:scale-95', 'text-primary');
-    btn.classList.add('text-on-surface-variant', 'bg-surface-container-low', 'cursor-default');
-    btn.onclick = null;
+    btn.classList.add('hidden');
     return;
   }
 
@@ -293,7 +318,7 @@ window.loadMoreProducts = function() {
   setTimeout(() => {
     const grid = document.getElementById("product-grid");
     if (grid) {
-      const nextBatch = PRODUCTS.slice(productsShown, productsShown + 8);
+      const nextBatch = sourceArray.slice(productsShown, productsShown + 8);
       const newHTML = nextBatch.map((p, i) => renderProductCard(p, productsShown + i)).join("");
       grid.insertAdjacentHTML('beforeend', newHTML);
       productsShown += nextBatch.length;
@@ -303,19 +328,18 @@ window.loadMoreProducts = function() {
     btn.disabled = false;
     btn.classList.remove('opacity-70', 'cursor-not-allowed');
 
-    if (productsShown >= PRODUCTS.length) {
+    if (productsShown >= sourceArray.length) {
       btn.innerHTML = "No hay más resultados";
-      btn.classList.remove('hover:bg-surface-container-highest', 'active:scale-95', 'text-primary');
-      btn.classList.add('text-on-surface-variant', 'bg-surface-container-low', 'cursor-default');
-      btn.onclick = null;
+      btn.classList.add('hidden');
     } else {
       btn.innerHTML = "Cargar más inventario";
     }
 
-  }, 600);
+  }, 400);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  FILTERED_PRODUCTS = [...PRODUCTS];
   // Render inicial con datos hardcoded o de localStorage
   renderCarouselSlides();
   renderProductGrid();
@@ -328,6 +352,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // Escuchar cuando los datos reales de Postgres estén listos para re-renderizar
 document.addEventListener("cmsDataReady", () => {
   console.log("📦 Datos de Postgres listos, actualizando interfaz...");
+  FILTERED_PRODUCTS = [...PRODUCTS];
   renderCarouselSlides();
   renderProductGrid();
   renderBrands();
