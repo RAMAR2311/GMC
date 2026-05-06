@@ -87,7 +87,7 @@ var CAROUSEL_SLIDES = [
   }
 ];
 
-const BRANDS = ["JACK", "KANSEW", "JAKI", "JONTEX", "TYPICAL"];
+var BRANDS = ["JACK", "KANSEW", "JAKI", "JONTEX", "TYPICAL"];
 
 var SIDEBAR_CATEGORIES = []; // Se cargará dinámicamente desde PostgreSQL
 
@@ -204,10 +204,14 @@ function renderCarouselSlides() {
 function renderBrands() {
   const el = document.getElementById("brands-list");
   if (!el) return;
-  el.innerHTML = BRANDS.map(b =>
-    `<a onclick="filterCategory(event, '${b}')" class="group shrink-0 transition-all duration-300 hover:scale-105 filter grayscale hover:grayscale-0 opacity-60 hover:opacity-100 cursor-pointer" href="#product-grid">
+  
+  // Normalizar marcas para manejar tanto strings como objetos de la DB
+  const normalizedBrands = BRANDS.map(b => typeof b === 'object' ? b.name : b);
+  
+  el.innerHTML = normalizedBrands.map(brandName =>
+    `<a onclick="filterCategory(event, '${brandName}')" class="group shrink-0 transition-all duration-300 hover:scale-105 filter grayscale hover:grayscale-0 opacity-60 hover:opacity-100 cursor-pointer" href="#product-grid">
       <div class="h-12 w-28 sm:w-32 flex items-center justify-center bg-slate-50 rounded-lg">
-        <span class="text-xl font-black font-manrope text-slate-400 group-hover:text-blue-600 transition-colors uppercase tracking-tight">${b}</span>
+        <span class="text-xl font-black font-manrope text-slate-400 group-hover:text-blue-600 transition-colors uppercase tracking-tight">${brandName}</span>
       </div>
     </a>`
   ).join("");
