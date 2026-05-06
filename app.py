@@ -112,7 +112,7 @@ def get_cms_data():
     try:
         conn = get_db_connection()
         # Productos
-        products_raw = conn.run('SELECT id, name, price, category, img, max_speed, motor_type, badge, badge_color, gallery FROM products ORDER BY id ASC')
+        products_raw = conn.run('SELECT id, name, price, category, img, max_speed, motor_type, badge, badge_color, gallery, description, brand FROM products ORDER BY id ASC')
         products = []
         for row in products_raw:
             gallery_data = []
@@ -122,7 +122,8 @@ def get_cms_data():
             products.append({
                 'id': row[0], 'name': row[1], 'price': row[2], 'category': row[3], 
                 'img': row[4], 'maxSpeed': row[5], 'motorType': row[6], 
-                'badge': row[7], 'badgeColor': row[8], 'gallery': gallery_data
+                'badge': row[7], 'badgeColor': row[8], 'gallery': gallery_data,
+                'description': row[10], 'brand': row[11]
             })
 
         # Equipo
@@ -145,6 +146,10 @@ def get_cms_data():
         rows_texts = conn.run('SELECT key, value FROM cms_texts')
         texts = {r[0]: r[1] for r in rows_texts}
 
+        # Marcas
+        rows_brands = conn.run('SELECT id, name FROM brands ORDER BY name ASC')
+        brands = [{'id': r[0], 'name': r[1]} for r in rows_brands]
+
         conn.close()
         return jsonify({
             'products': products,
@@ -152,7 +157,8 @@ def get_cms_data():
             'services': services,
             'carousel': carousel,
             'categories': categories,
-            'texts': texts
+            'texts': texts,
+            'brands': brands
         })
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -213,30 +219,55 @@ def delete_category(category_id):
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/api/brands', methods=['POST'])
+def save_brand():
+    try:
+        data = request.json
+        name = data.get('name', '').strip()
+        if not name: return jsonify({'error': 'Nombre requerido'}), 400
+        
+        conn = get_db_connection()
+        conn.run('INSERT INTO brands (name) VALUES (:name) ON CONFLICT (name) DO NOTHING', name=name)
+        conn.close()
+        return jsonify({'success': True})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/brands/<int:brand_id>', methods=['DELETE'])
+def delete_brand(brand_id):
+    try:
+        conn = get_db_connection()
+        conn.run('DELETE FROM brands WHERE id = :id', id=brand_id)
+        conn.close()
+        return jsonify({'success': True})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/api/products', methods=['POST'])
 def save_product():
     try:
         data = request.json
         conn = get_db_connection()
         gallery_json = json.dumps(data.get('gallery', []))
+        description = data.get('description', '')
         
         if 'id' in data and data['id']:
             exists = conn.run('SELECT id FROM products WHERE id = :id', id=data['id'])
             if exists:
                 conn.run('''
-                    UPDATE products SET name=:name, price=:price, category=:category, img=:img, max_speed=:max_speed, motor_type=:motor_type, gallery=:gallery WHERE id=:id
+                    UPDATE products SET name=:name, price=:price, category=:category, img=:img, max_speed=:max_speed, motor_type=:motor_type, gallery=:gallery, description=:description, brand=:brand WHERE id=:id
                 ''', name=data['name'], price=data['price'], category=data['category'], img=data['img'], 
-                     max_speed=data.get('maxSpeed'), motor_type=data.get('motorType'), gallery=gallery_json, id=data['id'])
+                     max_speed=data.get('maxSpeed'), motor_type=data.get('motorType'), gallery=gallery_json, description=description, brand=data.get('brand'), id=data['id'])
             else:
                 conn.run('''
-                    INSERT INTO products (id, name, price, category, img, max_speed, motor_type, gallery) VALUES (:id, :name, :price, :category, :img, :max_speed, :motor_type, :gallery)
+                    INSERT INTO products (id, name, price, category, img, max_speed, motor_type, gallery, description, brand) VALUES (:id, :name, :price, :category, :img, :max_speed, :motor_type, :gallery, :description, :brand)
                 ''', id=data['id'], name=data['name'], price=data['price'], category=data['category'], img=data['img'], 
-                     max_speed=data.get('maxSpeed'), motor_type=data.get('motorType'), gallery=gallery_json)
+                     max_speed=data.get('maxSpeed'), motor_type=data.get('motorType'), gallery=gallery_json, description=description, brand=data.get('brand'))
         else:
             conn.run('''
-                INSERT INTO products (name, price, category, img, max_speed, motor_type, gallery) VALUES (:name, :price, :category, :img, :max_speed, :motor_type, :gallery)
+                INSERT INTO products (name, price, category, img, max_speed, motor_type, gallery, description, brand) VALUES (:name, :price, :category, :img, :max_speed, :motor_type, :gallery, :description, :brand)
             ''', name=data['name'], price=data['price'], category=data['category'], img=data['img'], 
-                 max_speed=data.get('maxSpeed'), motor_type=data.get('motorType'), gallery=gallery_json)
+                 max_speed=data.get('maxSpeed'), motor_type=data.get('motorType'), gallery=gallery_json, description=description, brand=data.get('brand'))
         conn.close()
         return jsonify({'success': True})
     except Exception as e:

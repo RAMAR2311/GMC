@@ -3,7 +3,7 @@
  * Gestiona la conexión con el servidor Flask local
  */
 
-const API_URL = "http://localhost:5000/api";
+const API_URL = "/api";
 
 const DB = {
     // Cargar todos los datos desde Postgres
@@ -147,6 +147,24 @@ const DB = {
             localStorage.setItem('maquitec_cms_texts', JSON.stringify(updated));
             alert("⚠️ Se guardó localmente porque el servidor no respondió.");
         }
+    },
+    // Guardar Marca
+    async saveBrand(brand) {
+        try {
+            const response = await fetch(`${API_URL}/brands`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(brand)
+            });
+            if (!response.ok) throw new Error("Error al guardar marca.");
+        } catch (e) { alert("❌ Error: " + e.message); }
+    },
+    // Eliminar Marca
+    async deleteBrand(id) {
+        try {
+            const response = await fetch(`${API_URL}/brands/${id}`, { method: 'DELETE' });
+            if (!response.ok) throw new Error("No se pudo eliminar la marca.");
+        } catch (e) { alert("❌ Error al eliminar marca: " + e.message); }
     }
 };
 

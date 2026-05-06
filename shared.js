@@ -12,42 +12,20 @@ tailwind.config = {
   theme: {
     extend: {
       colors: {
-        "on-tertiary-fixed-variant": "#394857",
-        "surface": "#f8f9fa",
-        "on-tertiary-fixed": "#0d1d2a",
-        "surface-container-high": "#e7e8e9",
-        "on-secondary-container": "#3f5881",
-        "on-surface-variant": "#444650",
-        "error-container": "#ffdad6",
-        "on-surface": "#191c1d",
-        "primary-fixed": "#dbe1ff",
-        "on-background": "#191c1d",
-        "surface-container-lowest": "#ffffff",
-        "tertiary": "#051522",
-        "on-secondary-fixed": "#001b3d",
-        "inverse-surface": "#2e3132",
-        "background": "#f8f9fa",
-        "surface-container-low": "#f3f4f5",
-        "tertiary-fixed": "#d4e4f6",
-        "surface-dim": "#d9dadb",
-        "outline": "#757682",
-        "surface-tint": "#435b9f",
-        "on-tertiary": "#ffffff",
-        "on-tertiary-container": "#8191a2",
-        "primary": "#00113a",
-        "surface-container": "#edeeef",
-        "secondary-fixed": "#d6e3ff",
-        "on-secondary-fixed-variant": "#2e476f",
-        "on-error": "#ffffff",
-        "on-error-container": "#93000a",
-        "primary-container": "#002366",
-        "surface-bright": "#f8f9fa",
-        "surface-container-highest": "#e1e3e4",
-        "on-secondary": "#ffffff",
-        "on-primary-fixed": "#00174a",
-        "secondary-container": "#b6d0ff",
-        "inverse-primary": "#b3c5ff",
-        "secondary": "#465f88",
+        "primary": "#1A365D",
+        "secondary": "#4A5568",
+        "background": "#FFFFFF",
+        "surface": "#E2E8F0",
+        "on-surface": "#2D3748",
+        "on-primary": "#FFFFFF",
+        "on-secondary": "#FFFFFF",
+        "surface-container-lowest": "#FFFFFF",
+        "surface-container": "#F8FAFC",
+        "outline": "#CBD5E1",
+        "primary-container": "#C3DAFE",
+        "on-primary-container": "#1A365D",
+        "secondary-container": "#E2E8F0",
+        "on-secondary-container": "#2D3748",
         "error": "#ba1a1a",
         "on-primary": "#ffffff",
         "outline-variant": "#c5c6d2",
@@ -480,18 +458,35 @@ async function initCMSData() {
     // Textos CMS
     if (data.texts) {
       window.CMS_TEXTS = data.texts;
-      Object.keys(data.texts).forEach(id => {
-        const el = document.getElementById(id);
-        if (el) {
-          const val = data.texts[id];
+      Object.keys(data.texts).forEach(key => {
+        const val = data.texts[key];
+        // Buscar elementos por ID exacto o por ID con sufijo -link
+        const elements = document.querySelectorAll(`[id="${key}"], [id="${key}-link"]`);
+        
+        elements.forEach(el => {
+          const id = el.id;
           if (id.includes('img') || id.includes('preview')) {
             if (el.tagName === 'IMG') el.src = val;
             else el.style.backgroundImage = `url(${val})`;
+          } else if (el.tagName === 'IFRAME') {
+            el.src = val;
+          } else if (el.tagName === 'A') {
+            if (val.startsWith('http') || val.startsWith('tel:') || val.startsWith('mailto:')) {
+              el.href = val;
+            } else if (id.includes('wa')) {
+              el.href = `https://wa.me/${val.replace(/\D/g, '')}`;
+            } else if (id.includes('phone')) {
+              el.href = `tel:${val.replace(/\D/g, '')}`;
+            } else if (id.includes('email')) {
+              el.href = `mailto:${val}`;
+            } else {
+              el.href = val;
+            }
           } else {
             if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.value = val;
             else el.innerText = val;
           }
-        }
+        });
       });
     }
     

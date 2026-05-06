@@ -19,9 +19,11 @@
         extend: {
           fontFamily: { sans: ["Inter", "sans-serif"] },
           colors: {
-            brand: "#00113a", // Azul corporativo
-            accent: "#435b9f",
-            bgLight: "#f8f9fa",
+            brand: "#1A365D", // Azul Profundo
+            accent: "#4A5568", // Gris Acero
+            bgLight: "#FFFFFF", // Blanco
+            surface: "#E2E8F0", // Gris Plata
+            coal: "#2D3748", // Carbón
           }
         }
       }
@@ -47,7 +49,7 @@
   <script src="products.js"></script>
   <script src="shared.js"></script>
 </head>
-<body class="bg-bgLight text-slate-800 flex h-screen overflow-hidden font-sans">
+<body class="bg-bgLight text-coal flex h-screen overflow-hidden font-sans">
 
   <!-- Validar Sesión -->
   <script>
@@ -60,37 +62,40 @@
   <div id="mobile-overlay" class="fixed inset-0 bg-slate-900/50 z-20 hidden md:hidden" onclick="toggleSidebar()"></div>
 
   <!-- Menú Lateral -->
-  <aside id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-white border-r border-slate-200 flex flex-col z-30 transform -translate-x-full md:translate-x-0 md:relative transition-transform duration-300">
+  <aside id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-accent border-r border-brand/10 flex flex-col z-30 transform -translate-x-full md:translate-x-0 md:relative transition-transform duration-300">
     <!-- Header Sidebar -->
-    <div class="h-16 flex items-center justify-between px-6 border-b border-slate-100 shrink-0">
-      <div class="flex items-center text-brand">
+    <div class="h-16 flex items-center justify-between px-6 border-b border-brand/10 shrink-0">
+      <div class="flex items-center text-white">
         <span class="material-symbols-outlined mr-2">admin_panel_settings</span>
         <h1 class="font-bold text-lg tracking-tight">Panel Editor</h1>
       </div>
-      <button class="md:hidden text-slate-500" onclick="toggleSidebar()">
+      <button class="md:hidden text-white/70" onclick="toggleSidebar()">
         <span class="material-symbols-outlined">close</span>
       </button>
     </div>
     
     <!-- Navegación -->
     <nav class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
-      <button onclick="openTab('inventario')" id="btn-inventario" class="nav-btn w-full flex items-center px-4 py-3 rounded-lg bg-slate-100 text-brand font-semibold transition-all">
+      <button onclick="openTab('inventario')" id="btn-inventario" class="nav-btn w-full flex items-center px-4 py-3 rounded-lg bg-brand text-white font-semibold transition-all">
         <span class="material-symbols-outlined mr-3 text-lg">inventory_2</span> Inventario
       </button>
-      <button onclick="openTab('nosotros')" id="btn-nosotros" class="nav-btn w-full flex items-center px-4 py-3 rounded-lg text-slate-500 hover:bg-slate-50 hover:text-slate-900 font-medium transition-all">
+      <button onclick="openTab('nosotros')" id="btn-nosotros" class="nav-btn w-full flex items-center px-4 py-3 rounded-lg text-white/70 hover:bg-white/10 hover:text-white font-medium transition-all">
         <span class="material-symbols-outlined mr-3 text-lg">groups</span> Nosotros
       </button>
-      <button onclick="openTab('servicios')" id="btn-servicios" class="nav-btn w-full flex items-center px-4 py-3 rounded-lg text-slate-500 hover:bg-slate-50 hover:text-slate-900 font-medium transition-all">
+      <button onclick="openTab('servicios')" id="btn-servicios" class="nav-btn w-full flex items-center px-4 py-3 rounded-lg text-white/70 hover:bg-white/10 hover:text-white font-medium transition-all">
         <span class="material-symbols-outlined mr-3 text-lg">build</span> Servicios
       </button>
-      <button onclick="openTab('soporte')" id="btn-soporte" class="nav-btn w-full flex items-center px-4 py-3 rounded-lg text-slate-500 hover:bg-slate-50 hover:text-slate-900 font-medium transition-all">
+      <button onclick="openTab('soporte')" id="btn-soporte" class="nav-btn w-full flex items-center px-4 py-3 rounded-lg text-white/70 hover:bg-white/10 hover:text-white font-medium transition-all">
         <span class="material-symbols-outlined mr-3 text-lg">support_agent</span> Soporte
+      </button>
+      <button onclick="openTab('brands')" id="btn-brands" class="nav-btn w-full flex items-center px-4 py-3 rounded-lg text-white/70 hover:bg-white/10 hover:text-white font-medium transition-all">
+        <span class="material-symbols-outlined mr-3 text-lg">verified</span> Marcas
       </button>
     </nav>
     
     <!-- Perfil y Logout -->
-    <div class="p-4 border-t border-slate-100 shrink-0">
-      <button onclick="logout()" class="w-full flex items-center justify-center px-4 py-2 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg transition-colors text-sm font-semibold">
+    <div class="p-4 border-t border-brand/10 shrink-0">
+      <button onclick="logout()" class="w-full flex items-center justify-center px-4 py-2 bg-white/10 text-white hover:bg-white/20 rounded-lg transition-colors text-sm font-semibold">
         <span class="material-symbols-outlined text-[18px] mr-2">logout</span> Salir
       </button>
     </div>
@@ -123,8 +128,8 @@
           
           <!-- SUBSECCIÓN: GESTIÓN DEL CARRUSEL PRINCIPAL -->
           <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-8">
-            <div class="p-6 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
-              <h3 class="font-bold text-slate-800 flex items-center"><span class="material-symbols-outlined mr-2 text-brand">view_carousel</span> Gestión del Carrusel Principal</h3>
+            <div class="p-6 border-b border-surface/30 bg-surface/20 flex justify-between items-center">
+              <h3 class="font-bold text-brand flex items-center"><span class="material-symbols-outlined mr-2 text-brand">view_carousel</span> Gestión del Carrusel Principal</h3>
             </div>
             
             <div class="p-6 md:p-8 space-y-10">
@@ -262,7 +267,7 @@
             </div>
             <div class="overflow-x-auto">
               <table class="w-full text-left text-sm text-slate-600">
-                <thead class="bg-white text-slate-500 uppercase text-xs font-semibold border-b border-slate-100">
+                <thead class="bg-surface text-coal uppercase text-xs font-bold border-b border-surface/50">
                   <tr>
                     <th class="px-6 py-4 w-16 text-center">Icono</th>
                     <th class="px-6 py-4">Nombre de la Categoría</th>
@@ -294,7 +299,7 @@
             <!-- Tabla de Productos -->
             <div class="overflow-x-auto">
               <table class="w-full text-left text-sm text-slate-600">
-                <thead class="bg-white text-slate-500 uppercase text-xs font-semibold border-b border-slate-100">
+                <thead class="bg-surface text-coal uppercase text-xs font-bold border-b border-surface/50">
                   <tr>
                     <th class="px-6 py-4">Imagen</th>
                     <th class="px-6 py-4">Producto</th>
@@ -380,8 +385,8 @@
 
           <!-- SUBSECCIÓN: GESTIÓN DEL EQUIPO -->
           <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-              <h3 class="font-bold text-slate-800 flex items-center"><span class="material-symbols-outlined mr-2 text-brand">groups</span> Nuestro Equipo</h3>
+            <div class="p-6 border-b border-surface/30 flex justify-between items-center bg-surface/20">
+              <h3 class="font-bold text-brand flex items-center"><span class="material-symbols-outlined mr-2 text-brand">groups</span> Nuestro Equipo</h3>
               <button onclick="openTeamModal()" class="bg-slate-800 text-white px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-slate-900 shadow-md transition-all flex items-center">
                 <span class="material-symbols-outlined mr-1">person_add</span> Añadir Miembro
               </button>
@@ -389,7 +394,7 @@
             
             <div class="overflow-x-auto">
               <table class="w-full text-left text-sm text-slate-600">
-                <thead class="bg-white text-slate-500 uppercase text-xs font-semibold border-b border-slate-100">
+                <thead class="bg-surface text-coal uppercase text-xs font-bold border-b border-surface/50">
                   <tr>
                     <th class="px-6 py-4 w-20">Foto</th>
                     <th class="px-6 py-4">Nombre</th>
@@ -407,8 +412,8 @@
 
           <!-- SUBSECCIÓN: INSTALACIONES Y UBICACIÓN -->
           <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mt-8">
-            <div class="p-6 border-b border-slate-100 bg-slate-50">
-              <h3 class="font-bold text-slate-800 flex items-center"><span class="material-symbols-outlined mr-2 text-brand">domain</span> Instalaciones y Ubicación</h3>
+            <div class="p-6 border-b border-surface/30 bg-surface/20">
+              <h3 class="font-bold text-brand flex items-center"><span class="material-symbols-outlined mr-2 text-brand">domain</span> Instalaciones y Ubicación</h3>
             </div>
             <div class="p-6 md:p-8 space-y-8">
               
@@ -528,8 +533,10 @@
                   </div>
                 </div>
               </div>
-              <div class="flex justify-end pt-4">
-                <button onclick="saveServiciosHero(this)" class="bg-brand text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-900 transition-all">Guardar Portada</button>
+              <div class="flex justify-end pt-6 border-t border-slate-100 mt-6">
+                <button onclick="saveServiciosHero(this)" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 shadow-lg transition-all flex items-center">
+                  <span class="material-symbols-outlined mr-2">save</span> Guardar Portada
+                </button>
               </div>
             </div>
           </div>
@@ -545,7 +552,7 @@
             
             <div class="overflow-x-auto">
               <table class="w-full text-left text-sm text-slate-600">
-                <thead class="bg-white text-slate-500 uppercase text-xs font-semibold border-b border-slate-100">
+                <thead class="bg-surface text-coal uppercase text-xs font-bold border-b border-surface/50">
                   <tr>
                     <th class="px-6 py-4 w-16 text-center">Icono</th>
                     <th class="px-6 py-4">Servicio</th>
@@ -580,9 +587,9 @@
                 <label class="block text-xs font-semibold text-slate-500 mb-1">Descripción del Plan</label>
                 <textarea rows="3" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800 resize-none">Ofrecemos pólizas de mantenimiento anuales diseñadas a la medida de la capacidad instalada de su empresa.</textarea>
               </div>
-              <div class="flex justify-end pt-4">
-                <button onclick="saveContactInfo(this)" class="bg-brand text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-900 transition-all flex items-center">
-                  Guardar CTA
+              <div class="flex justify-end pt-6 border-t border-slate-100 mt-6">
+                <button onclick="saveServiciosCTA(this)" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 shadow-lg transition-all flex items-center">
+                  <span class="material-symbols-outlined mr-2">save</span> Guardar CTA de Servicios
                 </button>
               </div>
             </div>
@@ -602,16 +609,18 @@
             <div class="p-6 md:p-8 space-y-6">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label class="block text-xs font-semibold text-slate-500 mb-1">Título de Portada</label>
-                  <input type="text" value="Centro de Soporte" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800">
+                  <label class="block text-xs font-semibold text-slate-500 mb-1">Título Hero</label>
+                  <input id="admin-soporte-hero-title" type="text" value="Centro de Soporte Técnico" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800">
                 </div>
                 <div>
-                  <label class="block text-xs font-semibold text-slate-500 mb-1">Descripción de Portada</label>
-                  <textarea rows="2" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800 resize-none">Estamos aquí para ayudarle. Encuentre respuestas rápidas o contáctenos directamente para resolver cualquier incidente técnico.</textarea>
+                  <label class="block text-xs font-semibold text-slate-500 mb-1">Descripción Hero</label>
+                  <textarea id="admin-soporte-hero-desc" rows="1" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800 resize-none">Estamos aquí para garantizar que su producción nunca se detenga.</textarea>
                 </div>
               </div>
-              <div class="flex justify-end pt-2">
-                <button onclick="saveSoporteHero(this)" class="bg-brand text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-900 transition-all">Guardar Portada</button>
+              <div class="flex justify-end pt-6 border-t border-slate-100 mt-6">
+                <button onclick="saveSoporteHero(this)" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 shadow-lg transition-all flex items-center">
+                  <span class="material-symbols-outlined mr-2">save</span> Guardar Portada
+                </button>
               </div>
             </div>
           </div>
@@ -631,27 +640,29 @@
                   <div class="space-y-3">
                     <div>
                       <label class="block text-[10px] font-semibold text-slate-500 mb-1">Subtítulo / Horario</label>
-                      <input type="text" value="Respuesta rápida (L-V 8am-6pm)" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs outline-none">
+                      <input id="admin-soporte-wa-sub" type="text" value="Respuesta rápida (L-V 8am-6pm)" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs outline-none">
                     </div>
                     <div>
                       <label class="block text-[10px] font-semibold text-slate-500 mb-1">Número de Celular (Link)</label>
-                      <input type="text" value="573000000000" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs outline-none">
+                      <input id="admin-soporte-wa-link" type="text" value="573000000000" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs outline-none">
                     </div>
                   </div>
                 </div>
                 <!-- Teléfono -->
                 <div class="p-4 bg-slate-50 rounded-xl border border-slate-100">
                   <h4 class="text-[10px] font-bold text-blue-600 uppercase mb-3 flex items-center"><span class="material-symbols-outlined text-sm mr-1">call</span> Línea Telefónica</h4>
-                  <input type="text" value="+57 (601) 555-0198" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs outline-none">
+                  <input id="admin-soporte-phone-val" type="text" value="+57 (601) 555-0198" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs outline-none">
                 </div>
                 <!-- Email -->
                 <div class="p-4 bg-slate-50 rounded-xl border border-slate-100">
                   <h4 class="text-[10px] font-bold text-slate-600 uppercase mb-3 flex items-center"><span class="material-symbols-outlined text-sm mr-1">mail</span> Correo Electrónico</h4>
-                  <input type="text" value="soporte@grupocapitalmaquinas.com" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs outline-none">
+                  <input id="admin-soporte-email-val" type="text" value="soporte@grupocapitalmaquinas.com" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs outline-none">
                 </div>
                 
-                <div class="flex justify-end pt-2">
-                  <button onclick="saveSoporteCanales(this)" class="bg-brand text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-900 transition-all text-sm">Guardar Canales</button>
+                <div class="flex justify-end pt-6 border-t border-slate-100 mt-6">
+                  <button onclick="saveSoporteCanales(this)" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 shadow-lg transition-all flex items-center">
+                    <span class="material-symbols-outlined mr-2">save</span> Guardar Canales
+                  </button>
                 </div>
               </div>
             </div>
@@ -664,21 +675,48 @@
               <div class="p-6 space-y-6">
                 <div>
                   <label class="block text-xs font-semibold text-slate-500 mb-1">Título del Formulario</label>
-                  <input type="text" value="Abrir un Ticket de Servicio" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800">
+                  <input id="admin-soporte-form-title" type="text" value="Abrir un Ticket de Servicio" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800">
                 </div>
                 <div>
                   <label class="block text-xs font-semibold text-slate-500 mb-1">Instrucciones</label>
-                  <textarea rows="4" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800 resize-none">Por favor, detalle el problema que presenta su equipo. Un técnico especializado le contactará a la brevedad.</textarea>
+                  <textarea id="admin-soporte-form-desc" rows="4" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand outline-none text-slate-800 resize-none">Por favor, detalle el problema que presenta su equipo. Un técnico especializado le contactará a la brevedad.</textarea>
                 </div>
                 <div class="pt-4 p-4 bg-blue-50 rounded-xl border border-blue-100">
                   <p class="text-[10px] text-blue-700 leading-relaxed italic"><strong>Nota:</strong> Los campos del formulario (Nombre, Empresa, etc.) son estructurales. Aquí solo editas los textos informativos para el cliente.</p>
                 </div>
-                <div class="flex justify-end pt-2">
-                  <button onclick="saveSoporteForm(this)" class="bg-brand text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-900 transition-all text-sm">Guardar Formulario</button>
+                <div class="flex justify-end pt-6 border-t border-slate-100 mt-6">
+                  <button onclick="saveSoporteForm(this)" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 shadow-lg transition-all flex items-center">
+                    <span class="material-symbols-outlined mr-2">save</span> Guardar Formulario
+                  </button>
                 </div>
               </div>
             </div>
 
+          </div>
+        </section>
+
+        <!-- ============================== -->
+        <!-- MÓDULO: MARCAS -->
+        <!-- ============================== -->
+        <section id="sec-brands" class="tab-section hidden fade-in">
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+              <div>
+                <h3 class="font-bold text-brand flex items-center"><span class="material-symbols-outlined mr-2">verified</span> Gestión de Marcas Destacadas</h3>
+                <p class="text-xs text-slate-500">Añade o elimina las marcas que se muestran en el carrusel de marcas.</p>
+              </div>
+              <div class="flex gap-2">
+                <input type="text" id="new-brand-input" placeholder="Nueva marca..." class="px-4 py-2 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-accent text-sm w-48">
+                <button onclick="addBrand(this)" class="px-4 py-2 bg-brand text-white text-sm font-bold rounded-lg hover:opacity-90 transition-all flex items-center gap-2">
+                  <span class="material-symbols-outlined text-[18px]">add</span> Agregar
+                </button>
+              </div>
+            </div>
+            <div class="p-8">
+              <div id="brands-admin-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                <!-- Se cargará por JS -->
+              </div>
+            </div>
           </div>
         </section>
 
@@ -887,6 +925,13 @@
             </select>
           </div>
           <div>
+            <label class="block text-sm font-semibold text-slate-600 mb-1">Marca</label>
+            <select id="modal-brand" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-accent outline-none text-slate-800">
+              <option value="">Sin Marca</option>
+              <!-- Cargado dinámicamente -->
+            </select>
+          </div>
+          <div>
             <label class="block text-sm font-semibold text-slate-600 mb-1">Velocidad Máx (ej. 5,000 ppm)</label>
             <input type="text" id="modal-max-speed" placeholder="5,000 ppm" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-accent outline-none text-slate-800">
           </div>
@@ -896,7 +941,7 @@
           </div>
           <div class="md:col-span-2">
             <label class="block text-sm font-semibold text-slate-600 mb-1">Descripción Completa</label>
-            <textarea rows="4" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-accent outline-none text-slate-800 resize-none">Máquina overlock de 5 hilos de alta velocidad con motor Direct Drive integrado. Ideal para el cerrado de costados en prendas de punto y plano. Incluye panel digital y sistema de lubricación automática sellada.</textarea>
+            <textarea id="modal-description" rows="4" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-accent outline-none text-slate-800 resize-none"></textarea>
           </div>
         </div>
       </div>
@@ -911,7 +956,7 @@
   </div>
   <script>
     // --- Lógica del Sidebar y Pestañas ---
-    const tabs = ['inventario', 'nosotros', 'servicios', 'soporte'];
+    const tabs = ['inventario', 'nosotros', 'servicios', 'soporte', 'brands'];
     
     function openTab(tabName) {
       // 1. Ocultar todos los módulos
@@ -920,8 +965,8 @@
         
         // 2. Restaurar estilos inactivos en los botones del sidebar
         const btn = document.getElementById(`btn-${tab}`);
-        btn.classList.remove('bg-slate-100', 'text-brand', 'font-semibold');
-        btn.classList.add('text-slate-500', 'hover:bg-slate-50');
+        btn.classList.remove('bg-brand', 'text-white', 'font-semibold');
+        btn.classList.add('text-white/70', 'hover:bg-white/10');
       });
 
       // 3. Mostrar el módulo seleccionado
@@ -929,15 +974,16 @@
       
       // 4. Aplicar estilos activos al botón
       const activeBtn = document.getElementById(`btn-${tabName}`);
-      activeBtn.classList.remove('text-slate-500', 'hover:bg-slate-50');
-      activeBtn.classList.add('bg-slate-100', 'text-brand', 'font-semibold');
+      activeBtn.classList.remove('text-white/70', 'hover:bg-white/10');
+      activeBtn.classList.add('bg-brand', 'text-white', 'font-semibold');
 
       // 5. Actualizar título del Header
       const titles = {
         'inventario': 'Inventario de Productos',
         'nosotros': 'Sección: Nosotros',
         'servicios': 'Sección: Servicios',
-        'soporte': 'Sección: Soporte'
+        'soporte': 'Sección: Soporte',
+        'brands': 'Gestión de Marcas'
       };
       document.getElementById('header-title').innerText = titles[tabName];
 
@@ -969,7 +1015,7 @@
       const formData = new FormData();
       formData.append('file', file);
       try {
-        const response = await fetch('http://localhost:5000/api/upload', {
+        const response = await fetch('/api/upload', {
           method: 'POST',
           body: formData
         });
@@ -988,7 +1034,7 @@
         const blob = await fetch(src).then(r => r.blob());
         const formData = new FormData();
         formData.append('file', blob, `upload_${Date.now()}.png`);
-        const res = await fetch('http://localhost:5000/api/upload', {
+        const res = await fetch('/api/upload', {
           method: 'POST',
           body: formData
         });
@@ -1093,22 +1139,19 @@
     }
 
     async function saveSoporteCanales(btn) {
-      const container = btn.closest('.bg-white');
-      const inputs = container.querySelectorAll('input');
       const data = {
-        'soporte-wa-sub': inputs[0].value,
-        'soporte-phone-val': inputs[2].value,
-        'soporte-email-val': inputs[3].value
+        'soporte-wa-sub': document.getElementById('admin-soporte-wa-sub').value,
+        'soporte-wa-link': document.getElementById('admin-soporte-wa-link').value,
+        'soporte-phone-val': document.getElementById('admin-soporte-phone-val').value,
+        'soporte-email-val': document.getElementById('admin-soporte-email-val').value
       };
       await saveFeedback(btn, data);
     }
 
     async function saveSoporteForm(btn) {
-      const container = btn.closest('.bg-white');
-      const inputs = container.querySelectorAll('input, textarea');
       const data = {
-        'soporte-form-title': inputs[0].value,
-        'soporte-form-desc': inputs[1].value
+        'soporte-form-title': document.getElementById('admin-soporte-form-title').value,
+        'soporte-form-desc': document.getElementById('admin-soporte-form-desc').value
       };
       await saveFeedback(btn, data);
     }
@@ -1383,6 +1426,8 @@
           categorySelect.value = product.category || SIDEBAR_CATEGORIES[0].label;
           maxSpeedInput.value = product.maxSpeed || '';
           motorTypeInput.value = product.motorType || '';
+          document.getElementById('modal-brand').value = product.brand || '';
+          document.getElementById('modal-description').value = product.description || '';
           
           // Cargar galería
           if(product.gallery) {
@@ -1399,6 +1444,7 @@
         priceInput.value = '';
         maxSpeedInput.value = '';
         motorTypeInput.value = '';
+        document.getElementById('modal-description').value = '';
         imgPreview.src = 'https://via.placeholder.com/600x400?text=Sin+Imagen';
         if (categorySelect.options.length > 0) categorySelect.selectedIndex = 0;
         
@@ -1471,7 +1517,9 @@
         }
       }
 
-      const product = { name, price, category, maxSpeed, motorType, img, gallery };
+      const description = document.getElementById('modal-description').value;
+      const brand = document.getElementById('modal-brand').value;
+      const product = { name, price, category, maxSpeed, motorType, img, gallery, description, brand };
       if (id) product.id = id;
 
       // Validación simple
@@ -1609,7 +1657,19 @@
           'servicios-hero-title': 'admin-servicios-title',
           'servicios-hero-desc': 'admin-servicios-desc',
           'nosotros-hero-img': 'preview-nosotros-hero',
-          'servicios-hero-img': 'preview-servicios-hero'
+          'servicios-hero-img': 'preview-servicios-hero',
+          'nosotros-sede-nombre': 'admin-nosotros-sede-nombre',
+          'nosotros-sede-dir': 'admin-nosotros-sede-dir',
+          'nosotros-sede-tel': 'admin-nosotros-sede-tel',
+          'nosotros-map-url': 'admin-nosotros-map-url',
+          'soporte-hero-title': 'admin-soporte-hero-title',
+          'soporte-hero-desc': 'admin-soporte-hero-desc',
+          'soporte-wa-sub': 'admin-soporte-wa-sub',
+          'soporte-wa-link': 'admin-soporte-wa-link',
+          'soporte-phone-val': 'admin-soporte-phone-val',
+          'soporte-email-val': 'admin-soporte-email-val',
+          'soporte-form-title': 'admin-soporte-form-title',
+          'soporte-form-desc': 'admin-soporte-form-desc'
         };
 
         Object.keys(map).forEach(cmsKey => {
@@ -1628,7 +1688,28 @@
       renderAdminTeam();
       renderAdminServices();
       renderAdminCategories();
+      
+      // Marcas
+      if(data.brands) {
+        window.BRANDS = data.brands;
+        renderBrandsAdmin();
+        populateBrandDropdowns();
+      }
     });
+    
+    async function saveNosotrosTexts(btn) {
+      const data = {
+        'nosotros-hero-title': document.getElementById('admin-nosotros-hero-title').value,
+        'nosotros-hero-desc': document.getElementById('admin-nosotros-hero-desc').value,
+        'nosotros-mision': document.getElementById('admin-nosotros-mision').value,
+        'nosotros-vision': document.getElementById('admin-nosotros-vision').value,
+        'nosotros-hero-img': await ensureImageUrl(document.getElementById('preview-nosotros-hero').src)
+      };
+      
+      await window.CMS_DB.saveTexts(data);
+      await saveFeedback(btn);
+    }
+
     async function saveInstalaciones(btn) {
       const data = {
         'nosotros-inst-1': await ensureImageUrl(document.getElementById('preview-inst-1').src),
@@ -1636,26 +1717,94 @@
         'nosotros-inst-3': await ensureImageUrl(document.getElementById('preview-inst-3').src)
       };
       
-      for (const [key, val] of Object.entries(data)) {
-        await window.CMS_DB.saveCMSText(key, val);
-      }
-      
+      await window.CMS_DB.saveTexts(data);
       await saveFeedback(btn);
     }
 
     async function saveContactInfo(btn) {
+      let mapUrl = document.getElementById('admin-nosotros-map-url').value.trim();
+      
+      // Limpieza inteligente de Iframe
+      if (mapUrl.includes('<iframe')) {
+        const match = mapUrl.match(/src="?([^"\s>]+)"?/);
+        if (match && match[1]) {
+          mapUrl = match[1];
+          document.getElementById('admin-nosotros-map-url').value = mapUrl;
+        }
+      }
+
       const data = {
         'nosotros-sede-nombre': document.getElementById('admin-nosotros-sede-nombre').value,
         'nosotros-sede-dir': document.getElementById('admin-nosotros-sede-dir').value,
         'nosotros-sede-tel': document.getElementById('admin-nosotros-sede-tel').value,
-        'nosotros-map-url': document.getElementById('admin-nosotros-map-url').value
+        'nosotros-map-url': mapUrl
       };
       
-      for (const [key, val] of Object.entries(data)) {
-        await window.CMS_DB.saveCMSText(key, val);
-      }
+      await window.CMS_DB.saveTexts(data);
       
       await saveFeedback(btn);
+      
+      // Forzar recarga de datos para ver el mapa actualizado
+      if (typeof initCMSData === 'function') await initCMSData();
+    }
+
+    async function saveServiciosCTA(btn) {
+      const container = btn.closest('.bg-white');
+      const inputs = container.querySelectorAll('input, textarea');
+      const data = {
+        'servicios-cta-title': inputs[0].value,
+        'servicios-cta-btn': inputs[1].value,
+        'servicios-cta-desc': inputs[2].value
+      };
+      await window.CMS_DB.saveTexts(data);
+      await saveFeedback(btn);
+    }
+
+    async function addBrand(btn) {
+      const input = document.getElementById('new-brand-input');
+      const name = input.value.trim();
+      if(!name) return;
+      
+      await window.CMS_DB.saveBrand({ name });
+      input.value = '';
+      
+      const data = await window.CMS_DB.getAllData();
+      window.BRANDS = data.brands;
+      renderBrandsAdmin();
+      populateBrandDropdowns();
+    }
+
+    async function deleteBrandAdmin(id) {
+      if(!confirm("¿Seguro que deseas eliminar esta marca?")) return;
+      await window.CMS_DB.deleteBrand(id);
+      const data = await window.CMS_DB.getAllData();
+      window.BRANDS = data.brands;
+      renderBrandsAdmin();
+      populateBrandDropdowns();
+    }
+
+    function renderBrandsAdmin() {
+      const list = document.getElementById('brands-admin-list');
+      if(!list || !window.BRANDS) return;
+      
+      list.innerHTML = window.BRANDS.map(b => `
+        <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl flex justify-between items-center group hover:border-brand/30 transition-all">
+          <span class="font-bold text-slate-700">${b.name}</span>
+          <button onclick="deleteBrandAdmin(${b.id})" class="text-slate-300 hover:text-red-500 transition-colors">
+            <span class="material-symbols-outlined text-[20px]">delete</span>
+          </button>
+        </div>
+      `).join("");
+    }
+
+    function populateBrandDropdowns() {
+      const select = document.getElementById('modal-brand');
+      if(!select || !window.BRANDS) return;
+      
+      const currentVal = select.value;
+      select.innerHTML = '<option value="">Sin Marca</option>' + 
+        window.BRANDS.map(b => `<option value="${b.name}">${b.name}</option>`).join("");
+      select.value = currentVal;
     }
   </script>
 </body>

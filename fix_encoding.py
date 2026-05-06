@@ -1,7 +1,17 @@
 from pg8000.native import Connection
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def fix_encoding():
-    c = Connection(user='postgres', password='admin123', host='localhost', port=5432, database='Capital_Maquinas')
+    c = Connection(
+        user=os.getenv("DB_USER", "postgres"),
+        password=os.getenv("DB_PASS", "admin123"),
+        host=os.getenv("DB_HOST", "localhost"),
+        port=int(os.getenv("DB_PORT", 5432)),
+        database=os.getenv("DB_NAME", "Capital_Maquinas")
+    )
     
     # Lista de categorías con nombres correctos (UTF-8)
     cats = [

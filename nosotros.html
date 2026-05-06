@@ -107,14 +107,14 @@
       <div class="flex flex-col h-full">
         <div class="bg-surface-container-lowest p-6 sm:p-8 rounded-t-2xl border border-outline-variant/10 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h3 class="text-xl font-bold text-primary font-headline mb-2">Grupo Capital Máquinas</h3>
+            <h3 id="nosotros-sede-nombre" class="text-xl font-bold text-primary font-headline mb-2">Grupo Capital Máquinas</h3>
             <p class="text-on-surface-variant flex items-center gap-2">
               <span class="material-symbols-outlined text-secondary">location_on</span>
-              Zona Industrial, Edificio Textil 45
+              <span id="nosotros-sede-dir">Zona Industrial, Edificio Textil 45</span>
             </p>
             <p class="text-on-surface-variant flex items-center gap-2 mt-2">
               <span class="material-symbols-outlined text-secondary">call</span>
-              +57 (601) 555-0198
+              <span id="nosotros-sede-tel">+57 (601) 555-0198</span>
             </p>
           </div>
           <button class="px-6 py-3 bg-primary text-white font-bold text-xs uppercase tracking-[0.2em] rounded-lg hover:bg-primary-container transition-all shadow-md active:scale-95 whitespace-nowrap">
@@ -122,8 +122,9 @@
           </button>
         </div>
         <div class="flex-grow w-full min-h-[300px] rounded-b-2xl overflow-hidden border-x border-b border-outline-variant/10 shadow-sm">
-          <!-- Google Maps Iframe genérico centrado en una zona industrial de Bogotá como ejemplo -->
+          <!-- Google Maps Iframe dinámico -->
           <iframe 
+            id="nosotros-map-url"
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15907.393433604928!2d-74.110255!3d4.620958!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f9bd2a1762c2f%3A0x6b87c06eb6f5e27a!2sZona%20Industrial%2C%20Bogot%C3%A1!5e0!3m2!1ses!2sco!4v1700000000000!5m2!1ses!2sco" 
             width="100%" 
             height="100%" 

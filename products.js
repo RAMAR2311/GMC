@@ -155,7 +155,7 @@ function renderProductCard(p, idx) {
   
   return `
   <article class="bg-surface-container-lowest overflow-hidden group transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10 opacity-0 animate-fade-in-up ${stagger}">
-    <a href="producto.html" class="block">
+    <a href="producto.html?id=${p.id}" class="block">
       <div class="aspect-[4/3] bg-surface relative overflow-hidden">
         <img alt="${p.name}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-700" src="${p.img}"/>
         <div class="absolute top-4 left-4">
@@ -170,7 +170,7 @@ function renderProductCard(p, idx) {
         <span class="text-lg font-manrope font-black text-on-surface">${displayPrice}</span>
       </div>
       <div class="flex gap-2">
-        <a href="producto.html" class="flex-1 block text-center bg-primary text-white py-3 font-bold text-[10px] uppercase tracking-wider rounded-md hover:bg-primary-container transition-all duration-300 active:scale-95 flex items-center justify-center">Ver Detalles</a>
+        <a href="producto.html?id=${p.id}" class="flex-1 block text-center bg-primary text-white py-3 font-bold text-[10px] uppercase tracking-wider rounded-md hover:bg-primary-container transition-all duration-300 active:scale-95 flex items-center justify-center">Ver Detalles</a>
         <button onclick="addToCart(event, ${productData})" class="px-4 bg-surface-container-high text-primary rounded-md hover:bg-secondary-container hover:text-on-secondary-container transition-all duration-300 active:scale-95 flex items-center justify-center" aria-label="Añadir al carrito" title="Añadir al carrito">
           <span class="material-symbols-outlined text-lg">add_shopping_cart</span>
         </button>
