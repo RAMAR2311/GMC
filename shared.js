@@ -473,7 +473,7 @@ async function initCMSData() {
         
         elements.forEach(el => {
           const id = el.id;
-          if (id.includes('img') || id.includes('preview')) {
+          if (el.tagName === 'IMG' || id.includes('img') || id.includes('preview')) {
             if (el.tagName === 'IMG') el.src = val;
             else el.style.backgroundImage = `url(${val})`;
           } else if (el.tagName === 'IFRAME') {
