@@ -26,6 +26,10 @@ tailwind.config = {
         "on-primary-container": "#1A365D",
         "secondary-container": "#E2E8F0",
         "on-secondary-container": "#2D3748",
+        "brand": "#1A365D",
+        "accent": "#4A5568",
+        "bgLight": "#FFFFFF",
+        "coal": "#2D3748",
         "error": "#ba1a1a",
         "on-primary": "#ffffff",
         "outline-variant": "#c5c6d2",
@@ -41,7 +45,8 @@ tailwind.config = {
       fontFamily: {
         headline: ["Manrope"],
         body: ["Inter"],
-        label: ["Inter"]
+        label: ["Inter"],
+        sans: ["Inter", "sans-serif"]
       },
       animation: {
         "fade-in-up": "fadeInUp 0.8s ease-out forwards",
