@@ -1,32 +1,27 @@
 /**
  * Datos del catálogo de productos - Grupo Capital Máquinas
  */
-const DEFAULT_GALLERY = [
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuCORZTAIM9OYRrnU2bzKTim2WdJED8PvEKQAE3VFawoLP0XkzBxljhjvrwhfbtol6yAxeMWiqhPqfCucReRafKrkp5cMWd_nh1A4MWDwZYKUNM2TMLdCBDPy0v1a3d9Njh3MqagyJbnZLnJrfTVKD0TdFuAZcQhGmzJuYuCzaoARiwwPjfziB30iabLJZi18t79Tddk9rCoXVokH_5FQuosTkHOSvaU2-4CLnUm8s8eG0XEDn3gHHPYwzc4S5nf_A4tqAAfdqNPmvQ3",
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuA5LcODhnowvC75q8IPp8mGjTgexZyHJmnVydx4w4iSasTUF5gVNutNAylk5qqyW_1UTU3YlorpJgp3M9vbsI99DpVJddGlgVDu2IwEkl0YMV6AUqdDqNHyPG3JsyvWZ89VYp5-4L8_pU8evBhv59Lsnpfku5GOHRLFuU6LKZuUO5smYfa2deRcCUweDbGh13gSnCF8nlsch9uX6FX2FG8xBG35xB-HWYbMO3HJCi_TABA_yLOoxgXyBcP2wefor7UnQYjySPwxb4sg",
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuBu9D2MgtKWBEHzTEfr5k8W9H814fidSm1TnVSpbkZw_8C7zJgc1Ocldhx0No5vCMoXyPuyjHjsHzrylfI39iJKvI73ra8B7WhrYl_vThUClfBRVIsgC7LM1D8TCCPkGW6EFfB2cHgck6hl5AKxWjOw_OJx3IGEGhUsHcrqGwT6-UufUIrRhiNQUY2n_sEwZQoS1r92ooiBBEMAnyu0vLLz5yqK9qQwdAbX55B_5PuFC28Hz0FFkqthgCYwTr6_JSkuP00M22qN9_7U",
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuCSgfWot9DB73HE94xgC_HgzGLMwG_r_Rk_7ZL2norfc6BX615xE4MxPfqjYQUEDVvXrot8TXwaJg4gQKukCUGYanWssdEbUxghfAsGsz29BU03eLtWXhKm-7aHzF9KbVWqpQ3TKM1J1L81Kwikfewpg6SxiKetPiLblKRlHBj7Yf22J-DZYJXm85HM5Bd-SA7cX_F0bkllarc8qDV3LyvRN_j_VT2VcDn7gJKoUHCTKDpxa3-AY5P7wjuS6FTWBBqRNQFHVRiIThSq"
-];
+const DEFAULT_GALLERY = ["", "", "", ""];
 
 var PRODUCTS = [
   {
     id: 1, name: "Overlock Industrial de Alta Resistencia", price: "$4,850.00",
     badge: "En Stock", badgeColor: "bg-primary", category: "Máquinas de Coser",
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCStmtfszf8CdQv-xu30DL-Ooa0-0zXCZ6xIJvaaQOe1p2XWYH5S7KNn6XKA-_CmIrcYKYI-FF4PUkNVXCkp0Lk6e_Kj0KUH6RJ8aUvCbcGOFpvR3qIdQzcGgneJEpN7BOE5Ww2Jy6EWw2VVDhSmFYed7ulr3r9HV1L9CjISU97835tBBbBzlzlpETMGHpiyIkEAWPFz6mCG55_k8Rr5uLlkxhvUF4tC3DoX6RvLDv5oDPYMwsPc4tTg0GUCizxPt-i_gkK85gNcqBL",
+    img: "",
     gallery: [...DEFAULT_GALLERY],
     maxSpeed: "5,000 ppm", motorType: "Direct Drive"
   },
   {
     id: 2, name: "Cosedora de Patrones CNC Automatizada", price: "$12,400.00",
     badge: "Novedad", badgeColor: "bg-secondary", category: "Máquinas de Coser",
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAEOc8GzYuOY8jQoSxlyWsZPRYBBa1mlXWpgyIlHEf3X6OZHArU5rCuzDHGgkXVy7orCZ4ugQGm9KimSTby0hTq6yiFf7P66SHx_cDKH33xS1wzXxpN5VT0VVKZEJOG1KstdDVTURDKzTXHFW0YRNdl6h1VLtPmssiwEzkiLeF0qRqFfCDjWnkwX676sjixPwLB-mLD-fdTPVv8MzCEMdVlO0JSUrgZFZJRoZNHpfmohzmY3dr1LrADA95a9e0b_OoNGbw91SG1xb6m",
+    img: "",
     gallery: [...DEFAULT_GALLERY],
     maxSpeed: "3,200 ppm", motorType: "Servo Motor"
   },
   {
     id: 3, name: "Puntada Recta Electrónica Serie-G", price: "$2,150.00",
     badge: "Oferta", badgeColor: "bg-blue-600", category: "Máquinas de Coser",
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDj7gWq6h88GhBi4JCGLJwa8KI7wbqCu0Jopw8Vh3GIgKuC1o-QEpyuJsrp5cy_33JerAjos6d8pnIAotkUbCif2OUbIJTiC68LXp4tSya1ZqQHVTaDX0MtKFPre006Xv_y5jQoPJIjBQrOqM6xTP2HwccaM3-6UJNNkXhI1EVFl4ORMTS6OYxiHHomncsgn5a_8JHtNdt_pwR0mLXJ563-InsfKUEsgjGh7kfNV6MrqCXjK61svuIj5Io9QolygCJ_ui35zB1eaOus",
+    img: "",
     gallery: [...DEFAULT_GALLERY],
     maxSpeed: "4,500 ppm", motorType: "Direct Drive"
   },
@@ -34,35 +29,35 @@ var PRODUCTS = [
     id: 4, name: "Bordadora Multi-cabezal 12 Agujas", price: "$18,900.00",
     badge: "Premium", badgeColor: "bg-tertiary-fixed-dim", category: "Bordadoras Industriales",
     badgeText: "text-on-tertiary-fixed",
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCStmtfszf8CdQv-xu30DL-Ooa0-0zXCZ6xIJvaaQOe1p2XWYH5S7KNn6XKA-_CmIrcYKYI-FF4PUkNVXCkp0Lk6e_Kj0KUH6RJ8aUvCbcGOFpvR3qIdQzcGgneJEpN7BOE5Ww2Jy6EWw2VVDhSmFYed7ulr3r9HV1L9CjISU97835tBBbBzlzlpETMGHpiyIkEAWPFz6mCG55_k8Rr5uLlkxhvUF4tC3DoX6RvLDv5oDPYMwsPc4tTg0GUCizxPt-i_gkK85gNcqBL",
+    img: "",
     gallery: [...DEFAULT_GALLERY],
     maxSpeed: "1,200 ppm", motorType: "Servo de Alta Precisión"
   },
   {
     id: 5, name: "Ojaladora Electrónica de Alta Velocidad", price: "$5,600.00",
     badge: "En Stock", badgeColor: "bg-primary", category: "Máquinas de Coser",
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAEOc8GzYuOY8jQoSxlyWsZPRYBBa1mlXWpgyIlHEf3X6OZHArU5rCuzDHGgkXVy7orCZ4ugQGm9KimSTby0hTq6yiFf7P66SHx_cDKH33xS1wzXxpN5VT0VVKZEJOG1KstdDVTURDKzTXHFW0YRNdl6h1VLtPmssiwEzkiLeF0qRqFfCDjWnkwX676sjixPwLB-mLD-fdTPVv8MzCEMdVlO0JSUrgZFZJRoZNHpfmohzmY3dr1LrADA95a9e0b_OoNGbw91SG1xb6m",
+    img: "",
     gallery: [...DEFAULT_GALLERY],
     maxSpeed: "4,200 ppm", motorType: "Direct Drive AC"
   },
   {
     id: 6, name: "Máquina de Poste para Calzado Pro-X", price: "$3,900.00",
     badge: "Especializado", badgeColor: "bg-secondary", category: "Máquinas de Coser",
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDj7gWq6h88GhBi4JCGLJwa8KI7wbqCu0Jopw8Vh3GIgKuC1o-QEpyuJsrp5cy_33JerAjos6d8pnIAotkUbCif2OUbIJTiC68LXp4tSya1ZqQHVTaDX0MtKFPre006Xv_y5jQoPJIjBQrOqM6xTP2HwccaM3-6UJNNkXhI1EVFl4ORMTS6OYxiHHomncsgn5a_8JHtNdt_pwR0mLXJ563-InsfKUEsgjGh7kfNV6MrqCXjK61svuIj5Io9QolygCJ_ui35zB1eaOus",
+    img: "",
     gallery: [...DEFAULT_GALLERY],
     maxSpeed: "2,500 ppm", motorType: "Clutch Motor"
   },
   {
     id: 7, name: "Zig-Zag Industrial de Cama Plana", price: "$2,850.00",
     badge: "En Stock", badgeColor: "bg-primary", category: "Máquinas de Coser",
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCStmtfszf8CdQv-xu30DL-Ooa0-0zXCZ6xIJvaaQOe1p2XWYH5S7KNn6XKA-_CmIrcYKYI-FF4PUkNVXCkp0Lk6e_Kj0KUH6RJ8aUvCbcGOFpvR3qIdQzcGgneJEpN7BOE5Ww2Jy6EWw2VVDhSmFYed7ulr3r9HV1L9CjISU97835tBBbBzlzlpETMGHpiyIkEAWPFz6mCG55_k8Rr5uLlkxhvUF4tC3DoX6RvLDv5oDPYMwsPc4tTg0GUCizxPt-i_gkK85gNcqBL",
+    img: "",
     gallery: [...DEFAULT_GALLERY],
     maxSpeed: "3,500 ppm", motorType: "Servo Integrado"
   },
   {
     id: 8, name: "Cortadora Vertical de 10\" Precision-Cut", price: "$1,450.00",
     badge: "Últimas Unidades", badgeColor: "bg-error", category: "Cortadoras de Tela",
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAEOc8GzYuOY8jQoSxlyWsZPRYBBa1mlXWpgyIlHEf3X6OZHArU5rCuzDHGgkXVy7orCZ4ugQGm9KimSTby0hTq6yiFf7P66SHx_cDKH33xS1wzXxpN5VT0VVKZEJOG1KstdDVTURDKzTXHFW0YRNdl6h1VLtPmssiwEzkiLeF0qRqFfCDjWnkwX676sjixPwLB-mLD-fdTPVv8MzCEMdVlO0JSUrgZFZJRoZNHpfmohzmY3dr1LrADA95a9e0b_OoNGbw91SG1xb6m",
+    img: "",
     gallery: [...DEFAULT_GALLERY],
     maxSpeed: "3,400 RPM", motorType: "Inducción Monofásico"
   }
@@ -102,19 +97,19 @@ var TEAM_MEMBERS = [
     name: "Carlos Rodríguez",
     role: "Director de Ingeniería",
     desc: "Más de 15 años optimizando sistemas mecatrónicos para líneas de producción textil de alto rendimiento.",
-    img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    img: ""
   },
   {
     name: "Andrea Gómez",
     role: "Gerente de Cuentas Corporativas",
     desc: "Especialista en estructuración de proyectos de actualización tecnológica para plantas de manufactura.",
-    img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    img: ""
   },
   {
     name: "Miguel Torres",
     role: "Líder de Soporte Técnico",
     desc: "Certificado por las principales marcas mundiales para diagnóstico avanzado y reparación de equipos CNC textiles.",
-    img: "https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    img: ""
   }
 ];
 

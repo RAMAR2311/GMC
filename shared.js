@@ -276,7 +276,7 @@ window.addToCart = function(e, productData) {
   const pData = productData || {
     name: "Máquina de Coser Industrial Automática",
     price: 4850.00,
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBED4xZjhLsZPiYGkj7WAYVry8391BgDrBNpV8k7EdtxVIUPvHigzdYOc8MX4X-h1uUI_dUzUPbhTXsVJpgHtfQZEE-zTd2FSqtCT02xm9VMXvECp_LVUhNGtsrFzalrmYm0fTYq6FX6YoCx7Cp94HDZcAMjdL51cSXHLZlMbqTJykMbFkBgHDgBfJOLtUEtMg4Dgy7Ux4hbeFAc3u-TM6wccUWkNbafrF8jjGornsKrPBjIdDgkutyrarHKF8k8TrCYl4Askt0AyrH"
+    img: ""
   };
 
   const existingItem = cartItems.find(item => item.name === pData.name);
@@ -447,6 +447,9 @@ async function initCMSData() {
     }
     if (data.services && data.services.length > 0) {
       window.SERVICES_DATA = data.services;
+    }
+    if (data.brands && data.brands.length > 0) {
+      window.BRANDS = data.brands;
     }
     // Categorías - Forzar limpieza de basura anterior solo si detectamos conflicto
     if (data.categories && data.categories.length > 0) {
