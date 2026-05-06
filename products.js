@@ -187,7 +187,7 @@ function renderCarouselSlides() {
   container.innerHTML = CAROUSEL_SLIDES.map((s, i) =>
     `<div class="carousel-slide ${i === 0 ? 'active' : ''} absolute inset-0 w-full h-full opacity-0 transition-opacity duration-1000">
       <div class="absolute inset-0 bg-blue-950/50 z-10"></div>
-      <img alt="${s.alt}" class="absolute inset-0 w-full h-full object-cover ${i === 0 ? 'animate-scale-in' : ''}" src="${s.img}"/>
+      <img alt="${s.alt}" class="absolute inset-0 w-full h-full object-cover object-top ${i === 0 ? 'animate-scale-in' : ''}" src="${s.img}"/>
       <!-- Overlay Content para este Slide -->
       <div class="absolute inset-0 z-30 h-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 flex flex-col justify-center items-start pointer-events-none">
         <div class="max-w-3xl animate-fade-in-up pointer-events-auto transition-transform">
