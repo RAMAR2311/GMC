@@ -70,7 +70,19 @@
           <h2 class="text-sm font-extrabold font-manrope text-primary uppercase tracking-[0.3em] whitespace-nowrap">Marcas Destacadas</h2>
           <div class="h-[1px] w-full bg-outline/20"></div>
         </div>
-        <div id="brands-list" class="flex flex-wrap items-center justify-center sm:justify-between gap-6 sm:gap-8 md:gap-12"></div>
+        <div class="relative group">
+          <!-- Botón Izquierdo -->
+          <button onclick="scrollBrands(-1)" class="absolute -left-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 shadow-xl border border-slate-100 rounded-full p-2 text-primary opacity-0 group-hover:opacity-100 transition-all hover:bg-primary hover:text-white hidden sm:flex items-center justify-center">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          
+          <div id="brands-list" class="flex items-center gap-8 sm:gap-12 md:gap-16 overflow-x-auto scroll-smooth no-scrollbar py-2"></div>
+
+          <!-- Botón Derecho -->
+          <button onclick="scrollBrands(1)" class="absolute -right-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 shadow-xl border border-slate-100 rounded-full p-2 text-primary opacity-0 group-hover:opacity-100 transition-all hover:bg-primary hover:text-white hidden sm:flex items-center justify-center">
+            <span class="material-symbols-outlined">chevron_right</span>
+          </button>
+        </div>
       </div>
     </section>
 

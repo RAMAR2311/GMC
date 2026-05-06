@@ -205,12 +205,23 @@ function renderBrands() {
   const el = document.getElementById("brands-list");
   if (!el) return;
   el.innerHTML = BRANDS.map(b =>
-    `<a onclick="filterCategory(event, '${b}')" class="group transition-all duration-300 hover:scale-105 filter grayscale hover:grayscale-0 opacity-60 hover:opacity-100 cursor-pointer" href="#product-grid">
+    `<a onclick="filterCategory(event, '${b}')" class="group shrink-0 transition-all duration-300 hover:scale-105 filter grayscale hover:grayscale-0 opacity-60 hover:opacity-100 cursor-pointer" href="#product-grid">
       <div class="h-12 w-28 sm:w-32 flex items-center justify-center bg-slate-50 rounded-lg">
-        <span class="text-xl font-black font-manrope text-slate-400 group-hover:text-blue-600 transition-colors">${b}</span>
+        <span class="text-xl font-black font-manrope text-slate-400 group-hover:text-blue-600 transition-colors uppercase tracking-tight">${b}</span>
       </div>
     </a>`
   ).join("");
+}
+
+window.scrollBrands = function(direction) {
+  const container = document.getElementById('brands-list');
+  if (container) {
+    const scrollAmount = 300;
+    container.scrollBy({
+      left: direction * scrollAmount,
+      behavior: 'smooth'
+    });
+  }
 }
 
 /* ── Render: Sidebar Categories ── */
