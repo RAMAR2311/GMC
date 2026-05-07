@@ -42,6 +42,13 @@
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    /* Forzar visibilidad de selectores de tipografía */
+    #theme-font-headline, #theme-font-body, 
+    #theme-font-headline option, #theme-font-body option {
+      color: #000000 !important;
+      background-color: #ffffff !important;
+      font-family: sans-serif !important; /* El nombre de la opción siempre en sans-serif para legibilidad */
+    }
   </style>
   
   <!-- Datos Originales -->
@@ -903,7 +910,7 @@
             <div class="p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
               <div class="space-y-3">
                 <label class="block text-sm font-bold text-slate-700">Fuente de Títulos (Headlines)</label>
-                <select id="theme-font-headline" class="w-full px-4 py-3 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 focus:ring-2 focus:ring-brand outline-none shadow-sm appearance-none cursor-pointer">
+                <select id="theme-font-headline" class="w-full px-4 py-3 bg-white border border-slate-300 rounded-lg text-sm text-black focus:ring-2 focus:ring-brand outline-none shadow-sm cursor-pointer" style="color: black !important; background: white !important;">
                   <option value="Manrope">Manrope (Por defecto)</option>
                   <option value="Montserrat">Montserrat</option>
                   <option value="Poppins">Poppins</option>
@@ -919,7 +926,7 @@
               </div>
               <div class="space-y-3">
                 <label class="block text-sm font-bold text-slate-700">Fuente del Cuerpo (Body)</label>
-                <select id="theme-font-body" class="w-full px-4 py-3 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 focus:ring-2 focus:ring-brand outline-none shadow-sm appearance-none cursor-pointer">
+                <select id="theme-font-body" class="w-full px-4 py-3 bg-white border border-slate-300 rounded-lg text-sm text-black focus:ring-2 focus:ring-brand outline-none shadow-sm cursor-pointer" style="color: black !important; background: white !important;">
                   <option value="Inter">Inter (Por defecto)</option>
                   <option value="Roboto">Roboto</option>
                   <option value="Open Sans">Open Sans</option>
