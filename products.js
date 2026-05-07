@@ -184,10 +184,17 @@ function renderProductGrid() {
 function renderCarouselSlides() {
   const container = document.getElementById("carousel-slides");
   if (!container) return;
-  container.innerHTML = CAROUSEL_SLIDES.map((s, i) =>
-    `<div class="carousel-slide ${i === 0 ? 'active' : ''} absolute inset-0 w-full h-full opacity-0 transition-opacity duration-1000">
+  container.innerHTML = CAROUSEL_SLIDES.map((s, i) => {
+    const isVideo = s.img && (s.img.endsWith('.mp4') || s.img.endsWith('.webm') || s.img.endsWith('.ogg'));
+    const mediaHTML = isVideo 
+      ? `<video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover object-top ${i === 0 ? 'animate-scale-in' : ''}">
+          <source src="${s.img}" type="video/${s.img.split('.').pop()}">
+         </video>`
+      : `<img alt="${s.alt}" class="absolute inset-0 w-full h-full object-cover object-top ${i === 0 ? 'animate-scale-in' : ''}" src="${s.img}"/>`;
+
+    return `<div class="carousel-slide ${i === 0 ? 'active' : ''} absolute inset-0 w-full h-full opacity-0 transition-opacity duration-1000">
       <div class="absolute inset-0 bg-blue-950/50 z-10"></div>
-      <img alt="${s.alt}" class="absolute inset-0 w-full h-full object-cover object-top ${i === 0 ? 'animate-scale-in' : ''}" src="${s.img}"/>
+      ${mediaHTML}
       <!-- Overlay Content para este Slide -->
       <div class="absolute inset-0 z-30 h-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 flex flex-col justify-center items-start pointer-events-none">
         <div class="max-w-3xl animate-fade-in-up pointer-events-auto transition-transform">
@@ -196,8 +203,8 @@ function renderCarouselSlides() {
           <p class="text-base sm:text-lg lg:text-xl text-slate-200 font-body leading-relaxed mb-6 sm:mb-10 max-w-2xl">${s.description || s.desc || ''}</p>
         </div>
       </div>
-    </div>`
-  ).join("");
+    </div>`;
+  }).join("");
 }
 
 /* ── Render: Brands ── */
