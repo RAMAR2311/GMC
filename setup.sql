@@ -56,6 +56,12 @@ CREATE TABLE IF NOT EXISTS categories (
     active BOOLEAN DEFAULT TRUE
 );
 
+-- 7. Tabla de Marcas
+CREATE TABLE IF NOT EXISTS brands (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) UNIQUE NOT NULL
+);
+
 -- Insertar algunos datos iniciales de prueba (opcional)
 INSERT INTO cms_texts (key, value) VALUES 
 ('nosotros-hero-title', 'Sobre Nosotros'),
