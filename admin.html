@@ -88,6 +88,9 @@
       <button onclick="openTab('soporte')" id="btn-soporte" class="nav-btn w-full flex items-center px-4 py-3 rounded-lg text-white/70 hover:bg-white/10 hover:text-white font-medium transition-all">
         <span class="material-symbols-outlined mr-3 text-lg">support_agent</span> Soporte
       </button>
+      <button onclick="openTab('apariencia')" id="btn-apariencia" class="nav-btn w-full flex items-center px-4 py-3 rounded-lg text-white/70 hover:bg-white/10 hover:text-white font-medium transition-all">
+        <span class="material-symbols-outlined mr-3 text-lg">palette</span> Apariencia
+      </button>
     </nav>
     
     <!-- Perfil y Logout -->
@@ -735,6 +738,57 @@
           </div>
         </section>
 
+        <!-- ============================== -->
+        <!-- MÓDULO: APARIENCIA -->
+        <!-- ============================== -->
+        <section id="sec-apariencia" class="tab-section fade-in hidden">
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-8">
+            <div class="p-6 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
+              <h3 class="font-bold text-slate-800 flex items-center"><span class="material-symbols-outlined mr-2 text-brand">palette</span> Personalización de Colores</h3>
+              <button onclick="saveThemeColors(this)" class="bg-brand text-white px-6 py-2 rounded-lg text-sm font-bold hover:bg-blue-900 shadow-lg transition-all flex items-center">
+                <span class="material-symbols-outlined mr-2">save</span> Guardar Colores
+              </button>
+            </div>
+            <div class="p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div class="space-y-4">
+                <label class="block text-sm font-bold text-slate-700">Color Primario (Botones, Títulos)</label>
+                <div class="flex items-center gap-4">
+                  <input type="color" id="theme-color-primary" oninput="document.getElementById('theme-color-primary-text').value = this.value" class="h-12 w-20 rounded-lg border-slate-200 cursor-pointer">
+                  <input type="text" id="theme-color-primary-text" oninput="document.getElementById('theme-color-primary').value = this.value" class="flex-1 px-4 py-2 rounded-lg border-slate-200 text-sm uppercase" placeholder="#1A365D">
+                </div>
+                <p class="text-[10px] text-slate-400">Color principal de la marca y elementos interactivos.</p>
+              </div>
+
+              <div class="space-y-4">
+                <label class="block text-sm font-bold text-slate-700">Color Brand (Logo, Sidebar)</label>
+                <div class="flex items-center gap-4">
+                  <input type="color" id="theme-color-brand" oninput="document.getElementById('theme-color-brand-text').value = this.value" class="h-12 w-20 rounded-lg border-slate-200 cursor-pointer">
+                  <input type="text" id="theme-color-brand-text" oninput="document.getElementById('theme-color-brand').value = this.value" class="flex-1 px-4 py-2 rounded-lg border-slate-200 text-sm uppercase" placeholder="#1A365D">
+                </div>
+                <p class="text-[10px] text-slate-400">Color usado en el panel administrativo y branding secundario.</p>
+              </div>
+
+              <div class="space-y-4">
+                <label class="block text-sm font-bold text-slate-700">Color Secundario</label>
+                <div class="flex items-center gap-4">
+                  <input type="color" id="theme-color-secondary" oninput="document.getElementById('theme-color-secondary-text').value = this.value" class="h-12 w-20 rounded-lg border-slate-200 cursor-pointer">
+                  <input type="text" id="theme-color-secondary-text" oninput="document.getElementById('theme-color-secondary').value = this.value" class="flex-1 px-4 py-2 rounded-lg border-slate-200 text-sm uppercase" placeholder="#4A5568">
+                </div>
+                <p class="text-[10px] text-slate-400">Color para elementos de apoyo y badges.</p>
+              </div>
+
+              <div class="space-y-4">
+                <label class="block text-sm font-bold text-slate-700">Color de Acento</label>
+                <div class="flex items-center gap-4">
+                  <input type="color" id="theme-color-accent" oninput="document.getElementById('theme-color-accent-text').value = this.value" class="h-12 w-20 rounded-lg border-slate-200 cursor-pointer">
+                  <input type="text" id="theme-color-accent-text" oninput="document.getElementById('theme-color-accent').value = this.value" class="flex-1 px-4 py-2 rounded-lg border-slate-200 text-sm uppercase" placeholder="#4A5568">
+                </div>
+                <p class="text-[10px] text-slate-400">Color para detalles menores y hovers.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
 
 
       </div>
@@ -988,7 +1042,7 @@
   </div>
   <script>
     // --- Lógica del Sidebar y Pestañas ---
-    const tabs = ['inventario', 'nosotros', 'servicios', 'soporte'];
+    const tabs = ['inventario', 'nosotros', 'servicios', 'soporte', 'apariencia'];
     
     function openTab(tabName) {
       // 1. Ocultar todos los módulos
@@ -1014,7 +1068,8 @@
         'inventario': 'Marketplace de Productos',
         'nosotros': 'Sección: Nosotros',
         'servicios': 'Sección: Servicios',
-        'soporte': 'Sección: Soporte'
+        'soporte': 'Sección: Soporte',
+        'apariencia': 'Apariencia y Colores'
       };
       document.getElementById('header-title').innerText = titles[tabName];
 
@@ -1749,7 +1804,31 @@
         renderBrandsAdmin();
         populateBrandDropdowns();
       }
+
+      // Inicializar configuración de tema
+      initThemeConfig();
     });
+
+    function initThemeConfig() {
+      if (!window.CMS_TEXTS) return;
+      
+      const colorKeys = [
+        'theme-color-primary',
+        'theme-color-secondary',
+        'theme-color-brand',
+        'theme-color-accent'
+      ];
+
+      colorKeys.forEach(key => {
+        const val = window.CMS_TEXTS[key];
+        if (val) {
+          const picker = document.getElementById(key);
+          const textInput = document.getElementById(key + '-text');
+          if (picker) picker.value = val;
+          if (textInput) textInput.value = val;
+        }
+      });
+    }
     
 
 
@@ -1801,6 +1880,30 @@
       };
       await window.CMS_DB.saveTexts(data);
       await saveFeedback(btn);
+    }
+
+    async function saveThemeColors(btn) {
+      const colors = {
+        'theme-color-primary': document.getElementById('theme-color-primary').value,
+        'theme-color-secondary': document.getElementById('theme-color-secondary').value,
+        'theme-color-brand': document.getElementById('theme-color-brand').value,
+        'theme-color-accent': document.getElementById('theme-color-accent').value
+      };
+      
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<span class="material-symbols-outlined animate-spin mr-2">sync</span> Guardando...';
+      btn.disabled = true;
+
+      try {
+        await window.CMS_DB.saveTexts(colors);
+        alert("¡Colores guardados correctamente! Refresca la página para ver los cambios.");
+        location.reload(); 
+      } catch (e) {
+        alert("Error al guardar colores: " + e);
+      } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      }
     }
 
     async function addBrand(btn) {

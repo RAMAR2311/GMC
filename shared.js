@@ -12,8 +12,8 @@ tailwind.config = {
   theme: {
     extend: {
       colors: {
-        "primary": "#1A365D",
-        "secondary": "#4A5568",
+        "primary": "var(--color-primary, #1A365D)",
+        "secondary": "var(--color-secondary, #4A5568)",
         "background": "#FFFFFF",
         "surface": "#E2E8F0",
         "on-surface": "#2D3748",
@@ -26,12 +26,11 @@ tailwind.config = {
         "on-primary-container": "#1A365D",
         "secondary-container": "#E2E8F0",
         "on-secondary-container": "#2D3748",
-        "brand": "#1A365D",
-        "accent": "#4A5568",
+        "brand": "var(--color-brand, #1A365D)",
+        "accent": "var(--color-accent, #4A5568)",
         "bgLight": "#FFFFFF",
         "coal": "#2D3748",
         "error": "#ba1a1a",
-        "on-primary": "#ffffff",
         "outline-variant": "#c5c6d2",
         "primary-fixed-dim": "#b3c5ff",
         "tertiary-fixed-dim": "#b8c8da"
@@ -478,6 +477,7 @@ async function initCMSData() {
     // Textos CMS
     if (data.texts) {
       window.CMS_TEXTS = data.texts;
+      applyTheme(); // Aplicar colores personalizados si existen
       Object.keys(data.texts).forEach(key => {
         const val = data.texts[key];
         // Buscar elementos por ID exacto o por ID con sufijo -link
@@ -521,6 +521,22 @@ async function initCMSData() {
     mainContent.classList.remove('cms-loading');
     mainContent.classList.add('cms-loaded');
   }
+}
+
+/* ── Aplicar Tema Dinámico ── */
+function applyTheme() {
+  if (!window.CMS_TEXTS) return;
+  const root = document.documentElement;
+  const colors = {
+    'primary': window.CMS_TEXTS['theme-color-primary'] || '#1A365D',
+    'secondary': window.CMS_TEXTS['theme-color-secondary'] || '#4A5568',
+    'brand': window.CMS_TEXTS['theme-color-brand'] || '#1A365D',
+    'accent': window.CMS_TEXTS['theme-color-accent'] || '#4A5568'
+  };
+
+  Object.keys(colors).forEach(key => {
+    root.style.setProperty(`--color-${key}`, colors[key]);
+  });
 }
 
 /* ── Init on DOM Ready ── */
