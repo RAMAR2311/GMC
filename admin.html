@@ -903,7 +903,7 @@
             <div class="p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
               <div class="space-y-3">
                 <label class="block text-sm font-bold text-slate-700">Fuente de Títulos (Headlines)</label>
-                <select id="theme-font-headline" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-800 focus:ring-2 focus:ring-brand outline-none">
+                <select id="theme-font-headline" class="w-full px-4 py-3 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 focus:ring-2 focus:ring-brand outline-none shadow-sm appearance-none cursor-pointer">
                   <option value="Manrope">Manrope (Por defecto)</option>
                   <option value="Montserrat">Montserrat</option>
                   <option value="Poppins">Poppins</option>
@@ -919,7 +919,7 @@
               </div>
               <div class="space-y-3">
                 <label class="block text-sm font-bold text-slate-700">Fuente del Cuerpo (Body)</label>
-                <select id="theme-font-body" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-800 focus:ring-2 focus:ring-brand outline-none">
+                <select id="theme-font-body" class="w-full px-4 py-3 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 focus:ring-2 focus:ring-brand outline-none shadow-sm appearance-none cursor-pointer">
                   <option value="Inter">Inter (Por defecto)</option>
                   <option value="Roboto">Roboto</option>
                   <option value="Open Sans">Open Sans</option>
@@ -1419,24 +1419,41 @@
       await saveFeedback(btn, data);
     }
 
-    // --- Funciones de Servicios ---
+    /* ── Render: Admin Services ── */
     function renderAdminServices() {
       const tbody = document.getElementById('admin-services-tbody');
-      if (!tbody || typeof SERVICES_DATA === 'undefined') return;
+      if (!tbody) return;
+      
+      const data = window.SERVICES_DATA || [];
+      console.log("🛠️ Renderizando Servicios Admin:", data.length, "ítems encontrados.");
+
+      if (data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" class="px-6 py-10 text-center text-slate-400">
+          <span class="material-symbols-outlined text-4xl mb-2">info</span>
+          <p>No hay servicios registrados en la base de datos.</p>
+        </td></tr>`;
+        return;
+      }
 
       tbody.innerHTML = '';
-      SERVICES_DATA.forEach((service, index) => {
+      data.forEach((service, index) => {
         const tr = document.createElement('tr');
-        tr.className = 'hover:bg-slate-50 transition-colors';
+        tr.className = 'hover:bg-slate-50 transition-colors border-b border-slate-100';
         tr.innerHTML = `
           <td class="px-6 py-4 text-center">
-            <span class="material-symbols-outlined text-brand text-2xl">${service.icon}</span>
+            <span class="material-symbols-outlined text-brand text-2xl">${service.icon || 'settings'}</span>
           </td>
           <td class="px-6 py-4 font-semibold text-slate-800">${service.title}</td>
-          <td class="px-6 py-4 hidden md:table-cell text-slate-500 text-xs line-clamp-2 mt-3 border-none">${service.desc}</td>
+          <td class="px-6 py-4 hidden md:table-cell text-slate-500 text-xs max-w-xs truncate">${service.desc}</td>
           <td class="px-6 py-4 text-right">
-            <button onclick="openServiceModal(${index})" class="text-brand hover:text-blue-800 font-semibold text-sm mr-3 transition-colors">Editar</button>
-            <button onclick="deleteService(${service.id})" class="text-slate-400 hover:text-red-500 transition-colors p-1" title="Eliminar"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+            <div class="flex justify-end gap-2">
+              <button onclick="openServiceModal(${index})" class="p-2 text-brand hover:bg-brand/10 rounded-lg transition-colors" title="Editar">
+                <span class="material-symbols-outlined text-lg">edit</span>
+              </button>
+              <button onclick="deleteService(${service.id})" class="p-2 text-red-400 hover:bg-red-50 rounded-lg transition-colors" title="Eliminar">
+                <span class="material-symbols-outlined text-lg">delete</span>
+              </button>
+            </div>
           </td>
         `;
         tbody.appendChild(tr);
@@ -2040,12 +2057,14 @@
         if (sel) sel.value = headlineFont;
         const prev = document.getElementById('theme-font-headline-preview');
         if (prev) prev.style.fontFamily = headlineFont;
+        loadGoogleFont(headlineFont); // Cargar fuente inmediatamente
       }
       if (bodyFont) {
         const sel = document.getElementById('theme-font-body');
         if (sel) sel.value = bodyFont;
         const prev = document.getElementById('theme-font-body-preview');
         if (prev) prev.style.fontFamily = bodyFont;
+        loadGoogleFont(bodyFont); // Cargar fuente inmediatamente
       }
 
       // Listeners de preview de fuentes
