@@ -751,51 +751,198 @@
         <!-- MÓDULO: APARIENCIA -->
         <!-- ============================== -->
         <section id="sec-apariencia" class="tab-section fade-in hidden">
+
+          <!-- SUBSECCIÓN 1: COLORES DE MARCA -->
           <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-8">
-            <div class="p-6 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
-              <h3 class="font-bold text-slate-800 flex items-center"><span class="material-symbols-outlined mr-2 text-brand">palette</span> Personalización de Colores</h3>
-              <button onclick="saveThemeColors(this)" class="bg-brand text-white px-6 py-2 rounded-lg text-sm font-bold hover:bg-blue-900 shadow-lg transition-all flex items-center">
-                <span class="material-symbols-outlined mr-2">save</span> Guardar Colores
-              </button>
+            <div class="p-6 border-b border-slate-100 bg-slate-50">
+              <h3 class="font-bold text-slate-800 flex items-center"><span class="material-symbols-outlined mr-2 text-brand">palette</span> Colores de Marca</h3>
+              <p class="text-xs text-slate-400 mt-1">Colores principales que definen la identidad visual de tu página.</p>
             </div>
             <div class="p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div class="space-y-4">
-                <label class="block text-sm font-bold text-slate-700">Color Primario (Botones, Títulos)</label>
+              <div class="space-y-3">
+                <label class="block text-sm font-bold text-slate-700">Color Primario</label>
                 <div class="flex items-center gap-4">
-                  <input type="color" id="theme-color-primary" oninput="document.getElementById('theme-color-primary-text').value = this.value" class="h-12 w-20 rounded-lg border-slate-200 cursor-pointer">
-                  <input type="text" id="theme-color-primary-text" oninput="document.getElementById('theme-color-primary').value = this.value" class="flex-1 px-4 py-2 rounded-lg border-slate-200 text-sm uppercase" placeholder="#1A365D">
+                  <input type="color" id="theme-color-primary" oninput="syncColor(this,'theme-color-primary-text')" class="h-12 w-20 rounded-lg border-slate-200 cursor-pointer" value="#1A365D">
+                  <input type="text" id="theme-color-primary-text" oninput="syncColor(this,'theme-color-primary')" class="flex-1 px-4 py-2 rounded-lg border border-slate-200 text-sm uppercase" placeholder="#1A365D">
                 </div>
-                <p class="text-[10px] text-slate-400">Color principal de la marca y elementos interactivos.</p>
+                <p class="text-[10px] text-slate-400">Botones principales, títulos, links activos.</p>
               </div>
-
-              <div class="space-y-4">
-                <label class="block text-sm font-bold text-slate-700">Color Brand (Logo, Sidebar)</label>
+              <div class="space-y-3">
+                <label class="block text-sm font-bold text-slate-700">Color Brand</label>
                 <div class="flex items-center gap-4">
-                  <input type="color" id="theme-color-brand" oninput="document.getElementById('theme-color-brand-text').value = this.value" class="h-12 w-20 rounded-lg border-slate-200 cursor-pointer">
-                  <input type="text" id="theme-color-brand-text" oninput="document.getElementById('theme-color-brand').value = this.value" class="flex-1 px-4 py-2 rounded-lg border-slate-200 text-sm uppercase" placeholder="#1A365D">
+                  <input type="color" id="theme-color-brand" oninput="syncColor(this,'theme-color-brand-text')" class="h-12 w-20 rounded-lg border-slate-200 cursor-pointer" value="#1A365D">
+                  <input type="text" id="theme-color-brand-text" oninput="syncColor(this,'theme-color-brand')" class="flex-1 px-4 py-2 rounded-lg border border-slate-200 text-sm uppercase" placeholder="#1A365D">
                 </div>
-                <p class="text-[10px] text-slate-400">Color usado en el panel administrativo y branding secundario.</p>
+                <p class="text-[10px] text-slate-400">Sidebar del admin, navbar y logo.</p>
               </div>
-
-              <div class="space-y-4">
+              <div class="space-y-3">
                 <label class="block text-sm font-bold text-slate-700">Color Secundario</label>
                 <div class="flex items-center gap-4">
-                  <input type="color" id="theme-color-secondary" oninput="document.getElementById('theme-color-secondary-text').value = this.value" class="h-12 w-20 rounded-lg border-slate-200 cursor-pointer">
-                  <input type="text" id="theme-color-secondary-text" oninput="document.getElementById('theme-color-secondary').value = this.value" class="flex-1 px-4 py-2 rounded-lg border-slate-200 text-sm uppercase" placeholder="#4A5568">
+                  <input type="color" id="theme-color-secondary" oninput="syncColor(this,'theme-color-secondary-text')" class="h-12 w-20 rounded-lg border-slate-200 cursor-pointer" value="#4A5568">
+                  <input type="text" id="theme-color-secondary-text" oninput="syncColor(this,'theme-color-secondary')" class="flex-1 px-4 py-2 rounded-lg border border-slate-200 text-sm uppercase" placeholder="#4A5568">
                 </div>
-                <p class="text-[10px] text-slate-400">Color para elementos de apoyo y badges.</p>
+                <p class="text-[10px] text-slate-400">Badges, etiquetas y elementos de soporte.</p>
               </div>
-
-              <div class="space-y-4">
+              <div class="space-y-3">
                 <label class="block text-sm font-bold text-slate-700">Color de Acento</label>
                 <div class="flex items-center gap-4">
-                  <input type="color" id="theme-color-accent" oninput="document.getElementById('theme-color-accent-text').value = this.value" class="h-12 w-20 rounded-lg border-slate-200 cursor-pointer">
-                  <input type="text" id="theme-color-accent-text" oninput="document.getElementById('theme-color-accent').value = this.value" class="flex-1 px-4 py-2 rounded-lg border-slate-200 text-sm uppercase" placeholder="#4A5568">
+                  <input type="color" id="theme-color-accent" oninput="syncColor(this,'theme-color-accent-text')" class="h-12 w-20 rounded-lg border-slate-200 cursor-pointer" value="#4A5568">
+                  <input type="text" id="theme-color-accent-text" oninput="syncColor(this,'theme-color-accent')" class="flex-1 px-4 py-2 rounded-lg border border-slate-200 text-sm uppercase" placeholder="#4A5568">
                 </div>
-                <p class="text-[10px] text-slate-400">Color para detalles menores y hovers.</p>
+                <p class="text-[10px] text-slate-400">Hovers, bordes activos y detalles.</p>
               </div>
             </div>
           </div>
+
+          <!-- SUBSECCIÓN 2: FONDOS Y SUPERFICIES -->
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-8">
+            <div class="p-6 border-b border-slate-100 bg-slate-50">
+              <h3 class="font-bold text-slate-800 flex items-center"><span class="material-symbols-outlined mr-2 text-brand">format_paint</span> Fondos y Superficies</h3>
+              <p class="text-xs text-slate-400 mt-1">Controla los colores de fondo de las distintas áreas de la página.</p>
+            </div>
+            <div class="p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div class="space-y-3">
+                <label class="block text-sm font-bold text-slate-700">Fondo Principal (Body)</label>
+                <div class="flex items-center gap-4">
+                  <input type="color" id="theme-color-background" oninput="syncColor(this,'theme-color-background-text')" class="h-12 w-20 rounded-lg border-slate-200 cursor-pointer" value="#FFFFFF">
+                  <input type="text" id="theme-color-background-text" oninput="syncColor(this,'theme-color-background')" class="flex-1 px-4 py-2 rounded-lg border border-slate-200 text-sm uppercase" placeholder="#FFFFFF">
+                </div>
+                <p class="text-[10px] text-slate-400">Color de fondo general de toda la página.</p>
+              </div>
+              <div class="space-y-3">
+                <label class="block text-sm font-bold text-slate-700">Superficie (Sidebar, Secciones)</label>
+                <div class="flex items-center gap-4">
+                  <input type="color" id="theme-color-surface" oninput="syncColor(this,'theme-color-surface-text')" class="h-12 w-20 rounded-lg border-slate-200 cursor-pointer" value="#E2E8F0">
+                  <input type="text" id="theme-color-surface-text" oninput="syncColor(this,'theme-color-surface')" class="flex-1 px-4 py-2 rounded-lg border border-slate-200 text-sm uppercase" placeholder="#E2E8F0">
+                </div>
+                <p class="text-[10px] text-slate-400">Color de fondos secundarios (sidebar, paneles).</p>
+              </div>
+              <div class="space-y-3">
+                <label class="block text-sm font-bold text-slate-700">Contenedor de Superficie</label>
+                <div class="flex items-center gap-4">
+                  <input type="color" id="theme-color-surface-container" oninput="syncColor(this,'theme-color-surface-container-text')" class="h-12 w-20 rounded-lg border-slate-200 cursor-pointer" value="#F8FAFC">
+                  <input type="text" id="theme-color-surface-container-text" oninput="syncColor(this,'theme-color-surface-container')" class="flex-1 px-4 py-2 rounded-lg border border-slate-200 text-sm uppercase" placeholder="#F8FAFC">
+                </div>
+                <p class="text-[10px] text-slate-400">Fondo del contenido principal (catálogo).</p>
+              </div>
+              <div class="space-y-3">
+                <label class="block text-sm font-bold text-slate-700">Tarjetas de Producto</label>
+                <div class="flex items-center gap-4">
+                  <input type="color" id="theme-color-card" oninput="syncColor(this,'theme-color-card-text')" class="h-12 w-20 rounded-lg border-slate-200 cursor-pointer" value="#FFFFFF">
+                  <input type="text" id="theme-color-card-text" oninput="syncColor(this,'theme-color-card')" class="flex-1 px-4 py-2 rounded-lg border border-slate-200 text-sm uppercase" placeholder="#FFFFFF">
+                </div>
+                <p class="text-[10px] text-slate-400">Fondo de las tarjetas de productos.</p>
+              </div>
+              <div class="space-y-3">
+                <label class="block text-sm font-bold text-slate-700">Color de la Navbar</label>
+                <div class="flex items-center gap-4">
+                  <input type="color" id="theme-color-navbar" oninput="syncColor(this,'theme-color-navbar-text')" class="h-12 w-20 rounded-lg border-slate-200 cursor-pointer" value="#FFFFFF">
+                  <input type="text" id="theme-color-navbar-text" oninput="syncColor(this,'theme-color-navbar')" class="flex-1 px-4 py-2 rounded-lg border border-slate-200 text-sm uppercase" placeholder="#FFFFFF">
+                </div>
+                <p class="text-[10px] text-slate-400">Fondo de la barra de navegación superior.</p>
+              </div>
+              <div class="space-y-3">
+                <label class="block text-sm font-bold text-slate-700">Color del Footer</label>
+                <div class="flex items-center gap-4">
+                  <input type="color" id="theme-color-footer" oninput="syncColor(this,'theme-color-footer-text')" class="h-12 w-20 rounded-lg border-slate-200 cursor-pointer" value="#1A365D">
+                  <input type="text" id="theme-color-footer-text" oninput="syncColor(this,'theme-color-footer')" class="flex-1 px-4 py-2 rounded-lg border border-slate-200 text-sm uppercase" placeholder="#1A365D">
+                </div>
+                <p class="text-[10px] text-slate-400">Color de fondo del pie de página.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- SUBSECCIÓN 3: COLORES DE TEXTO -->
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-8">
+            <div class="p-6 border-b border-slate-100 bg-slate-50">
+              <h3 class="font-bold text-slate-800 flex items-center"><span class="material-symbols-outlined mr-2 text-brand">text_format</span> Colores de Texto</h3>
+              <p class="text-xs text-slate-400 mt-1">Personaliza los colores de los textos en toda la página.</p>
+            </div>
+            <div class="p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div class="space-y-3">
+                <label class="block text-sm font-bold text-slate-700">Texto Principal (Body)</label>
+                <div class="flex items-center gap-4">
+                  <input type="color" id="theme-color-text" oninput="syncColor(this,'theme-color-text-txt')" class="h-12 w-20 rounded-lg border-slate-200 cursor-pointer" value="#2D3748">
+                  <input type="text" id="theme-color-text-txt" oninput="syncColor(this,'theme-color-text')" class="flex-1 px-4 py-2 rounded-lg border border-slate-200 text-sm uppercase" placeholder="#2D3748">
+                </div>
+                <p class="text-[10px] text-slate-400">Color principal de párrafos y contenido.</p>
+              </div>
+              <div class="space-y-3">
+                <label class="block text-sm font-bold text-slate-700">Texto sobre Primario</label>
+                <div class="flex items-center gap-4">
+                  <input type="color" id="theme-color-on-primary" oninput="syncColor(this,'theme-color-on-primary-txt')" class="h-12 w-20 rounded-lg border-slate-200 cursor-pointer" value="#FFFFFF">
+                  <input type="text" id="theme-color-on-primary-txt" oninput="syncColor(this,'theme-color-on-primary')" class="flex-1 px-4 py-2 rounded-lg border border-slate-200 text-sm uppercase" placeholder="#FFFFFF">
+                </div>
+                <p class="text-[10px] text-slate-400">Texto dentro de botones y elementos primarios.</p>
+              </div>
+              <div class="space-y-3">
+                <label class="block text-sm font-bold text-slate-700">Texto Secundario / Subtítulos</label>
+                <div class="flex items-center gap-4">
+                  <input type="color" id="theme-color-text-secondary" oninput="syncColor(this,'theme-color-text-secondary-txt')" class="h-12 w-20 rounded-lg border-slate-200 cursor-pointer" value="#718096">
+                  <input type="text" id="theme-color-text-secondary-txt" oninput="syncColor(this,'theme-color-text-secondary')" class="flex-1 px-4 py-2 rounded-lg border border-slate-200 text-sm uppercase" placeholder="#718096">
+                </div>
+                <p class="text-[10px] text-slate-400">Descripciones, labels y texto de apoyo.</p>
+              </div>
+              <div class="space-y-3">
+                <label class="block text-sm font-bold text-slate-700">Texto del Footer</label>
+                <div class="flex items-center gap-4">
+                  <input type="color" id="theme-color-footer-text" oninput="syncColor(this,'theme-color-footer-text-txt')" class="h-12 w-20 rounded-lg border-slate-200 cursor-pointer" value="#CBD5E1">
+                  <input type="text" id="theme-color-footer-text-txt" oninput="syncColor(this,'theme-color-footer-text')" class="flex-1 px-4 py-2 rounded-lg border border-slate-200 text-sm uppercase" placeholder="#CBD5E1">
+                </div>
+                <p class="text-[10px] text-slate-400">Color de texto en el pie de página.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- SUBSECCIÓN 4: TIPOGRAFÍA -->
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-8">
+            <div class="p-6 border-b border-slate-100 bg-slate-50">
+              <h3 class="font-bold text-slate-800 flex items-center"><span class="material-symbols-outlined mr-2 text-brand">font_download</span> Tipografía</h3>
+              <p class="text-xs text-slate-400 mt-1">Cambia las fuentes de títulos y texto del cuerpo.</p>
+            </div>
+            <div class="p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div class="space-y-3">
+                <label class="block text-sm font-bold text-slate-700">Fuente de Títulos (Headlines)</label>
+                <select id="theme-font-headline" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-800 focus:ring-2 focus:ring-brand outline-none">
+                  <option value="Manrope">Manrope (Por defecto)</option>
+                  <option value="Montserrat">Montserrat</option>
+                  <option value="Poppins">Poppins</option>
+                  <option value="Playfair Display">Playfair Display</option>
+                  <option value="Oswald">Oswald</option>
+                  <option value="Raleway">Raleway</option>
+                  <option value="Bebas Neue">Bebas Neue</option>
+                  <option value="Outfit">Outfit</option>
+                  <option value="DM Sans">DM Sans</option>
+                  <option value="Space Grotesk">Space Grotesk</option>
+                </select>
+                <p id="theme-font-headline-preview" class="text-lg font-bold text-slate-700 p-3 bg-slate-50 rounded-lg border border-dashed border-slate-200 text-center" style="font-family: Manrope">Vista previa del título</p>
+              </div>
+              <div class="space-y-3">
+                <label class="block text-sm font-bold text-slate-700">Fuente del Cuerpo (Body)</label>
+                <select id="theme-font-body" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-800 focus:ring-2 focus:ring-brand outline-none">
+                  <option value="Inter">Inter (Por defecto)</option>
+                  <option value="Roboto">Roboto</option>
+                  <option value="Open Sans">Open Sans</option>
+                  <option value="Lato">Lato</option>
+                  <option value="Nunito">Nunito</option>
+                  <option value="Source Sans 3">Source Sans 3</option>
+                  <option value="Work Sans">Work Sans</option>
+                  <option value="DM Sans">DM Sans</option>
+                  <option value="Outfit">Outfit</option>
+                  <option value="IBM Plex Sans">IBM Plex Sans</option>
+                </select>
+                <p id="theme-font-body-preview" class="text-sm text-slate-600 p-3 bg-slate-50 rounded-lg border border-dashed border-slate-200 text-center" style="font-family: Inter">Vista previa del texto del cuerpo para párrafos y descripciones de contenido general.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- BOTÓN GUARDAR TODO -->
+          <div class="flex justify-end mb-8">
+            <button onclick="saveThemeColors(this)" class="bg-brand text-white px-8 py-3 rounded-xl text-sm font-bold hover:bg-blue-900 shadow-xl transition-all flex items-center">
+              <span class="material-symbols-outlined mr-2">save</span> Guardar Toda la Apariencia
+            </button>
+          </div>
+
         </section>
 
 
@@ -1858,22 +2005,77 @@
     function initThemeConfig() {
       if (!window.CMS_TEXTS) return;
       
+      // Colores - poblar pickers y campos de texto
       const colorKeys = [
-        'theme-color-primary',
-        'theme-color-secondary',
-        'theme-color-brand',
-        'theme-color-accent'
+        'theme-color-primary', 'theme-color-secondary', 'theme-color-brand', 'theme-color-accent',
+        'theme-color-background', 'theme-color-surface', 'theme-color-surface-container', 'theme-color-card',
+        'theme-color-navbar', 'theme-color-footer',
+        'theme-color-text', 'theme-color-on-primary', 'theme-color-text-secondary', 'theme-color-footer-text'
       ];
+
+      // Mapa de IDs de texto auxiliar (los que NO terminan en -text porque colisionarían)
+      const textFieldMap = {
+        'theme-color-text': 'theme-color-text-txt',
+        'theme-color-on-primary': 'theme-color-on-primary-txt',
+        'theme-color-text-secondary': 'theme-color-text-secondary-txt',
+        'theme-color-footer-text': 'theme-color-footer-text-txt'
+      };
 
       colorKeys.forEach(key => {
         const val = window.CMS_TEXTS[key];
         if (val) {
           const picker = document.getElementById(key);
-          const textInput = document.getElementById(key + '-text');
+          const textId = textFieldMap[key] || (key + '-text');
+          const textInput = document.getElementById(textId);
           if (picker) picker.value = val;
           if (textInput) textInput.value = val;
         }
       });
+
+      // Fuentes
+      const headlineFont = window.CMS_TEXTS['theme-font-headline'];
+      const bodyFont = window.CMS_TEXTS['theme-font-body'];
+      if (headlineFont) {
+        const sel = document.getElementById('theme-font-headline');
+        if (sel) sel.value = headlineFont;
+        const prev = document.getElementById('theme-font-headline-preview');
+        if (prev) prev.style.fontFamily = headlineFont;
+      }
+      if (bodyFont) {
+        const sel = document.getElementById('theme-font-body');
+        if (sel) sel.value = bodyFont;
+        const prev = document.getElementById('theme-font-body-preview');
+        if (prev) prev.style.fontFamily = bodyFont;
+      }
+
+      // Listeners de preview de fuentes
+      const hSel = document.getElementById('theme-font-headline');
+      const bSel = document.getElementById('theme-font-body');
+      if (hSel) hSel.addEventListener('change', function() {
+        loadGoogleFont(this.value);
+        const p = document.getElementById('theme-font-headline-preview');
+        if (p) p.style.fontFamily = this.value;
+      });
+      if (bSel) bSel.addEventListener('change', function() {
+        loadGoogleFont(this.value);
+        const p = document.getElementById('theme-font-body-preview');
+        if (p) p.style.fontFamily = this.value;
+      });
+    }
+
+    function syncColor(source, targetId) {
+      const target = document.getElementById(targetId);
+      if (target) target.value = source.value;
+    }
+
+    function loadGoogleFont(fontName) {
+      const id = 'gf-' + fontName.replace(/\s/g, '-');
+      if (document.getElementById(id)) return;
+      const link = document.createElement('link');
+      link.id = id;
+      link.rel = 'stylesheet';
+      link.href = `https://fonts.googleapis.com/css2?family=${fontName.replace(/\s/g, '+')}:wght@400;600;700;800&display=swap`;
+      document.head.appendChild(link);
     }
     
 
@@ -1929,23 +2131,43 @@
     }
 
     async function saveThemeColors(btn) {
-      const colors = {
-        'theme-color-primary': document.getElementById('theme-color-primary').value,
-        'theme-color-secondary': document.getElementById('theme-color-secondary').value,
-        'theme-color-brand': document.getElementById('theme-color-brand').value,
-        'theme-color-accent': document.getElementById('theme-color-accent').value
+      // Mapa de IDs de texto auxiliar para colores de texto
+      const textFieldMap = {
+        'theme-color-text': 'theme-color-text-txt',
+        'theme-color-on-primary': 'theme-color-on-primary-txt',
+        'theme-color-text-secondary': 'theme-color-text-secondary-txt',
+        'theme-color-footer-text': 'theme-color-footer-text-txt'
       };
+
+      const colorKeys = [
+        'theme-color-primary', 'theme-color-secondary', 'theme-color-brand', 'theme-color-accent',
+        'theme-color-background', 'theme-color-surface', 'theme-color-surface-container', 'theme-color-card',
+        'theme-color-navbar', 'theme-color-footer',
+        'theme-color-text', 'theme-color-on-primary', 'theme-color-text-secondary', 'theme-color-footer-text'
+      ];
+
+      const data = {};
+      colorKeys.forEach(key => {
+        const el = document.getElementById(key);
+        if (el) data[key] = el.value;
+      });
+
+      // Fuentes
+      const hFont = document.getElementById('theme-font-headline');
+      const bFont = document.getElementById('theme-font-body');
+      if (hFont) data['theme-font-headline'] = hFont.value;
+      if (bFont) data['theme-font-body'] = bFont.value;
       
       const originalText = btn.innerHTML;
       btn.innerHTML = '<span class="material-symbols-outlined animate-spin mr-2">sync</span> Guardando...';
       btn.disabled = true;
 
       try {
-        await window.CMS_DB.saveTexts(colors);
-        alert("¡Colores guardados correctamente! Refresca la página para ver los cambios.");
+        await window.CMS_DB.saveTexts(data);
+        alert("¡Apariencia guardada! La página se recargará para aplicar los cambios.");
         location.reload(); 
       } catch (e) {
-        alert("Error al guardar colores: " + e);
+        alert("Error al guardar apariencia: " + e);
       } finally {
         btn.innerHTML = originalText;
         btn.disabled = false;

@@ -14,22 +14,22 @@ tailwind.config = {
       colors: {
         "primary": "var(--color-primary, #1A365D)",
         "secondary": "var(--color-secondary, #4A5568)",
-        "background": "#FFFFFF",
-        "surface": "#E2E8F0",
-        "on-surface": "#2D3748",
-        "on-primary": "#FFFFFF",
+        "background": "var(--color-background, #FFFFFF)",
+        "surface": "var(--color-surface, #E2E8F0)",
+        "on-surface": "var(--color-text, #2D3748)",
+        "on-primary": "var(--color-on-primary, #FFFFFF)",
         "on-secondary": "#FFFFFF",
-        "surface-container-lowest": "#FFFFFF",
-        "surface-container": "#F8FAFC",
+        "surface-container-lowest": "var(--color-card, #FFFFFF)",
+        "surface-container": "var(--color-surface-container, #F8FAFC)",
         "outline": "#CBD5E1",
         "primary-container": "#C3DAFE",
-        "on-primary-container": "#1A365D",
+        "on-primary-container": "var(--color-primary, #1A365D)",
         "secondary-container": "#E2E8F0",
-        "on-secondary-container": "#2D3748",
+        "on-secondary-container": "var(--color-text, #2D3748)",
         "brand": "var(--color-brand, #1A365D)",
         "accent": "var(--color-accent, #4A5568)",
-        "bgLight": "#FFFFFF",
-        "coal": "#2D3748",
+        "bgLight": "var(--color-background, #FFFFFF)",
+        "coal": "var(--color-text, #2D3748)",
         "error": "#ba1a1a",
         "outline-variant": "#c5c6d2",
         "primary-fixed-dim": "#b3c5ff",
@@ -527,16 +527,67 @@ async function initCMSData() {
 function applyTheme() {
   if (!window.CMS_TEXTS) return;
   const root = document.documentElement;
-  const colors = {
-    'primary': window.CMS_TEXTS['theme-color-primary'] || '#1A365D',
-    'secondary': window.CMS_TEXTS['theme-color-secondary'] || '#4A5568',
-    'brand': window.CMS_TEXTS['theme-color-brand'] || '#1A365D',
-    'accent': window.CMS_TEXTS['theme-color-accent'] || '#4A5568'
+  
+  // Colores de marca
+  const colorMap = {
+    'primary':           'theme-color-primary',
+    'secondary':         'theme-color-secondary',
+    'brand':             'theme-color-brand',
+    'accent':            'theme-color-accent',
+    'background':        'theme-color-background',
+    'surface':           'theme-color-surface',
+    'surface-container': 'theme-color-surface-container',
+    'card':              'theme-color-card',
+    'navbar':            'theme-color-navbar',
+    'footer':            'theme-color-footer',
+    'text':              'theme-color-text',
+    'on-primary':        'theme-color-on-primary',
+    'text-secondary':    'theme-color-text-secondary',
+    'footer-text':       'theme-color-footer-text'
   };
 
-  Object.keys(colors).forEach(key => {
-    root.style.setProperty(`--color-${key}`, colors[key]);
+  Object.keys(colorMap).forEach(cssVar => {
+    const cmsKey = colorMap[cssVar];
+    const val = window.CMS_TEXTS[cmsKey];
+    if (val) root.style.setProperty(`--color-${cssVar}`, val);
   });
+
+  // Aplicar colores directos a elementos específicos
+  const navbar = document.getElementById('main-nav');
+  const navbarColor = window.CMS_TEXTS['theme-color-navbar'];
+  if (navbar && navbarColor) {
+    navbar.style.backgroundColor = navbarColor;
+  }
+
+  // Fuentes
+  const headlineFont = window.CMS_TEXTS['theme-font-headline'];
+  const bodyFont = window.CMS_TEXTS['theme-font-body'];
+
+  if (headlineFont || bodyFont) {
+    // Cargar fuentes de Google Fonts dinámicamente
+    const families = [];
+    if (headlineFont && headlineFont !== 'Manrope') families.push(headlineFont);
+    if (bodyFont && bodyFont !== 'Inter') families.push(bodyFont);
+    
+    if (families.length > 0) {
+      const familyParam = families.map(f => f.replace(/\s/g, '+') + ':wght@400;500;600;700;800').join('&family=');
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = `https://fonts.googleapis.com/css2?family=${familyParam}&display=swap`;
+      document.head.appendChild(link);
+    }
+
+    if (headlineFont) {
+      root.style.setProperty('--font-headline', headlineFont);
+      document.querySelectorAll('.font-manrope, [class*="font-headline"]').forEach(el => {
+        el.style.fontFamily = headlineFont;
+      });
+    }
+    if (bodyFont) {
+      root.style.setProperty('--font-body', bodyFont);
+      document.body.style.fontFamily = `${bodyFont}, sans-serif`;
+    }
+  }
 }
 
 /* ── Init on DOM Ready ── */
