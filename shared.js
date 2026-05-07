@@ -69,7 +69,7 @@ tailwind.config = {
 /* ── Inyectar TopNavBar ── */
 function renderNavbar(activePage) {
   const navLinks = [
-    { label: "Inventario", href: "index.html", id: "inventario" },
+    { label: "Marketplace", href: "index.html", id: "inventario" },
     { label: "Nosotros", href: "nosotros.html", id: "nosotros" },
     { label: "Servicios", href: "servicios.html", id: "servicios" },
     { label: "Soporte", href: "soporte.html", id: "soporte" }
