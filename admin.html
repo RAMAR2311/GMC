@@ -1265,7 +1265,10 @@
       } else {
         if (videoEl) {
           videoEl.classList.add('hidden');
-          videoEl.pause();
+          // MODIFICACIÓN: Solo pausar si existe la función pause
+          if (typeof videoEl.pause === 'function') {
+            videoEl.pause();
+          }
         }
         if (imgEl) {
           imgEl.classList.remove('hidden');
