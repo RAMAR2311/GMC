@@ -97,8 +97,9 @@ function renderNavbar(activePage) {
     <nav id="main-nav" class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-sm dark:shadow-none transition-all duration-300" role="navigation" aria-label="Navegación principal">
       <div class="max-w-[1440px] mx-auto px-4 sm:px-8 h-20 flex items-center justify-between">
         <!-- Logo -->
-        <a href="index.html" class="text-lg sm:text-xl font-black tracking-tighter text-blue-950 dark:text-white uppercase font-manrope flex-shrink-0" aria-label="Ir al inicio">
-          Grupo Capital Máquinas
+        <a href="index.html" class="text-lg sm:text-xl font-black tracking-tighter text-blue-950 dark:text-white uppercase font-manrope flex-shrink-0 flex items-center gap-2 sm:gap-3" aria-label="Ir al inicio">
+          <img src="logo.png" alt="Grupo Capital Máquinas" class="h-9 w-auto object-contain max-h-9" />
+          <span>Grupo Capital Máquinas</span>
         </a>
         <!-- Desktop Nav Links -->
         <div class="hidden md:flex items-center space-x-8">${linksHTML}</div>
@@ -189,7 +190,10 @@ function renderFooter() {
     <footer class="w-full py-12 px-4 sm:px-8 bg-blue-950 dark:bg-black border-t border-white/10" role="contentinfo">
       <div class="max-w-[1440px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
         <div class="flex flex-col items-center md:items-start">
-          <div id="footer-company-name" class="text-white font-manrope font-black text-lg mb-2">${companyName}</div>
+          <div class="flex items-center gap-3 mb-2">
+            <img src="logo.png" alt="Logo Grupo Capital Máquinas" class="h-8 w-auto object-contain max-h-8" />
+            <div id="footer-company-name" class="text-white font-manrope font-black text-lg">${companyName}</div>
+          </div>
           <p id="footer-copyright" class="font-body text-xs tracking-wider uppercase text-slate-400 text-center md:text-left">${copyrightText}</p>
         </div>
         <nav class="flex flex-wrap justify-center gap-4 sm:gap-6" aria-label="Enlaces del pie de página">

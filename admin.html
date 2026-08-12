@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Panel de Administración | Master Dashboard</title>
+  <link rel="icon" type="image/png" href="logo.png"/>
+  <link rel="apple-touch-icon" href="logo.png"/>
   
   <!-- Fonts y Material Symbols -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -72,9 +74,9 @@
   <aside id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-accent border-r border-brand/10 flex flex-col z-30 transform -translate-x-full md:translate-x-0 md:relative transition-transform duration-300">
     <!-- Header Sidebar -->
     <div class="h-16 flex items-center justify-between px-6 border-b border-brand/10 shrink-0">
-      <div class="flex items-center text-white">
-        <span class="material-symbols-outlined mr-2">admin_panel_settings</span>
-        <h1 class="font-bold text-lg tracking-tight">Panel Editor</h1>
+      <div class="flex items-center text-white gap-2">
+        <img src="logo.png" alt="Logo" class="h-8 w-auto object-contain bg-white/10 p-1 rounded-md" />
+        <h1 class="font-bold text-base tracking-tight">Panel Editor</h1>
       </div>
       <button class="md:hidden text-white/70" onclick="toggleSidebar()">
         <span class="material-symbols-outlined">close</span>
