@@ -187,7 +187,7 @@ function renderCarouselSlides() {
       <!-- Vignette Overlay con degradado suave -->
       <div class="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/50 to-transparent z-10"></div>
       ${mediaHTML}
-      <div class="absolute inset-0 z-30 h-full max-w-[1440px] mx-auto px-6 sm:px-12 flex flex-col justify-center items-start">
+      <div class="absolute inset-0 z-30 h-full max-w-[1440px] mx-auto px-6 sm:px-12 flex flex-col justify-center items-start pt-20">
         <div class="max-w-xl animate-fade-in-up">
           <!-- Subetiqueta elegante -->
           <span class="inline-flex items-center gap-2 px-3.5 py-1 mb-4 bg-white/10 text-white text-[11px] font-extrabold uppercase tracking-[0.2em] rounded-full backdrop-blur border border-white/20 shadow-lg">

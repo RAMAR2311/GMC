@@ -77,16 +77,16 @@ function renderNavbar(activePage) {
   const linksHTML = navLinks.map(link => {
     const isActive = link.id === activePage;
     const classes = isActive
-      ? "font-manrope text-sm font-extrabold text-slate-900 dark:text-white border-b-2 border-slate-900 dark:border-white pb-1 transition-all"
-      : "font-manrope text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors";
+      ? "font-headline text-sm font-black text-white border-b-2 border-white pb-1 tracking-wide transition-all drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
+      : "font-headline text-sm font-bold text-slate-100 hover:text-white transition-all tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] hover:scale-105 inline-block";
     return `<a class="${classes}" href="${link.href}">${link.label}</a>`;
   }).join("");
 
   const mobileLinksHTML = navLinks.map(link => {
     const isActive = link.id === activePage;
     const classes = isActive
-      ? "block px-4 py-3 font-manrope font-bold text-slate-900 bg-slate-100 rounded-lg text-sm"
-      : "block px-4 py-3 font-manrope font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-lg transition-colors text-sm";
+      ? "block px-4 py-3 font-headline font-bold text-white bg-blue-600 rounded-lg text-sm"
+      : "block px-4 py-3 font-headline font-semibold text-slate-200 hover:text-white hover:bg-white/10 rounded-lg transition-colors text-sm";
     return `<a class="${classes}" href="${link.href}" onclick="closeMobileMenu()">${link.label}</a>`;
   }).join("");
 
@@ -94,13 +94,13 @@ function renderNavbar(activePage) {
   if (!navbar) return;
 
   navbar.innerHTML = `
-    <nav id="main-nav" class="sticky top-0 w-full z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl shadow-xs border-b border-slate-200/80 transition-all duration-300" role="navigation" aria-label="Navegación principal">
+    <nav id="main-nav" class="absolute top-0 left-0 w-full z-50 bg-gradient-to-b from-slate-950/80 via-slate-950/40 to-transparent border-b border-white/10 transition-all duration-300" role="navigation" aria-label="Navegación principal">
       <div class="max-w-[1440px] mx-auto px-4 sm:px-8 h-20 flex items-center justify-between gap-4">
         
         <!-- Logo -->
-        <a href="index.html" class="flex items-center gap-3 shrink-0" aria-label="Ir al inicio">
-          <img src="logo.png" alt="Grupo Capital Máquinas" class="h-9 w-auto object-contain max-h-9" />
-          <span class="text-lg font-black tracking-tight text-slate-900 dark:text-white font-headline">Grupo Capital Máquinas</span>
+        <a href="index.html" class="flex items-center gap-3 shrink-0 group" aria-label="Ir al inicio">
+          <img src="logo.png" alt="Grupo Capital Máquinas" class="h-9 w-auto object-contain max-h-9 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]" />
+          <span class="text-lg sm:text-xl font-black tracking-tight text-white font-headline drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Grupo Capital Máquinas</span>
         </a>
 
         <!-- Desktop Nav Links (Centro) -->
@@ -111,26 +111,26 @@ function renderNavbar(activePage) {
           
           <!-- Carrito de Compras -->
           <div class="relative">
-            <button id="cart-toggle-btn" onclick="toggleCart()" class="text-slate-800 dark:text-white hover:text-blue-600 transition-all relative p-2" aria-label="Carrito de compras" title="Ver carrito">
+            <button id="cart-toggle-btn" onclick="toggleCart()" class="text-white hover:text-blue-300 transition-all relative p-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]" aria-label="Carrito de compras" title="Ver carrito">
               <span class="material-symbols-outlined text-2xl">shopping_cart</span>
               <span id="cart-badge" class="absolute top-0 right-0 bg-blue-600 text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center hidden">0</span>
             </button>
             
             <!-- Dropdown del Carrito -->
-            <div id="cart-dropdown" class="absolute right-0 mt-3 w-72 sm:w-80 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 hidden opacity-0 transition-opacity duration-200 z-50">
-              <div class="p-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
-                <h3 class="font-bold text-slate-900 dark:text-white font-headline text-sm flex items-center gap-2"><span class="material-symbols-outlined text-blue-600">shopping_bag</span> Mi Carrito</h3>
-                <span id="cart-total-items" class="text-xs text-slate-500 font-bold bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md">0 items</span>
+            <div id="cart-dropdown" class="absolute right-0 mt-3 w-72 sm:w-80 bg-slate-900/95 backdrop-blur-xl text-white rounded-2xl shadow-2xl border border-slate-700/80 hidden opacity-0 transition-opacity duration-200 z-50">
+              <div class="p-4 border-b border-slate-800 flex justify-between items-center">
+                <h3 class="font-bold text-white font-headline text-sm flex items-center gap-2"><span class="material-symbols-outlined text-blue-400">shopping_bag</span> Mi Carrito</h3>
+                <span id="cart-total-items" class="text-xs text-slate-300 font-bold bg-slate-800 px-2 py-1 rounded-md">0 items</span>
               </div>
               <div id="cart-items-container" class="max-h-64 overflow-y-auto p-2">
-                <div class="p-4 text-center text-sm text-slate-500">El carrito está vacío.</div>
+                <div class="p-4 text-center text-sm text-slate-400">El carrito está vacío.</div>
               </div>
-              <div class="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 rounded-b-2xl">
+              <div class="p-4 border-t border-slate-800 bg-slate-950/60 rounded-b-2xl">
                 <div class="flex justify-between mb-4">
-                  <span class="text-xs font-bold text-slate-500">Total Estimado:</span>
-                  <span id="cart-total-price" class="text-base font-black text-slate-900 dark:text-white">$0.00 COP</span>
+                  <span class="text-xs font-bold text-slate-400">Total Estimado:</span>
+                  <span id="cart-total-price" class="text-base font-black text-white">$0.00 COP</span>
                 </div>
-                <a href="https://wa.me/573000000000?text=Hola,%20deseo%20finalizar%20la%20compra%20de%20mis%20productos." target="_blank" rel="noopener noreferrer" class="w-full py-3 bg-[#1A2536] hover:bg-slate-800 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all active:scale-95 flex items-center justify-center gap-2">
+                <a href="https://wa.me/573000000000?text=Hola,%20deseo%20finalizar%20la%20compra%20de%20mis%20productos." target="_blank" rel="noopener noreferrer" class="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all active:scale-95 flex items-center justify-center gap-2 shadow-lg">
                   <span class="material-symbols-outlined text-base">chat</span> Solicitar por WhatsApp
                 </a>
               </div>
@@ -139,33 +139,49 @@ function renderNavbar(activePage) {
 
           <!-- User Menu -->
           <div class="relative">
-            <button id="user-toggle-btn" onclick="toggleUserMenu()" class="text-slate-800 dark:text-white hover:text-blue-600 transition-all p-2 flex items-center" aria-label="Mi Cuenta" title="Mi Cuenta">
+            <button id="user-toggle-btn" onclick="toggleUserMenu()" class="text-white hover:text-blue-300 transition-all p-2 flex items-center drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]" aria-label="Mi Cuenta" title="Mi Cuenta">
               <span class="material-symbols-outlined text-2xl">person</span>
             </button>
-            <div id="user-dropdown" class="absolute right-0 mt-3 w-56 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 hidden opacity-0 transition-opacity duration-200 z-50">
+            <div id="user-dropdown" class="absolute right-0 mt-3 w-56 bg-slate-900/95 backdrop-blur-xl text-white rounded-2xl shadow-2xl border border-slate-700/80 hidden opacity-0 transition-opacity duration-200 z-50">
               <div class="py-2">
-                <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-800 mb-1">
-                  <p class="text-sm font-bold text-slate-900 dark:text-white">Mi Cuenta</p>
-                  <p class="text-xs text-slate-500">Acceso Administrador</p>
+                <div class="px-4 py-3 border-b border-slate-800 mb-1">
+                  <p class="text-sm font-bold text-white">Mi Cuenta</p>
+                  <p class="text-xs text-slate-400">Acceso Administrador</p>
                 </div>
-                <a href="admin.html" class="block px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors font-semibold flex items-center gap-2"><span class="material-symbols-outlined text-lg text-blue-600">admin_panel_settings</span>Panel Editor Admin</a>
-                <a href="login.html" class="block px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors font-semibold flex items-center gap-2"><span class="material-symbols-outlined text-lg">logout</span>Iniciar Sesión</a>
+                <a href="admin.html" class="block px-4 py-2.5 text-sm text-slate-200 hover:bg-slate-800 transition-colors font-semibold flex items-center gap-2"><span class="material-symbols-outlined text-lg text-blue-400">admin_panel_settings</span>Panel Editor Admin</a>
+                <a href="login.html" class="block px-4 py-2.5 text-sm text-red-400 hover:bg-red-900/30 transition-colors font-semibold flex items-center gap-2"><span class="material-symbols-outlined text-lg">logout</span>Iniciar Sesión</a>
               </div>
             </div>
           </div>
 
           <!-- Mobile Menu Toggle -->
-          <button id="mobile-menu-btn" class="md:hidden text-slate-800 dark:text-white p-2" aria-label="Abrir menú" onclick="toggleMobileMenu()">
+          <button id="mobile-menu-btn" class="md:hidden text-white p-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]" aria-label="Abrir menú" onclick="toggleMobileMenu()">
             <span class="material-symbols-outlined text-3xl">menu</span>
           </button>
         </div>
       </div>
 
       <!-- Mobile Dropdown Menu -->
-      <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 py-4 space-y-2 shadow-xl">
+      <div id="mobile-menu" class="hidden md:hidden bg-slate-900/95 backdrop-blur-xl border-b border-slate-800 px-4 py-4 space-y-2 shadow-xl">
         ${mobileLinksHTML}
       </div>
     </nav>`;
+
+  // Scroll Listener para oscurecer dinámicamente al bajar
+  window.removeEventListener('scroll', window._onNavScroll);
+  window._onNavScroll = function() {
+    const nav = document.getElementById('main-nav');
+    if (!nav) return;
+    if (window.scrollY > 40) {
+      nav.classList.add('bg-slate-950/90', 'backdrop-blur-md', 'shadow-xl');
+      nav.classList.remove('bg-gradient-to-b', 'from-slate-950/80', 'via-slate-950/40', 'to-transparent');
+    } else {
+      nav.classList.remove('bg-slate-950/90', 'backdrop-blur-md', 'shadow-xl');
+      nav.classList.add('bg-gradient-to-b', 'from-slate-950/80', 'via-slate-950/40', 'to-transparent');
+    }
+  };
+  window.addEventListener('scroll', window._onNavScroll);
+}
 }
 
 function toggleMobileMenu() {
