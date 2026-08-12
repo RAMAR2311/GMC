@@ -177,12 +177,20 @@ function renderFooter() {
   const footer = document.getElementById("footer-placeholder");
   if (!footer) return;
 
+  const companyName = (window.CMS_TEXTS && window.CMS_TEXTS['footer-company-name']) 
+    ? window.CMS_TEXTS['footer-company-name'] 
+    : 'Grupo Capital Máquinas';
+
+  const copyrightText = (window.CMS_TEXTS && window.CMS_TEXTS['footer-copyright']) 
+    ? window.CMS_TEXTS['footer-copyright'] 
+    : '© 2026 Grupo Capital Máquinas. Confiabilidad de Grado Arquitectónico.';
+
   footer.innerHTML = `
     <footer class="w-full py-12 px-4 sm:px-8 bg-blue-950 dark:bg-black border-t border-white/10" role="contentinfo">
       <div class="max-w-[1440px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
         <div class="flex flex-col items-center md:items-start">
-          <div class="text-white font-manrope font-black text-lg mb-2">Grupo Capital Máquinas</div>
-          <p class="font-body text-xs tracking-wider uppercase text-slate-400 text-center md:text-left">© 2026 Grupo Capital Máquinas. Confiabilidad de Grado Arquitectónico.</p>
+          <div id="footer-company-name" class="text-white font-manrope font-black text-lg mb-2">${companyName}</div>
+          <p id="footer-copyright" class="font-body text-xs tracking-wider uppercase text-slate-400 text-center md:text-left">${copyrightText}</p>
         </div>
         <nav class="flex flex-wrap justify-center gap-4 sm:gap-6" aria-label="Enlaces del pie de página">
           <a class="font-body text-xs tracking-wider uppercase text-slate-400 hover:text-white transition-colors duration-200 cursor-pointer" onclick="alert('Nuestra Política de Privacidad se encuentra actualmente en actualización legal. Pronto estará disponible.')">Política de Privacidad</a>
