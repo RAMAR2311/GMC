@@ -196,18 +196,27 @@ function renderCarouselSlides() {
   }).join("");
 }
 
-/* ── Render: Brands (Estilo de la imagen) ── */
+/* ── Render: Brands (Colores y Estilos Idénticos a la Imagen) ── */
 function renderBrands() {
   const el = document.getElementById("brands-list");
   if (!el) return;
   
-  const defaultBrands = ["BORDADORAS", "brother", "JACK", "JONTEX", "JUKI", "PEGASUS", "SIRUBA", "TYPICAL", "KANSEW"];
-  const normalizedBrands = defaultBrands;
+  const BRAND_STYLES = [
+    { key: "BORDADORAS", text: "BORDADORAS", class: "text-[#1e293b] font-extrabold text-[11px] tracking-tight" },
+    { key: "brother", text: "brother", class: "text-[#002b66] font-bold text-sm tracking-tight lowercase" },
+    { key: "JACK", text: "JaCK", class: "text-[#0096e6] font-black italic text-sm tracking-tighter" },
+    { key: "JONTEX", text: "JONTEX", class: "text-[#0b2545] font-black text-sm tracking-tight" },
+    { key: "JUKI", text: "JUKI", class: "text-[#0055a5] font-black text-base tracking-wider" },
+    { key: "PEGASUS", text: "PEGASUS", class: "text-[#c4262e] font-black text-sm tracking-tight" },
+    { key: "SIRUBA", text: "SiRUBA", class: "text-[#d96b27] font-black text-sm tracking-tight" },
+    { key: "TYPICAL", text: "TYPICAL", class: "text-[#003366] font-black text-sm tracking-wider" },
+    { key: "KANSEW", text: "KANSEW", class: "text-[#004b87] font-black text-sm tracking-widest" }
+  ];
   
-  el.innerHTML = normalizedBrands.map(brandName =>
-    `<a onclick="filterCategory(event, '${brandName}')" class="shrink-0 transition-transform duration-200 hover:scale-105 cursor-pointer" href="#product-grid">
-      <div class="h-10 px-5 flex items-center justify-center bg-white rounded-md shadow-sm border border-slate-200">
-        <span class="text-sm font-black font-headline text-slate-800 uppercase tracking-tight">${brandName}</span>
+  el.innerHTML = BRAND_STYLES.map(b =>
+    `<a onclick="filterCategory(event, '${b.key}')" class="shrink-0 transition-transform duration-200 hover:scale-105 cursor-pointer" href="#product-grid">
+      <div class="h-9 px-4 sm:px-5 flex items-center justify-center bg-white rounded-lg shadow-sm border border-slate-200">
+        <span class="font-headline ${b.class}">${b.text}</span>
       </div>
     </a>`
   ).join("");
