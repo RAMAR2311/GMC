@@ -171,7 +171,7 @@ function renderProductGrid() {
   grid.innerHTML = PRODUCTS.map((p, i) => renderProductCard(p, i)).join("");
 }
 
-/* ── Render: Carousel Slides (Hero idéntico a la imagen) ── */
+/* ── Render: Carousel Slides (Hero Banner Profesional B2B) ── */
 function renderCarouselSlides() {
   const container = document.getElementById("carousel-slides");
   if (!container) return;
@@ -184,19 +184,38 @@ function renderCarouselSlides() {
       : `<img alt="${s.alt}" class="absolute inset-0 w-full h-full object-cover" src="${s.img}"/>`;
 
     return `<div class="carousel-slide ${i === 0 ? 'active' : ''} absolute inset-0 w-full h-full opacity-0 transition-opacity duration-1000">
-      <div class="absolute inset-0 bg-slate-950/40 z-10"></div>
+      <!-- Vignette Overlay con degradado suave -->
+      <div class="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/50 to-transparent z-10"></div>
       ${mediaHTML}
       <div class="absolute inset-0 z-30 h-full max-w-[1440px] mx-auto px-6 sm:px-12 flex flex-col justify-center items-start">
-        <div class="max-w-xl">
-          <h1 class="text-4xl sm:text-6xl font-black font-headline text-white tracking-tight mb-6 drop-shadow-lg leading-tight">Descubre la Innovación</h1>
-          <a href="#product-grid" class="inline-block px-8 py-3.5 bg-[#007BFF] hover:bg-blue-600 text-white font-bold text-sm rounded-lg shadow-lg transition-all active:scale-95">Ver Catálogo</a>
+        <div class="max-w-xl animate-fade-in-up">
+          <!-- Subetiqueta elegante -->
+          <span class="inline-flex items-center gap-2 px-3.5 py-1 mb-4 bg-white/10 text-white text-[11px] font-extrabold uppercase tracking-[0.2em] rounded-full backdrop-blur border border-white/20 shadow-lg">
+            <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span> ${s.badge || 'TECNOLOGÍA INDUSTRIAL'}
+          </span>
+          <h1 class="text-4xl sm:text-6xl font-black font-headline text-white tracking-tight leading-[1.1] mb-4 drop-shadow-lg">
+            ${s.title || 'Descubre la Innovación'}
+          </h1>
+          <p class="text-xs sm:text-sm text-slate-200 font-body leading-relaxed mb-6 max-w-lg drop-shadow">
+            ${s.description || 'Equipos automáticos mecatrónicos de alta precisión para confección industrial, bordados y corte textil de última generación.'}
+          </p>
+          <div class="flex flex-wrap items-center gap-3">
+            <a href="#product-grid" class="px-8 py-3.5 bg-[#007BFF] hover:bg-blue-600 text-white font-bold text-xs uppercase tracking-wider rounded-lg shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2">
+              <span>Ver Catálogo</span>
+              <span class="material-symbols-outlined text-base">arrow_forward</span>
+            </a>
+            <a href="https://wa.me/573000000000?text=Hola,%20deseo%20asesor%C3%ADa%20para%20maquinaria." target="_blank" rel="noopener noreferrer" class="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider rounded-lg backdrop-blur border border-white/30 transition-all flex items-center gap-2">
+              <span class="material-symbols-outlined text-base text-emerald-400">chat</span>
+              <span>Asesoría WhatsApp</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>`;
   }).join("");
 }
 
-/* ── Render: Brands (Colores y Estilos Idénticos a la Imagen) ── */
+/* ── Render: Brands (Colores y Estilos Oficiales B2B) ── */
 function renderBrands() {
   const el = document.getElementById("brands-list");
   if (!el) return;
@@ -214,8 +233,8 @@ function renderBrands() {
   ];
   
   el.innerHTML = BRAND_STYLES.map(b =>
-    `<a onclick="filterCategory(event, '${b.key}')" class="shrink-0 transition-transform duration-200 hover:scale-105 cursor-pointer" href="#product-grid">
-      <div class="h-9 px-4 sm:px-5 flex items-center justify-center bg-white rounded-lg shadow-sm border border-slate-200">
+    `<a onclick="filterCategory(event, '${b.key}')" class="shrink-0 transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 cursor-pointer group" href="#product-grid">
+      <div class="h-10 px-5 flex items-center justify-center bg-white rounded-xl shadow-xs hover:shadow-md border border-slate-200/90 transition-all">
         <span class="font-headline ${b.class}">${b.text}</span>
       </div>
     </a>`
