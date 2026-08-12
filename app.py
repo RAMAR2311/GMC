@@ -22,10 +22,10 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 def get_db_connection():
     """Obtiene conexión usando variables de entorno para portabilidad"""
     import ssl
-    # Cargamos valores desde .env
+    # Cargamos valores desde .env (soportando tanto DB_PASS como DB_PASSWORD)
     db_user = os.getenv("DB_USER")
-    db_pass = os.getenv("DB_PASS")
-    db_host = os.getenv("DB_HOST")
+    db_pass = os.getenv("DB_PASS") or os.getenv("DB_PASSWORD")
+    db_host = os.getenv("DB_HOST", "localhost")
     db_port = os.getenv("DB_PORT", "5432")
     db_name = os.getenv("DB_NAME", "postgres")
 
