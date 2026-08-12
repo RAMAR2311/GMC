@@ -69,24 +69,26 @@ tailwind.config = {
 function renderNavbar(activePage) {
   const navLinks = [
     { label: "Marketplace", href: "index.html", id: "inventario" },
-    { label: "Nosotros", href: "nosotros.html", id: "nosotros" },
+    { label: "Categorías", href: "index.html#sec-categorias", id: "categorias" },
+    { label: "Marcas", href: "index.html#sec-marcas", id: "marcas" },
     { label: "Servicios", href: "servicios.html", id: "servicios" },
-    { label: "Soporte", href: "soporte.html", id: "soporte" }
+    { label: "Soporte", href: "soporte.html", id: "soporte" },
+    { label: "Nosotros", href: "nosotros.html", id: "nosotros" }
   ];
 
   const linksHTML = navLinks.map(link => {
     const isActive = link.id === activePage;
     const classes = isActive
-      ? "font-manrope tracking-tight font-bold text-blue-900 dark:text-blue-400 border-b-2 border-blue-900 dark:border-blue-400 pb-1 transition-all"
-      : "font-manrope tracking-tight font-bold text-slate-500 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors";
+      ? "font-manrope text-xs uppercase tracking-wider font-bold text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 pb-1 transition-all"
+      : "font-manrope text-xs uppercase tracking-wider font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors";
     return `<a class="${classes}" href="${link.href}">${link.label}</a>`;
   }).join("");
 
   const mobileLinksHTML = navLinks.map(link => {
     const isActive = link.id === activePage;
     const classes = isActive
-      ? "block px-4 py-3 font-manrope font-bold text-blue-900 bg-blue-50 rounded-lg"
-      : "block px-4 py-3 font-manrope font-bold text-slate-600 hover:text-blue-900 hover:bg-slate-50 rounded-lg transition-colors";
+      ? "block px-4 py-3 font-manrope font-bold text-blue-900 bg-blue-50 rounded-lg text-sm"
+      : "block px-4 py-3 font-manrope font-bold text-slate-600 hover:text-blue-900 hover:bg-slate-50 rounded-lg transition-colors text-sm";
     return `<a class="${classes}" href="${link.href}" onclick="closeMobileMenu()">${link.label}</a>`;
   }).join("");
 
@@ -94,74 +96,162 @@ function renderNavbar(activePage) {
   if (!navbar) return;
 
   navbar.innerHTML = `
-    <nav id="main-nav" class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-sm dark:shadow-none transition-all duration-300" role="navigation" aria-label="Navegación principal">
-      <div class="max-w-[1440px] mx-auto px-4 sm:px-8 h-20 flex items-center justify-between">
+    <!-- Topbar Superior -->
+    <div class="bg-slate-900 text-slate-300 text-[11px] font-medium py-2 px-4 sm:px-8 border-b border-slate-800 hidden sm:block">
+      <div class="max-w-[1600px] mx-auto flex justify-between items-center">
+        <div class="flex items-center gap-6">
+          <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-sm text-blue-400">payments</span> Moneda: <strong class="text-white">COP ($)</strong></span>
+          <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-sm text-blue-400">language</span> Idioma: <strong class="text-white">ES 🇨🇴</strong></span>
+          <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-sm text-blue-400">location_on</span> Sede Bogotá: <strong class="text-white">Barrio La Alquería</strong></span>
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="https://wa.me/573000000000?text=Hola,%20requiero%20asesor%C3%ADa%20para%20maquinaria." target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 text-blue-400 hover:text-blue-300 font-semibold transition-colors">
+            <span class="material-symbols-outlined text-sm">chat</span> WhatsApp Asesoría Directa: +57 (601) 555-0198
+          </a>
+          <a href="soporte.html" class="hover:text-white transition-colors">Atención al Cliente</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Header Sticky Navbar -->
+    <nav id="main-nav" class="sticky top-0 w-full z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl shadow-md dark:shadow-none border-b border-slate-200/60 dark:border-slate-800 transition-all duration-300" role="navigation" aria-label="Navegación principal">
+      <div class="max-w-[1600px] mx-auto px-4 sm:px-8 h-20 flex items-center justify-between gap-4">
+        
         <!-- Logo -->
-        <a href="index.html" class="text-lg sm:text-xl font-black tracking-tighter text-blue-950 dark:text-white uppercase font-manrope flex-shrink-0 flex items-center gap-2 sm:gap-3" aria-label="Ir al inicio">
-          <img src="logo.png" alt="Grupo Capital Máquinas" class="h-9 w-auto object-contain max-h-9" />
-          <span>Grupo Capital Máquinas</span>
+        <a href="index.html" class="flex items-center gap-3 shrink-0" aria-label="Ir al inicio">
+          <img src="logo.png" alt="Grupo Capital Máquinas" class="h-10 w-auto object-contain max-h-10" />
+          <div class="flex flex-col">
+            <span class="text-base sm:text-lg font-black tracking-tight text-slate-900 dark:text-white uppercase font-headline leading-tight">GRUPO CÁPITAL MÁQUINAS</span>
+            <span class="text-[9px] tracking-[0.25em] text-blue-600 font-bold uppercase">S.A.S. • Maquinaria Industrial</span>
+          </div>
         </a>
-        <!-- Desktop Nav Links -->
-        <div class="hidden md:flex items-center space-x-8">${linksHTML}</div>
-        <!-- Actions -->
-        <div class="flex items-center space-x-4 sm:space-x-6">
-          <div class="relative">
-            <button id="cart-toggle-btn" onclick="toggleCart()" class="text-blue-900 dark:text-blue-400 active:scale-90 transition-all duration-150 relative" aria-label="Carrito de compras" title="Ver carrito">
-              <span class="material-symbols-outlined">shopping_cart</span>
-              <span id="cart-badge" class="absolute -top-1.5 -right-1.5 bg-error text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center hidden">0</span>
+
+        <!-- Buscador Inteligente Central (Desktop) -->
+        <div class="hidden lg:flex flex-1 max-w-lg mx-6 relative">
+          <div class="relative w-full">
+            <input id="nav-search-input" type="text" oninput="handleNavSearch(this.value)" placeholder="Buscar marcas (Jack, Juki, Brother...), modelos o recubridoras..." class="w-full pl-10 pr-10 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white rounded-full text-xs outline-none focus:ring-2 focus:ring-blue-600 transition-all shadow-inner border border-slate-200 dark:border-slate-700" />
+            <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+            <button onclick="clearNavSearch()" id="nav-search-clear" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+              <span class="material-symbols-outlined text-sm">close</span>
             </button>
+            <div id="nav-search-results" class="absolute left-0 right-0 top-full mt-2 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 hidden z-50 max-h-96 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800"></div>
+          </div>
+        </div>
+
+        <!-- Desktop Nav Links -->
+        <div class="hidden xl:flex items-center space-x-6 shrink-0">${linksHTML}</div>
+
+        <!-- Actions -->
+        <div class="flex items-center space-x-4 shrink-0">
+          
+          <!-- Carrito de Cotizaciones -->
+          <div class="relative">
+            <button id="cart-toggle-btn" onclick="toggleCart()" class="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white px-3.5 py-2 rounded-full text-xs font-bold transition-all" aria-label="Carrito de cotizaciones" title="Ver cotización">
+              <span class="material-symbols-outlined text-xl text-blue-600">shopping_cart</span>
+              <span class="hidden sm:inline font-headline">Cotización</span>
+              <span id="cart-badge" class="bg-blue-600 text-white text-[10px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center hidden">0</span>
+            </button>
+            
             <!-- Dropdown del Carrito -->
-            <div id="cart-dropdown" class="absolute right-0 mt-4 w-72 sm:w-80 bg-white dark:bg-slate-900 rounded-xl shadow-2xl border border-outline-variant/20 hidden opacity-0 transition-opacity duration-200 z-50">
-              <div class="p-4 border-b border-outline-variant/10 flex justify-between items-center">
-                <h3 class="font-bold text-primary font-headline">Mi Carrito</h3>
-                <span id="cart-total-items" class="text-xs text-on-surface-variant font-bold bg-surface-container px-2 py-1 rounded-md">0 items</span>
+            <div id="cart-dropdown" class="absolute right-0 mt-4 w-72 sm:w-80 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 hidden opacity-0 transition-opacity duration-200 z-50">
+              <div class="p-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                <h3 class="font-bold text-slate-900 dark:text-white font-headline text-sm flex items-center gap-2"><span class="material-symbols-outlined text-blue-600">request_quote</span> Lista de Cotización</h3>
+                <span id="cart-total-items" class="text-xs text-slate-500 font-bold bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md">0 items</span>
               </div>
               <div id="cart-items-container" class="max-h-64 overflow-y-auto p-2">
-                <div class="p-4 text-center text-sm text-slate-500">El carrito está vacío.</div>
+                <div class="p-4 text-center text-sm text-slate-500">El carrito de cotizaciones está vacío.</div>
               </div>
-              <div class="p-4 border-t border-outline-variant/10 bg-surface-container-lowest rounded-b-xl">
+              <div class="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 rounded-b-2xl">
                 <div class="flex justify-between mb-4">
-                  <span class="text-sm font-bold text-on-surface-variant">Total Estimado:</span>
-                  <span id="cart-total-price" class="text-lg font-black text-primary">$0.00</span>
+                  <span class="text-xs font-bold text-slate-500">Total Estimado:</span>
+                  <span id="cart-total-price" class="text-base font-black text-blue-900 dark:text-blue-400">$0.00 COP</span>
                 </div>
-                <button class="w-full py-3 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded-lg hover:bg-primary-container transition-all active:scale-95">Ir a Pagar</button>
+                <a href="https://wa.me/573000000000?text=Hola,%20deseo%20finalizar%20la%20cotizaci%C3%B3n%20de%20mis%20productos." target="_blank" rel="noopener noreferrer" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all active:scale-95 flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20">
+                  <span class="material-symbols-outlined text-base">chat</span> Solicitar Cotización por WhatsApp
+                </a>
               </div>
             </div>
           </div>
+
           <!-- User Menu -->
           <div class="relative">
-            <button id="user-toggle-btn" onclick="toggleUserMenu()" class="text-blue-900 dark:text-blue-400 active:scale-90 transition-all duration-150 flex items-center" aria-label="Mi Cuenta">
-              <span class="material-symbols-outlined">person</span>
+            <button id="user-toggle-btn" onclick="toggleUserMenu()" class="p-2 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-all flex items-center" aria-label="Mi Cuenta" title="Mi Cuenta">
+              <span class="material-symbols-outlined text-2xl">account_circle</span>
             </button>
-            <div id="user-dropdown" class="absolute right-0 mt-4 w-56 bg-white dark:bg-slate-900 rounded-xl shadow-2xl border border-outline-variant/20 hidden opacity-0 transition-opacity duration-200 z-50">
+            <div id="user-dropdown" class="absolute right-0 mt-4 w-56 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 hidden opacity-0 transition-opacity duration-200 z-50">
               <div class="py-2">
-                <div class="px-4 py-2 border-b border-outline-variant/10 mb-1">
-                  <p class="text-sm font-bold text-primary">Mi Cuenta</p>
-                  <p class="text-xs text-slate-500">Invitado</p>
+                <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-800 mb-1">
+                  <p class="text-sm font-bold text-slate-900 dark:text-white">Mi Cuenta</p>
+                  <p class="text-xs text-slate-500">Acceso Administrador</p>
                 </div>
-                <a href="#" onclick="alert('La sección de Mi Perfil está en construcción.'); toggleUserMenu(); return false;" class="block px-4 py-2 text-sm text-on-surface hover:bg-surface-container-low transition-colors"><span class="material-symbols-outlined align-middle mr-3 text-[18px] text-slate-400">account_circle</span>Mi Perfil</a>
-                <a href="#" onclick="alert('El historial de pedidos estará disponible pronto.'); toggleUserMenu(); return false;" class="block px-4 py-2 text-sm text-on-surface hover:bg-surface-container-low transition-colors"><span class="material-symbols-outlined align-middle mr-3 text-[18px] text-slate-400">receipt_long</span>Mis Pedidos</a>
-                <div class="border-t border-outline-variant/10 my-1"></div>
-                <a href="login.html" class="block px-4 py-2 text-sm text-error hover:bg-error-container transition-colors font-semibold"><span class="material-symbols-outlined align-middle mr-3 text-[18px]">logout</span>Iniciar Sesión</a>
+                <a href="admin.html" class="block px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors font-semibold flex items-center gap-2"><span class="material-symbols-outlined text-lg text-blue-600">admin_panel_settings</span>Panel Editor Admin</a>
+                <a href="#" onclick="alert('Historial de cotizaciones activo.'); toggleUserMenu(); return false;" class="block px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-lg text-slate-400">receipt_long</span>Mis Cotizaciones</a>
+                <div class="border-t border-slate-100 dark:border-slate-800 my-1"></div>
+                <a href="login.html" class="block px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors font-semibold flex items-center gap-2"><span class="material-symbols-outlined text-lg">logout</span>Iniciar Sesión</a>
               </div>
             </div>
           </div>
+
           <!-- Mobile Menu Toggle -->
-          <button id="mobile-menu-btn" class="md:hidden text-blue-900 dark:text-blue-400 active:scale-90 transition-all" aria-label="Abrir menú" onclick="toggleMobileMenu()">
+          <button id="mobile-menu-btn" class="xl:hidden text-slate-800 dark:text-white p-2" aria-label="Abrir menú" onclick="toggleMobileMenu()">
             <span class="material-symbols-outlined text-3xl">menu</span>
           </button>
         </div>
       </div>
-      <div class="bg-slate-100 dark:bg-slate-800 h-[1px] w-full"></div>
+
       <!-- Mobile Dropdown Menu -->
-      <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 py-4 space-y-1 shadow-lg">
-        ${mobileLinksHTML}
-        <div class="flex items-center bg-surface-container-low px-4 py-2 rounded-full mt-4 border border-outline-variant/20">
-          <span class="material-symbols-outlined text-outline">search</span>
-          <input class="bg-transparent border-none focus:ring-0 text-sm ml-2 w-full" placeholder="Buscar inventario..." type="text" aria-label="Buscar en inventario (móvil)"/>
+      <div id="mobile-menu" class="hidden xl:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 py-4 space-y-2 shadow-xl">
+        <div class="mb-3">
+          <input type="text" oninput="handleNavSearch(this.value)" placeholder="Buscar máquinas..." class="w-full px-4 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white rounded-full text-xs outline-none border border-slate-200 dark:border-slate-700" />
         </div>
+        ${mobileLinksHTML}
       </div>
     </nav>`;
+}
+
+function handleNavSearch(query) {
+  const dropdown = document.getElementById('nav-search-results');
+  const clearBtn = document.getElementById('nav-search-clear');
+  if (!dropdown) return;
+  
+  if (clearBtn) {
+    if (query.trim()) clearBtn.classList.remove('hidden');
+    else clearBtn.classList.add('hidden');
+  }
+
+  if (!query.trim() || typeof PRODUCTS === 'undefined') {
+    dropdown.classList.add('hidden');
+    return;
+  }
+
+  const q = query.toLowerCase();
+  const filtered = PRODUCTS.filter(p => 
+    (p.name && p.name.toLowerCase().includes(q)) || 
+    (p.category && p.category.toLowerCase().includes(q)) ||
+    (p.brand && p.brand.toLowerCase().includes(q))
+  ).slice(0, 5);
+
+  if (filtered.length === 0) {
+    dropdown.innerHTML = '<div class="p-4 text-xs text-slate-500 text-center">No se encontraron productos coincidentes.</div>';
+  } else {
+    dropdown.innerHTML = filtered.map(p => `
+      <a href="producto.html?id=${p.id}" class="flex items-center gap-3 p-3 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+        <img src="${p.img || ''}" class="w-10 h-10 object-contain rounded bg-slate-100 p-1" alt="${p.name}"/>
+        <div class="flex-1 min-w-0">
+          <p class="text-xs font-bold text-slate-900 dark:text-white truncate">${p.name}</p>
+          <p class="text-[10px] text-blue-600 font-bold uppercase tracking-wider">${p.brand || p.category || 'Maquinaria'}</p>
+        </div>
+        <span class="text-xs font-black text-slate-700 dark:text-slate-300">${window.formatCurrency(p.price || 0)}</span>
+      </a>
+    `).join('');
+  }
+  dropdown.classList.remove('hidden');
+}
+
+function clearNavSearch() {
+  const input = document.getElementById('nav-search-input');
+  if (input) input.value = '';
+  handleNavSearch('');
 }
 
 function toggleMobileMenu() {
@@ -173,38 +263,91 @@ function closeMobileMenu() {
   if (menu) menu.classList.add("hidden");
 }
 
-/* ── Inyectar Footer ── */
+/* ── Inyectar Footer Moderno ── */
 function renderFooter() {
   const footer = document.getElementById("footer-placeholder");
   if (!footer) return;
 
   const companyName = (window.CMS_TEXTS && window.CMS_TEXTS['footer-company-name']) 
     ? window.CMS_TEXTS['footer-company-name'] 
-    : 'Grupo Capital Máquinas';
+    : 'Grupo Cápital Máquinas S.A.S.';
 
   const copyrightText = (window.CMS_TEXTS && window.CMS_TEXTS['footer-copyright']) 
     ? window.CMS_TEXTS['footer-copyright'] 
-    : '© 2026 Grupo Capital Máquinas. Confiabilidad de Grado Arquitectónico.';
+    : '© 2026 GRUPO CÁPITAL MÁQUINAS S.A.S. CONFIABILIDAD DE GRADO ARQUITECTÓNICO.';
 
   footer.innerHTML = `
-    <footer class="w-full py-12 px-4 sm:px-8 bg-blue-950 dark:bg-black border-t border-white/10" role="contentinfo">
-      <div class="max-w-[1440px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-        <div class="flex flex-col items-center md:items-start">
-          <div class="flex items-center gap-3 mb-2">
-            <img src="logo.png" alt="Logo Grupo Capital Máquinas" class="h-8 w-auto object-contain max-h-8" />
-            <div id="footer-company-name" class="text-white font-manrope font-black text-lg">${companyName}</div>
+    <footer class="w-full bg-slate-950 text-slate-300 border-t border-slate-800 pt-16 pb-12 px-4 sm:px-8 lg:px-12" role="contentinfo">
+      <div class="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 mb-12">
+        
+        <!-- Col 1: Empresa & Logo -->
+        <div class="space-y-4">
+          <div class="flex items-center gap-3">
+            <img src="logo.png" alt="Logo Grupo Capital Máquinas" class="h-10 w-auto object-contain max-h-10" />
+            <div id="footer-company-name" class="text-white font-manrope font-black text-lg leading-tight">${companyName}</div>
           </div>
-          <p id="footer-copyright" class="font-body text-xs tracking-wider uppercase text-slate-400 text-center md:text-left">${copyrightText}</p>
+          <p class="text-xs text-slate-400 leading-relaxed">Empresa líder en comercialización, distribución y servicio técnico especializado de maquinaria industrial de confección, bordadoras automáticas, cortadoras y calderines en Colombia.</p>
+          <p id="footer-copyright" class="text-[10px] tracking-wider uppercase text-slate-500 pt-2 font-bold">${copyrightText}</p>
         </div>
-        <nav class="flex flex-wrap justify-center gap-4 sm:gap-6" aria-label="Enlaces del pie de página">
-          <a class="font-body text-xs tracking-wider uppercase text-slate-400 hover:text-white transition-colors duration-200 cursor-pointer" onclick="alert('Nuestra Política de Privacidad se encuentra actualmente en actualización legal. Pronto estará disponible.')">Política de Privacidad</a>
-          <a class="font-body text-xs tracking-wider uppercase text-slate-400 hover:text-white transition-colors duration-200 cursor-pointer" onclick="alert('Los Términos de Venta están siendo actualizados para 2026.')">Términos de Venta</a>
-          <a class="font-body text-xs tracking-wider uppercase text-slate-400 hover:text-white transition-colors duration-200" href="nosotros.html">Red de Distribuidores</a>
-          <a class="font-body text-xs tracking-wider uppercase text-slate-400 hover:text-white transition-colors duration-200" href="soporte.html">Soporte Técnico</a>
-          <a class="font-body text-xs tracking-wider uppercase text-slate-400 hover:text-white transition-colors duration-200" href="https://wa.me/573000000000?text=Hola,%20requiero%20hablar%20con%20un%20especialista." target="_blank" rel="noopener noreferrer">Contactar Especialista</a>
-        </nav>
+
+        <!-- Col 2: Categorías Rápidas -->
+        <div class="space-y-3">
+          <h4 class="text-sm font-bold font-headline text-white uppercase tracking-wider border-b border-slate-800 pb-2">Categorías Principales</h4>
+          <ul class="space-y-2 text-xs">
+            <li><a href="index.html#product-grid" class="hover:text-blue-400 transition-colors">Maquinaria de Confección Industrial</a></li>
+            <li><a href="index.html#product-grid" class="hover:text-blue-400 transition-colors">Bordadoras Industriales Multi-cabezal</a></li>
+            <li><a href="index.html#product-grid" class="hover:text-blue-400 transition-colors">Cortadoras Textiles CNC y Verticales</a></li>
+            <li><a href="index.html#product-grid" class="hover:text-blue-400 transition-colors">Equipos de Planchado & Calderines</a></li>
+            <li><a href="index.html#product-grid" class="hover:text-blue-400 transition-colors">Línea Familiar y Hogar</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Servicios & Soporte -->
+        <div class="space-y-3">
+          <h4 class="text-sm font-bold font-headline text-white uppercase tracking-wider border-b border-slate-800 pb-2">Servicios & Respaldo</h4>
+          <ul class="space-y-2 text-xs">
+            <li><a href="servicios.html" class="hover:text-blue-400 transition-colors">Asesoría Técnica en Planta</a></li>
+            <li><a href="servicios.html" class="hover:text-blue-400 transition-colors">Mantenimiento Preventivo y Correctivo</a></li>
+            <li><a href="servicios.html" class="hover:text-blue-400 transition-colors">Instalación y Capacitación de Operarios</a></li>
+            <li><a href="soporte.html" class="hover:text-blue-400 transition-colors">Garantías y Repuestos Originales</a></li>
+            <li><a href="nosotros.html" class="hover:text-blue-400 transition-colors">Red de Distribuidores Colombia</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Ubicación Bogotá & Contacto -->
+        <div class="space-y-3">
+          <h4 class="text-sm font-bold font-headline text-white uppercase tracking-wider border-b border-slate-800 pb-2">Sede Principal Bogotá</h4>
+          <div class="space-y-2 text-xs text-slate-400">
+            <p class="flex items-start gap-2"><span class="material-symbols-outlined text-blue-400 text-sm">location_on</span> <strong>Barrio La Alquería, Bogotá D.C., Colombia</strong></p>
+            <p class="flex items-center gap-2"><span class="material-symbols-outlined text-blue-400 text-sm">call</span> PBX: +57 (601) 555-0198</p>
+            <p class="flex items-center gap-2"><span class="material-symbols-outlined text-blue-400 text-sm">chat</span> WhatsApp: +57 300 000 0000</p>
+            <p class="flex items-center gap-2"><span class="material-symbols-outlined text-blue-400 text-sm">mail</span> ventas@capitalmaquinas.com</p>
+          </div>
+        </div>
+
       </div>
-    </footer>`;
+
+      <!-- Barra Inferior de Legales -->
+      <div class="max-w-[1600px] mx-auto pt-8 border-t border-slate-900 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-500">
+        <p>© 2026 Grupo Cápital Máquinas S.A.S. Todos los derechos reservados.</p>
+        <div class="flex gap-6">
+          <a href="#" onclick="alert('Política de privacidad en actualización.'); return false;" class="hover:text-slate-300">Política de Privacidad</a>
+          <a href="#" onclick="alert('Términos de venta en actualización.'); return false;" class="hover:text-slate-300">Términos de Venta</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Botón Flotante Omnipresente de WhatsApp -->
+    <a href="https://wa.me/573000000000?text=Hola%20Grupo%20Capital%20M%C3%A1quinas,%20deseo%20solicitar%20asesor%C3%ADa%20y%20cotizaci%C3%B3n." target="_blank" rel="noopener noreferrer" class="fixed bottom-6 right-6 z-50 bg-emerald-600 hover:bg-emerald-500 text-white p-3.5 rounded-full shadow-2xl transition-all duration-300 hover:scale-110 flex items-center justify-center group" title="Contactar por WhatsApp">
+      <span class="material-symbols-outlined text-3xl">chat</span>
+      <span class="absolute right-full mr-3 bg-slate-900 text-white text-xs font-bold py-2 px-3.5 rounded-xl shadow-xl whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none border border-slate-800">
+        💬 ¡Hablar con un Especialista en Vivo!
+      </span>
+      <span class="absolute -top-1 -right-1 flex h-3.5 w-3.5">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500"></span>
+      </span>
+    </a>`;
 }
 
 /* ── Carousel Engine ── */

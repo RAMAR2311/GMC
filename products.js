@@ -138,7 +138,7 @@ var SERVICES_DATA = [
 ];
 
 
-/* ── Render: Product Card ── */
+/* ── Render: Product Card (Diseño Premium Floating Cards B2B) ── */
 function renderProductCard(p, idx) {
   const stagger = `stagger-${(idx % 8) + 1}`;
   const txtColor = p.badgeText || "text-white";
@@ -146,29 +146,34 @@ function renderProductCard(p, idx) {
   const numPrice = typeof p.price === 'number' ? p.price : parseFloat(String(p.price || 0).replace(/[$,]/g, '')) || 0;
   const safeName = (p.name || "Sin Nombre").replace(/"/g, '&quot;');
   const productData = `{ name: &quot;${safeName}&quot;, price: ${numPrice}, img: &quot;${p.img}&quot; }`;
+  const brandName = p.brand || p.category || "GRADO INDUSTRIAL";
   
   return `
-  <article class="bg-surface-container-lowest overflow-hidden group transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10 opacity-0 animate-fade-in-up ${stagger}">
-    <a href="producto.html?id=${p.id}" class="block">
-      <div class="aspect-[4/3] bg-white relative overflow-hidden flex items-center justify-center p-4">
-        <img alt="${p.name}" loading="lazy" class="max-w-full max-h-full object-contain group-hover:scale-110 transition-all duration-700" src="${p.img}"/>
-        <div class="absolute top-4 left-4">
-          <span class="${p.badgeColor || 'bg-primary'} ${txtColor} text-[9px] font-bold px-2 py-1 uppercase tracking-widest shadow-lg">${p.badge || 'Maquinaria'}</span>
+  <article class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden relative group flex flex-col justify-between opacity-0 animate-fade-in-up ${stagger}">
+    <div>
+      <a href="producto.html?id=${p.id}" class="block relative aspect-[4/3] bg-slate-50 dark:bg-slate-800 overflow-hidden flex items-center justify-center p-4">
+        <img alt="${p.name}" loading="lazy" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500" src="${p.img}"/>
+        <div class="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
+          <span class="${p.badgeColor || 'bg-blue-600'} ${txtColor} text-[9px] font-extrabold px-2.5 py-1 uppercase tracking-widest rounded-md shadow-md">${p.badge || 'EN STOCK'}</span>
+        </div>
+        <div class="absolute top-3 right-3 z-10">
+          <span class="bg-slate-900/80 text-white backdrop-blur text-[9px] font-bold px-2 py-1 rounded-md uppercase tracking-wider">${brandName}</span>
+        </div>
+      </a>
+      <div class="p-5 sm:p-6">
+        <h3 class="text-sm sm:text-base font-bold font-headline text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors mb-2 min-h-[3rem] line-clamp-2">${p.name}</h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 line-clamp-2 leading-relaxed">${p.description || 'Maquinaria textil industrial de alto rendimiento e ingeniería mecatrónica.'}</p>
+        <div class="flex items-baseline justify-between border-t border-slate-100 dark:border-slate-800 pt-3 mb-4">
+          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Estado Comercial</span>
+          <span class="text-sm font-black text-blue-900 dark:text-blue-400 font-headline">${displayPrice}</span>
         </div>
       </div>
-    </a>
-    <div class="p-5 sm:p-6">
-      <h3 class="text-base font-bold font-manrope text-primary group-hover:text-blue-800 transition-colors mb-2 min-h-[3rem] line-clamp-2">${p.name}</h3>
-      <div class="flex flex-col mb-4">
-        <span class="text-xs text-slate-500 uppercase font-bold tracking-widest">Precio Unitario</span>
-        <span class="text-lg font-manrope font-black text-on-surface">${displayPrice}</span>
-      </div>
-      <div class="flex gap-2">
-        <a href="producto.html?id=${p.id}" class="flex-1 block text-center bg-primary text-white py-3 font-bold text-[10px] uppercase tracking-wider rounded-md hover:bg-primary-container transition-all duration-300 active:scale-95 flex items-center justify-center">Ver Detalles</a>
-        <button onclick="addToCart(event, ${productData})" class="px-4 bg-surface-container-high text-primary rounded-md hover:bg-secondary-container hover:text-on-secondary-container transition-all duration-300 active:scale-95 flex items-center justify-center" aria-label="Añadir al carrito" title="Añadir al carrito">
-          <span class="material-symbols-outlined text-lg">add_shopping_cart</span>
-        </button>
-      </div>
+    </div>
+    <div class="p-5 sm:p-6 pt-0 flex gap-2">
+      <a href="producto.html?id=${p.id}" class="flex-1 block text-center bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-white py-2.5 rounded-xl font-bold text-xs transition-all active:scale-95 flex items-center justify-center">Ver Ficha Técnica</a>
+      <button onclick="addToCart(event, ${productData})" class="px-3.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all active:scale-95 flex items-center justify-center shadow-md shadow-blue-500/20" aria-label="Solicitar Cotización" title="Solicitar Cotización">
+        <span class="material-symbols-outlined text-lg">request_quote</span>
+      </button>
     </div>
   </article>`;
 }
@@ -180,27 +185,39 @@ function renderProductGrid() {
   grid.innerHTML = PRODUCTS.map((p, i) => renderProductCard(p, i)).join("");
 }
 
-/* ── Render: Carousel Slides ── */
+/* ── Render: Carousel Slides (Hero Impactante UI/UX B2B) ── */
 function renderCarouselSlides() {
   const container = document.getElementById("carousel-slides");
   if (!container) return;
   container.innerHTML = CAROUSEL_SLIDES.map((s, i) => {
     const isVideo = s.img && (s.img.endsWith('.mp4') || s.img.endsWith('.webm') || s.img.endsWith('.ogg'));
     const mediaHTML = isVideo 
-      ? `<video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover object-top ${i === 0 ? 'animate-scale-in' : ''}">
+      ? `<video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover ${i === 0 ? 'animate-scale-in' : ''}">
           <source src="${s.img}" type="video/${s.img.split('.').pop()}">
          </video>`
-      : `<img alt="${s.alt}" class="absolute inset-0 w-full h-full object-cover object-top ${i === 0 ? 'animate-scale-in' : ''}" src="${s.img}"/>`;
+      : `<img alt="${s.alt}" class="absolute inset-0 w-full h-full object-cover ${i === 0 ? 'animate-scale-in' : ''}" src="${s.img}"/>`;
 
     return `<div class="carousel-slide ${i === 0 ? 'active' : ''} absolute inset-0 w-full h-full opacity-0 transition-opacity duration-1000">
-      <div class="absolute inset-0 bg-blue-950/50 z-10"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-900/80 to-slate-950/50 z-10"></div>
       ${mediaHTML}
       <!-- Overlay Content para este Slide -->
-      <div class="absolute inset-0 z-30 h-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 flex flex-col justify-center items-start pointer-events-none">
+      <div class="absolute inset-0 z-30 h-full max-w-[1600px] mx-auto px-6 sm:px-10 lg:px-16 flex flex-col justify-center items-start pointer-events-none">
         <div class="max-w-3xl animate-fade-in-up pointer-events-auto transition-transform">
-          <span class="inline-block px-4 py-1.5 mb-4 sm:mb-6 bg-primary text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-sm">${s.badge}</span>
-          <h2 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold font-manrope text-white tracking-tight leading-[1.1] mb-4 sm:mb-6">${s.title}</h2>
-          <p class="text-base sm:text-lg lg:text-xl text-slate-200 font-body leading-relaxed mb-6 sm:mb-10 max-w-2xl">${s.description || s.desc || ''}</p>
+          <span class="inline-flex items-center gap-2 px-3.5 py-1.5 mb-6 bg-blue-600/90 text-white text-[11px] font-extrabold uppercase tracking-[0.25em] rounded-full backdrop-blur border border-blue-400/30 shadow-xl">
+            <span class="w-2 h-2 rounded-full bg-blue-300 animate-ping"></span> ${s.badge || 'TECNOLOGÍA DE VANGUARDIA'}
+          </span>
+          <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black font-headline text-white tracking-tight leading-[1.1] mb-6 drop-shadow-md">${s.title || 'Tecnología de Vanguardia en Maquinaria de Confección Industrial'}</h1>
+          <p class="text-base sm:text-lg lg:text-xl text-slate-200 font-body leading-relaxed mb-8 max-w-2xl text-slate-300">${s.description || s.desc || 'Líderes en equipos automáticos de alta precisión, bordadoras y soluciones textiles de última generación.'}</p>
+          <div class="flex flex-wrap gap-4 pt-2">
+            <a href="#product-grid" class="px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl shadow-xl shadow-blue-600/30 hover:scale-105 active:scale-95 transition-all flex items-center gap-2">
+              <span>Explorar Catálogo Industrial</span>
+              <span class="material-symbols-outlined text-lg">arrow_forward</span>
+            </a>
+            <a href="https://wa.me/573000000000?text=Hola,%20requiero%20asesor%C3%ADa%20con%20un%20especialista." target="_blank" rel="noopener noreferrer" class="px-8 py-4 border-2 border-white/80 hover:bg-white hover:text-slate-950 text-white font-bold text-xs uppercase tracking-wider rounded-xl backdrop-blur transition-all flex items-center gap-2">
+              <span class="material-symbols-outlined text-lg text-emerald-400">chat</span>
+              <span>Hablar con un Especialista</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>`;
@@ -212,13 +229,14 @@ function renderBrands() {
   const el = document.getElementById("brands-list");
   if (!el) return;
   
-  // Normalizar marcas para manejar tanto strings como objetos de la DB
-  const normalizedBrands = BRANDS.map(b => typeof b === 'object' ? b.name : b);
+  const defaultBrands = ["Brother", "Jack", "Jontex", "Juki", "Pegasus", "Siruba", "Typical", "Kansew"];
+  const sourceBrands = (BRANDS && BRANDS.length > 0) ? BRANDS : defaultBrands;
+  const normalizedBrands = sourceBrands.map(b => typeof b === 'object' ? b.name : b);
   
   el.innerHTML = normalizedBrands.map(brandName =>
-    `<a onclick="filterCategory(event, '${brandName}')" class="group shrink-0 transition-all duration-300 hover:scale-105 filter grayscale hover:grayscale-0 opacity-60 hover:opacity-100 cursor-pointer" href="#product-grid">
-      <div class="h-12 w-28 sm:w-32 flex items-center justify-center bg-slate-50 rounded-lg">
-        <span class="text-xl font-black font-manrope text-slate-400 group-hover:text-blue-600 transition-colors uppercase tracking-tight">${brandName}</span>
+    `<a onclick="filterCategory(event, '${brandName}')" class="group shrink-0 transition-all duration-300 hover:scale-105 filter grayscale hover:grayscale-0 opacity-70 hover:opacity-100 cursor-pointer" href="#product-grid">
+      <div class="h-14 px-6 flex items-center justify-center bg-slate-50 border border-slate-200/60 rounded-xl shadow-xs hover:shadow-md hover:border-blue-300 transition-all">
+        <span class="text-lg font-black font-headline text-slate-600 group-hover:text-blue-600 transition-colors uppercase tracking-wider">${brandName}</span>
       </div>
     </a>`
   ).join("");

@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Marketplace de Maquinaria Industrial | Grupo Capital Máquinas</title>
-  <meta name="description" content="Catálogo de maquinaria industrial de precisión. Máquinas de coser, equipo CNC, metalmecánica y más. Grupo Capital Máquinas."/>
+  <title>Grupo Cápital Máquinas S.A.S. | Maquinaria de Confección Industrial & Bordadoras</title>
+  <meta name="description" content="Catálogo industrial especializado en máquinas de coser electrónicas, bordadoras, cortadoras y calderines. Grupo Cápital Máquinas S.A.S., Bogotá Colombia."/>
   <link rel="icon" type="image/png" href="logo.png"/>
   <link rel="apple-touch-icon" href="logo.png"/>
   <!-- Fonts & Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
   <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <!-- Shared Config & Components -->
@@ -16,106 +16,258 @@
   <script src="shared.js"></script>
   <link rel="stylesheet" href="styles.css"/>
 </head>
-<body class="bg-surface text-on-surface" data-page="inventario">
+<body class="bg-slate-50 text-slate-800 font-body antialiased" data-page="inventario">
 
-<!-- ═══ NAVBAR (inyectado por shared.js) ═══ -->
+<!-- ═══ TOPBAR & HEADER NAVBAR (inyectado dinámicamente por shared.js) ═══ -->
 <div id="navbar-placeholder"></div>
 
-<!-- ═══ LAYOUT: Sidebar + Main ═══ -->
-<div class="flex pt-20 min-h-screen">
+<!-- ═══ MAIN CONTENT ═══ -->
+<main class="w-full" role="main">
 
-  <!-- ═══ SIDEBAR (Desktop) ═══ -->
-  <aside class="w-64 flex-col p-6 space-y-2 h-[calc(100vh-5rem)] sticky top-20 bg-surface border-r border-outline/20 hidden md:flex" role="complementary" aria-label="Categorías de productos">
-    <div class="mb-8 px-2 animate-fade-in-up">
-      <h2 class="text-lg font-bold text-primary font-manrope">Categorías</h2>
-      <p class="text-xs text-on-surface-variant uppercase tracking-widest font-semibold mt-1">Precisión Industrial</p>
+  <!-- ── 1. HERO SLIDER SECTION (Impactante B2B) ── -->
+  <section class="carousel-container relative w-full h-[520px] sm:h-[620px] lg:h-[680px] group overflow-hidden bg-slate-950" aria-label="Banner principal">
+    <div id="carousel-slides" class="w-full h-full"></div>
+    
+    <!-- Nav Arrows -->
+    <button class="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-40 p-3 bg-slate-900/60 hover:bg-blue-600 text-white rounded-full backdrop-blur border border-white/20 transition-all duration-300 opacity-0 group-hover:opacity-100 shadow-2xl" id="prevBtn" aria-label="Slide anterior">
+      <span class="material-symbols-outlined text-2xl sm:text-3xl">chevron_left</span>
+    </button>
+    <button class="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-40 p-3 bg-slate-900/60 hover:bg-blue-600 text-white rounded-full backdrop-blur border border-white/20 transition-all duration-300 opacity-0 group-hover:opacity-100 shadow-2xl" id="nextBtn" aria-label="Slide siguiente">
+      <span class="material-symbols-outlined text-2xl sm:text-3xl">chevron_right</span>
+    </button>
+    
+    <!-- Indicators -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-40 flex gap-3">
+      <button class="indicator w-3 h-3 rounded-full bg-white active-indicator" data-index="0" aria-label="Slide 1"></button>
+      <button class="indicator w-3 h-3 rounded-full bg-white/30 hover:bg-white/60 transition-all duration-300" data-index="1" aria-label="Slide 2"></button>
+      <button class="indicator w-3 h-3 rounded-full bg-white/30 hover:bg-white/60 transition-all duration-300" data-index="2" aria-label="Slide 3"></button>
     </div>
-    <nav id="sidebar-categories" class="space-y-1" aria-label="Categorías"></nav>
-    <!-- CTA Box -->
-    <div class="mt-auto p-4 bg-primary rounded-xl animate-fade-in-up stagger-4 shadow-lg">
-      <p class="text-blue-200 text-[10px] font-bold uppercase tracking-[0.2em] mb-2">Consulta Experta</p>
-      <p class="text-white text-sm font-medium mb-4 leading-relaxed">¿Necesita asesoramiento especializado para su línea de producción?</p>
-      <a href="https://wa.me/573000000000?text=Hola,%20necesito%20asesoramiento%20especializado%20para%20mi%20l%C3%ADnea%20de%20producci%C3%B3n." target="_blank" rel="noopener noreferrer" class="w-full py-2.5 bg-white text-primary text-xs font-bold rounded-lg uppercase tracking-widest hover:bg-blue-50 transition-all duration-200 active:scale-95 flex justify-center items-center shadow-sm">Contactar Agente</a>
+    
+    <!-- Progress Bar -->
+    <div class="absolute bottom-0 left-0 w-full h-1.5 z-40 flex">
+      <div class="h-full w-0 bg-blue-600 transition-all duration-[5000ms] linear" id="progress-bar"></div>
+      <div class="h-full flex-1 bg-white/10"></div>
     </div>
-  </aside>
+  </section>
 
-  <!-- ═══ MAIN CONTENT ═══ -->
-  <main class="flex-1 bg-surface-container overflow-y-auto" role="main">
-
-    <!-- ── Hero Carousel ── -->
-    <section class="carousel-container relative w-full group" aria-label="Banner principal">
-      <div id="carousel-slides"></div>
-      <!-- Nav Arrows -->
-      <button class="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 z-40 p-2 text-white/50 hover:text-white transition-colors duration-300 opacity-0 group-hover:opacity-100" id="prevBtn" aria-label="Slide anterior">
-        <span class="material-symbols-outlined text-4xl">chevron_left</span>
-      </button>
-      <button class="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-40 p-2 text-white/50 hover:text-white transition-colors duration-300 opacity-0 group-hover:opacity-100" id="nextBtn" aria-label="Slide siguiente">
-        <span class="material-symbols-outlined text-4xl">chevron_right</span>
-      </button>
-      <!-- Indicators -->
-      <div class="absolute bottom-8 sm:bottom-10 left-1/2 -translate-x-1/2 z-40 flex gap-3">
-        <button class="indicator w-2 h-2 rounded-full bg-white active-indicator" data-index="0" aria-label="Slide 1"></button>
-        <button class="indicator w-2 h-2 rounded-full bg-white/30 hover:bg-white/60 transition-all duration-300" data-index="1" aria-label="Slide 2"></button>
-        <button class="indicator w-2 h-2 rounded-full bg-white/30 hover:bg-white/60 transition-all duration-300" data-index="2" aria-label="Slide 3"></button>
+  <!-- ── 2. TRUST BANNER (Tira de Marcas Aliadas) ── -->
+  <section id="sec-marcas" class="bg-white py-8 sm:py-10 px-4 sm:px-8 lg:px-12 border-b border-slate-200/80 shadow-xs" aria-label="Marcas destacadas">
+    <div class="max-w-[1600px] mx-auto">
+      <div class="flex items-center gap-4 mb-6">
+        <h2 class="text-xs font-black font-headline text-slate-500 uppercase tracking-[0.25em] whitespace-nowrap">MARCAS HOMOLOGADAS & DISTRIBUIDAS</h2>
+        <div class="h-[1px] w-full bg-slate-200"></div>
       </div>
-      <!-- Progress Bar -->
-      <div class="absolute bottom-0 left-0 w-full h-1 z-40 flex">
-        <div class="h-full w-0 bg-primary transition-all duration-[5000ms] linear" id="progress-bar"></div>
-        <div class="h-full flex-1 bg-white/10"></div>
-      </div>
-    </section>
+      <div class="relative group">
+        <!-- Scroll Buttons -->
+        <button onclick="scrollBrands(-1)" class="absolute -left-3 top-1/2 -translate-y-1/2 z-20 bg-white shadow-xl border border-slate-200 rounded-full p-2 text-slate-700 opacity-0 group-hover:opacity-100 transition-all hover:bg-blue-600 hover:text-white hidden sm:flex items-center justify-center">
+          <span class="material-symbols-outlined">chevron_left</span>
+        </button>
+        
+        <div id="brands-list" class="flex items-center gap-6 sm:gap-10 overflow-x-auto scroll-smooth no-scrollbar py-2"></div>
 
-    <!-- ── Marcas Destacadas ── -->
-    <section class="bg-white py-8 sm:py-12 px-4 sm:px-8 lg:px-12 border-b border-slate-100 animate-fade-in-up stagger-1" aria-label="Marcas destacadas">
-      <div class="max-w-[1600px] mx-auto">
-        <div class="flex items-center gap-4 mb-8">
-          <h2 class="text-sm font-extrabold font-manrope text-primary uppercase tracking-[0.3em] whitespace-nowrap">Marcas Destacadas</h2>
-          <div class="h-[1px] w-full bg-outline/20"></div>
-        </div>
-        <div class="relative group">
-          <!-- Botón Izquierdo -->
-          <button onclick="scrollBrands(-1)" class="absolute -left-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 shadow-xl border border-slate-100 rounded-full p-2 text-primary opacity-0 group-hover:opacity-100 transition-all hover:bg-primary hover:text-white hidden sm:flex items-center justify-center">
-            <span class="material-symbols-outlined">chevron_left</span>
-          </button>
-          
-          <div id="brands-list" class="flex items-center gap-8 sm:gap-12 md:gap-16 overflow-x-auto scroll-smooth no-scrollbar py-2"></div>
-
-          <!-- Botón Derecho -->
-          <button onclick="scrollBrands(1)" class="absolute -right-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 shadow-xl border border-slate-100 rounded-full p-2 text-primary opacity-0 group-hover:opacity-100 transition-all hover:bg-primary hover:text-white hidden sm:flex items-center justify-center">
-            <span class="material-symbols-outlined">chevron_right</span>
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── Catálogo de Productos ── -->
-    <div class="p-4 sm:p-8 lg:p-12 max-w-[1600px] mx-auto">
-      <header class="mb-8 sm:mb-12 animate-fade-in-up stagger-2">
-        <div class="flex items-center gap-2 mb-4">
-          <span class="px-3 py-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold uppercase tracking-[0.2em] rounded-full">Marketplace 2026</span>
-          <div class="h-[1px] flex-1 bg-outline-variant/30"></div>
-        </div>
-        <h1 id="inventario-hero-title" class="text-3xl sm:text-5xl font-extrabold font-manrope text-primary tracking-tight leading-tight">
-          Maquinaria de Costura <br class="hidden sm:block"/>
-          <span class="text-on-primary-container">Industrial de Precisión.</span>
-        </h1>
-        <p id="inventario-hero-desc" class="mt-4 sm:mt-6 text-on-surface-variant max-w-2xl font-body leading-relaxed text-sm sm:text-base">Maquinaria curada de alto rendimiento diseñada para integridad estructural y textiles de alta producción. Cada unidad es inspeccionada por nuestros ingenieros mecánicos senior para cumplimiento técnico.</p>
-      </header>
-
-      <!-- Product Grid: 1 col mobile → 2 tablet → 4 desktop -->
-      <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"></div>
-
-      <!-- Load More -->
-      <div class="mt-12 sm:mt-16 flex justify-center animate-fade-in-up stagger-4">
-        <button id="load-more-btn" onclick="loadMoreProducts()" class="px-8 sm:px-12 py-4 sm:py-5 bg-surface-container-high text-primary font-bold text-xs uppercase tracking-[0.3em] hover:bg-surface-container-highest hover:tracking-[0.4em] transition-all duration-300 active:scale-95 flex items-center justify-center">
-          Cargar más marketplace
+        <button onclick="scrollBrands(1)" class="absolute -right-3 top-1/2 -translate-y-1/2 z-20 bg-white shadow-xl border border-slate-200 rounded-full p-2 text-slate-700 opacity-0 group-hover:opacity-100 transition-all hover:bg-blue-600 hover:text-white hidden sm:flex items-center justify-center">
+          <span class="material-symbols-outlined">chevron_right</span>
         </button>
       </div>
     </div>
-  </main>
-</div>
+  </section>
 
-<!-- ═══ FOOTER (inyectado por shared.js) ═══ -->
+  <!-- ── 3. BENTO BOX GRID DE CATEGORÍAS RÁPIDAS ── -->
+  <section id="sec-categorias" class="py-12 sm:py-16 px-4 sm:px-8 lg:px-12 max-w-[1600px] mx-auto">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+      <div>
+        <span class="text-xs font-bold text-blue-600 uppercase tracking-[0.25em] font-headline">Líneas de Producción</span>
+        <h2 class="text-2xl sm:text-4xl font-black font-headline text-slate-900 dark:text-white mt-1">Categorías de Alta Eficiencia Industrial</h2>
+      </div>
+      <p class="text-xs sm:text-sm text-slate-500 max-w-md">Equipos mecatrónicos y soluciones textiles agrupadas por áreas técnicas de producción.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <!-- Card 1: Confección Industrial (Large Span 2) -->
+      <a href="#product-grid" onclick="filterCategory(event, 'Confección Industrial')" class="md:col-span-2 relative group overflow-hidden rounded-3xl bg-slate-900 border border-slate-800 p-8 sm:p-10 flex flex-col justify-between min-h-[300px] shadow-lg hover:shadow-2xl transition-all duration-500">
+        <div class="absolute inset-0 bg-gradient-to-tr from-blue-950 via-slate-900 to-blue-900/60 opacity-90 group-hover:scale-105 transition-transform duration-700"></div>
+        <div class="relative z-10 flex justify-between items-start">
+          <span class="w-12 h-12 rounded-2xl bg-blue-600/30 border border-blue-400/30 flex items-center justify-center text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all">
+            <span class="material-symbols-outlined text-2xl">precision_manufacturing</span>
+          </span>
+          <span class="text-[10px] font-extrabold px-3 py-1 bg-white/10 text-white rounded-full uppercase tracking-wider backdrop-blur">Línea Principal</span>
+        </div>
+        <div class="relative z-10 mt-12">
+          <h3 class="text-2xl font-extrabold text-white font-headline group-hover:text-blue-300 transition-colors">Confección Industrial</h3>
+          <p class="text-xs text-slate-300 mt-2 max-w-lg leading-relaxed">Rectas mecánicas y electrónicas, Overlock mecatrónicas de 4 y 5 hilos, Recubridoras y Presilladoras de alta velocidad.</p>
+          <div class="mt-4 flex items-center gap-2 text-xs font-bold text-blue-400 uppercase tracking-wider">
+            <span>Ver Modelos en Stock</span>
+            <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 2: Bordadoras Industriales -->
+      <a href="#product-grid" onclick="filterCategory(event, 'Bordadoras Industriales')" class="relative group overflow-hidden rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 flex flex-col justify-between min-h-[300px] shadow-sm hover:shadow-xl transition-all duration-300">
+        <div class="relative z-10 flex justify-between items-start">
+          <span class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-400 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all">
+            <span class="material-symbols-outlined text-2xl">view_carousel</span>
+          </span>
+          <span class="text-[10px] font-bold px-2.5 py-1 bg-blue-50 text-blue-700 rounded-md uppercase tracking-wider">CNC Multi-aguja</span>
+        </div>
+        <div class="relative z-10 mt-8">
+          <h3 class="text-xl font-extrabold text-slate-900 dark:text-white font-headline group-hover:text-blue-600 transition-colors">Bordadoras Industriales</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">Bordadoras de 1, 2 y multi-cabezales para gorras y prendas terminadas.</p>
+          <div class="mt-4 flex items-center gap-1.5 text-xs font-bold text-slate-700 dark:text-slate-300">
+            <span>Explorar Bordadoras</span>
+            <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 3: Cortadoras Textiles -->
+      <a href="#product-grid" onclick="filterCategory(event, 'Cortadoras')" class="relative group overflow-hidden rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 flex flex-col justify-between min-h-[300px] shadow-sm hover:shadow-xl transition-all duration-300">
+        <div class="relative z-10 flex justify-between items-start">
+          <span class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-400 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all">
+            <span class="material-symbols-outlined text-2xl">content_cut</span>
+          </span>
+          <span class="text-[10px] font-bold px-2.5 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-md uppercase tracking-wider">Corte de Tela</span>
+        </div>
+        <div class="relative z-10 mt-8">
+          <h3 class="text-xl font-extrabold text-slate-900 dark:text-white font-headline group-hover:text-blue-600 transition-colors">Cortadoras Textiles</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">Cortadoras de disco circular, cortadoras verticales y mesas automáticas CNC.</p>
+          <div class="mt-4 flex items-center gap-1.5 text-xs font-bold text-slate-700 dark:text-slate-300">
+            <span>Ver Cortadoras</span>
+            <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 4: Equipos de Planchado & Calderines -->
+      <a href="#product-grid" onclick="filterCategory(event, 'Equipos de Planchado')" class="lg:col-span-2 relative group overflow-hidden rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 flex flex-col justify-between min-h-[250px] shadow-sm hover:shadow-xl transition-all duration-300">
+        <div class="relative z-10 flex justify-between items-start">
+          <span class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-400 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all">
+            <span class="material-symbols-outlined text-2xl">iron</span>
+          </span>
+          <span class="text-[10px] font-bold px-2.5 py-1 bg-amber-50 text-amber-700 rounded-md uppercase tracking-wider">Vapor & Acabados</span>
+        </div>
+        <div class="relative z-10 mt-6">
+          <h3 class="text-xl font-extrabold text-slate-900 dark:text-white font-headline group-hover:text-blue-600 transition-colors">Equipos de Planchado & Calderines</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-2 max-w-md leading-relaxed">Mesas de planchado con succión, calderines de vapor continuo y prensas de fusión térmica.</p>
+          <div class="mt-4 flex items-center gap-1.5 text-xs font-bold text-blue-600">
+            <span>Explorar Equipos de Planchado</span>
+            <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 5: Línea Familiar / Casera -->
+      <a href="#product-grid" onclick="filterCategory(event, 'Familiar / Casera')" class="lg:col-span-2 relative group overflow-hidden rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 flex flex-col justify-between min-h-[250px] shadow-sm hover:shadow-xl transition-all duration-300">
+        <div class="relative z-10 flex justify-between items-start">
+          <span class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-400 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all">
+            <span class="material-symbols-outlined text-2xl">strikethrough_s</span>
+          </span>
+          <span class="text-[10px] font-bold px-2.5 py-1 bg-emerald-50 text-emerald-700 rounded-md uppercase tracking-wider">Taller & Hogar</span>
+        </div>
+        <div class="relative z-10 mt-6">
+          <h3 class="text-xl font-extrabold text-slate-900 dark:text-white font-headline group-hover:text-blue-600 transition-colors">Línea Familiar & Casera</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-2 max-w-md leading-relaxed">Máquinas portátiles de coser y fileteadoras compactas para modistas, estudiantes y talleres pequeños.</p>
+          <div class="mt-4 flex items-center gap-1.5 text-xs font-bold text-blue-600">
+            <span>Ver Máquinas Familiares</span>
+            <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ── 4. MARKETPLACE CARDS GRID ── -->
+  <section class="py-12 sm:py-16 px-4 sm:px-8 lg:px-12 max-w-[1600px] mx-auto border-t border-slate-200/60">
+    <header class="mb-10 sm:mb-14">
+      <div class="flex items-center gap-2 mb-3">
+        <span class="px-3.5 py-1 bg-blue-50 text-blue-700 text-[10px] font-extrabold uppercase tracking-[0.2em] rounded-full border border-blue-200">Marketplace B2B 2026</span>
+        <div class="h-[1px] flex-1 bg-slate-200"></div>
+      </div>
+      <h2 id="inventario-hero-title" class="text-3xl sm:text-5xl font-black font-headline text-slate-900 dark:text-white tracking-tight leading-tight">
+        Catálogo Industrial de Maquinaria
+      </h2>
+      <p id="inventario-hero-desc" class="mt-3 text-slate-500 max-w-3xl leading-relaxed text-sm sm:text-base">Equipos automáticos con garantía de fábrica, diagnóstico mecatrónico y disponibilidad inmediata para cotización y entrega nacional.</p>
+    </header>
+
+    <!-- Filter & Categories Pills -->
+    <div class="flex flex-wrap gap-2 mb-8" id="quick-category-pills">
+      <button onclick="filterCategory(event, 'TODAS')" class="px-4 py-2 bg-blue-600 text-white rounded-full text-xs font-bold transition-all shadow-md">Todas las Máquinas</button>
+      <button onclick="filterCategory(event, 'Confección Industrial')" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-full text-xs font-bold transition-all">Confección</button>
+      <button onclick="filterCategory(event, 'Bordadoras Industriales')" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-full text-xs font-bold transition-all">Bordadoras</button>
+      <button onclick="filterCategory(event, 'Cortadoras')" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-full text-xs font-bold transition-all">Cortadoras</button>
+      <button onclick="filterCategory(event, 'Equipos de Planchado')" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-full text-xs font-bold transition-all">Planchado & Calderines</button>
+    </div>
+
+    <!-- Product Grid: 1 col mobile → 2 tablet → 4 desktop -->
+    <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+
+    <!-- Load More -->
+    <div class="mt-12 sm:mt-16 flex justify-center">
+      <button id="load-more-btn" onclick="loadMoreProducts()" class="px-10 py-4 bg-slate-900 text-white hover:bg-blue-600 font-bold text-xs uppercase tracking-[0.25em] rounded-xl transition-all duration-300 active:scale-95 shadow-xl flex items-center gap-2">
+        <span>Ver Más Productos del Marketplace</span>
+        <span class="material-symbols-outlined text-base">expand_more</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ── 5. SECCIÓN DE VALOR AGREGADO / SOPORTE EXPERTO ── -->
+  <section class="bg-slate-900 text-white py-16 px-4 sm:px-8 lg:px-12 border-t border-b border-slate-800 my-12" aria-label="Valor Agregado">
+    <div class="max-w-[1600px] mx-auto">
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <span class="text-xs font-bold text-blue-400 uppercase tracking-[0.3em] font-headline">Respaldo Integral B2B</span>
+        <h2 class="text-3xl sm:text-4xl font-black font-headline mt-2 leading-tight">¿Por qué las Grandes Plantas de Confección Confían en Nosotros?</h2>
+        <p class="text-slate-400 text-xs sm:text-sm mt-3 leading-relaxed">Más de 20 años optimizando líneas de producción textil con maquinaria certificada e ingeniería mecatrónica de precisión.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- Feature 1 -->
+        <div class="bg-slate-800/60 border border-slate-700/60 p-8 rounded-3xl space-y-4 hover:border-blue-500 transition-all duration-300 group">
+          <div class="w-14 h-14 rounded-2xl bg-blue-600/20 text-blue-400 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all">
+            <span class="material-symbols-outlined text-3xl">build_circle</span>
+          </div>
+          <h3 class="text-xl font-bold font-headline">Asesoría Técnica Especializada</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">Acompañamiento personalizado de nuestros ingenieros mecánicos senior para la estructuración y montaje de sus líneas de producción.</p>
+          <a href="servicios.html" class="inline-flex items-center gap-1 text-xs font-bold text-blue-400 hover:text-blue-300">
+            <span>Saber más sobre Asesoría</span>
+            <span class="material-symbols-outlined text-sm">chevron_right</span>
+          </a>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="bg-slate-800/60 border border-slate-700/60 p-8 rounded-3xl space-y-4 hover:border-blue-500 transition-all duration-300 group">
+          <div class="w-14 h-14 rounded-2xl bg-blue-600/20 text-blue-400 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all">
+            <span class="material-symbols-outlined text-3xl">verified</span>
+          </div>
+          <h3 class="text-xl font-bold font-headline">Garantía y Repuestos Originales</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">Respaldo directo de fábrica y amplio stock disponible en nuestra bodega de Bogotá para repuestos, agujas y tarjetas electrónicas.</p>
+          <a href="soporte.html" class="inline-flex items-center gap-1 text-xs font-bold text-blue-400 hover:text-blue-300">
+            <span>Ver Centro de Repuestos</span>
+            <span class="material-symbols-outlined text-sm">chevron_right</span>
+          </a>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="bg-slate-800/60 border border-slate-700/60 p-8 rounded-3xl space-y-4 hover:border-blue-500 transition-all duration-300 group">
+          <div class="w-14 h-14 rounded-2xl bg-blue-600/20 text-blue-400 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all">
+            <span class="material-symbols-outlined text-3xl">local_shipping</span>
+          </div>
+          <h3 class="text-xl font-bold font-headline">Red Nacional de Servicio Técnico</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">Despacho inmediato a todo el país y equipo de soporte técnico en sitio para instalación, calibración y puesta a punto de sus equipos.</p>
+          <a href="nosotros.html" class="inline-flex items-center gap-1 text-xs font-bold text-blue-400 hover:text-blue-300">
+            <span>Conocer Red de Cobertura</span>
+            <span class="material-symbols-outlined text-sm">chevron_right</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ═══ FOOTER & WHATSAPP FLOTANTE (inyectado por shared.js) ═══ -->
 <div id="footer-placeholder"></div>
 
 <!-- Page-specific data renderer -->
