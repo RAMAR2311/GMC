@@ -363,7 +363,7 @@ function renderCart() {
   container.innerHTML = cartItems.map((item, idx) => {
     const qty = item.quantity || 1;
     total += (item.price * qty);
-    const formattedPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(item.price);
+    const formattedPrice = window.formatCurrency(item.price);
     return `
       <div class="flex items-center gap-3 p-2 border-b border-outline-variant/10 last:border-0 hover:bg-surface-container-low transition-colors rounded-lg">
         <img src="${item.img}" class="w-12 h-12 object-cover rounded bg-surface" alt="${item.name}">
@@ -383,14 +383,13 @@ function renderCart() {
     `;
   }).join('');
   
-  priceLabel.innerText = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(total);
+  priceLabel.innerText = window.formatCurrency(total);
 }
 
 window.toggleUserMenu = function() {
   const dropdown = document.getElementById('user-dropdown');
   if (!dropdown) return;
   if (dropdown.classList.contains('hidden')) {
-    // Cerrar carrito si está abierto
     const cartDropdown = document.getElementById('cart-dropdown');
     if (cartDropdown && !cartDropdown.classList.contains('hidden')) toggleCart();
     
@@ -406,9 +405,9 @@ window.toggleUserMenu = function() {
 window.formatCurrency = function(value) {
   const num = typeof value === 'string' ? parseFloat(value.replace(/[^0-9.]/g, '')) : value;
   if (isNaN(num)) return value;
-  return new Intl.NumberFormat('en-US', {
+  return new Intl.NumberFormat('es-CO', {
     style: 'currency',
-    currency: 'USD',
+    currency: 'COP',
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
   }).format(num);

@@ -58,6 +58,13 @@ def init_db():
                     if stmt.strip():
                         conn.run(stmt)
             print("INFO: Base de datos sincronizada correctamente.")
+        
+        # Asegurar columna specs en tabla products
+        try:
+            conn.run("ALTER TABLE products ADD COLUMN IF NOT EXISTS specs TEXT")
+        except Exception as e:
+            pass
+
         conn.close()
     except Exception as e:
         print(f"ADVERTENCIA: Error al inicializar BD: {e}")
@@ -128,18 +135,24 @@ def get_cms_data():
     try:
         conn = get_db_connection()
         # Productos
-        products_raw = conn.run('SELECT id, name, price, category, img, max_speed, motor_type, badge, badge_color, gallery, description, brand FROM products ORDER BY id ASC')
+        products_raw = conn.run('SELECT id, name, price, category, img, max_speed, motor_type, badge, badge_color, gallery, description, brand, specs FROM products ORDER BY id ASC')
         products = []
         for row in products_raw:
             gallery_data = []
             if row[9]:
                 try: gallery_data = json.loads(row[9])
                 except: gallery_data = []
+            
+            specs_data = {}
+            if len(row) > 12 and row[12]:
+                try: specs_data = json.loads(row[12])
+                except: specs_data = {}
+
             products.append({
                 'id': row[0], 'name': row[1], 'price': row[2], 'category': row[3], 
                 'img': row[4], 'maxSpeed': row[5], 'motorType': row[6], 
                 'badge': row[7], 'badgeColor': row[8], 'gallery': gallery_data,
-                'description': row[10], 'brand': row[11]
+                'description': row[10], 'brand': row[11], 'specs': specs_data
             })
 
         # Equipo
@@ -266,24 +279,25 @@ def save_product():
         conn = get_db_connection()
         gallery_json = json.dumps(data.get('gallery', []))
         description = data.get('description', '')
+        specs_json = json.dumps(data.get('specs', {}))
         
         if 'id' in data and data['id']:
             exists = conn.run('SELECT id FROM products WHERE id = :id', id=data['id'])
             if exists:
                 conn.run('''
-                    UPDATE products SET name=:name, price=:price, category=:category, img=:img, max_speed=:max_speed, motor_type=:motor_type, badge=:badge, badge_color=:badge_color, gallery=:gallery, description=:description, brand=:brand WHERE id=:id
+                    UPDATE products SET name=:name, price=:price, category=:category, img=:img, max_speed=:max_speed, motor_type=:motor_type, badge=:badge, badge_color=:badge_color, gallery=:gallery, description=:description, brand=:brand, specs=:specs WHERE id=:id
                 ''', name=data['name'], price=data['price'], category=data['category'], img=data['img'], 
-                     max_speed=data.get('maxSpeed'), motor_type=data.get('motorType'), badge=data.get('badge'), badge_color=data.get('badgeColor'), gallery=gallery_json, description=description, brand=data.get('brand'), id=data['id'])
+                     max_speed=data.get('maxSpeed'), motor_type=data.get('motorType'), badge=data.get('badge'), badge_color=data.get('badgeColor'), gallery=gallery_json, description=description, brand=data.get('brand'), specs=specs_json, id=data['id'])
             else:
                 conn.run('''
-                    INSERT INTO products (id, name, price, category, img, max_speed, motor_type, badge, badge_color, gallery, description, brand) VALUES (:id, :name, :price, :category, :img, :max_speed, :motor_type, :badge, :badge_color, :gallery, :description, :brand)
+                    INSERT INTO products (id, name, price, category, img, max_speed, motor_type, badge, badge_color, gallery, description, brand, specs) VALUES (:id, :name, :price, :category, :img, :max_speed, :motor_type, :badge, :badge_color, :gallery, :description, :brand, :specs)
                 ''', id=data['id'], name=data['name'], price=data['price'], category=data['category'], img=data['img'], 
-                     max_speed=data.get('maxSpeed'), motor_type=data.get('motorType'), badge=data.get('badge'), badge_color=data.get('badgeColor'), gallery=gallery_json, description=description, brand=data.get('brand'))
+                     max_speed=data.get('maxSpeed'), motor_type=data.get('motorType'), badge=data.get('badge'), badge_color=data.get('badgeColor'), gallery=gallery_json, description=description, brand=data.get('brand'), specs=specs_json)
         else:
             conn.run('''
-                INSERT INTO products (name, price, category, img, max_speed, motor_type, badge, badge_color, gallery, description, brand) VALUES (:name, :price, :category, :img, :max_speed, :motor_type, :badge, :badge_color, :gallery, :description, :brand)
+                INSERT INTO products (name, price, category, img, max_speed, motor_type, badge, badge_color, gallery, description, brand, specs) VALUES (:name, :price, :category, :img, :max_speed, :motor_type, :badge, :badge_color, :gallery, :description, :brand, :specs)
             ''', name=data['name'], price=data['price'], category=data['category'], img=data['img'], 
-                 max_speed=data.get('maxSpeed'), motor_type=data.get('motorType'), badge=data.get('badge'), badge_color=data.get('badgeColor'), gallery=gallery_json, description=description, brand=data.get('brand'))
+                 max_speed=data.get('maxSpeed'), motor_type=data.get('motorType'), badge=data.get('badge'), badge_color=data.get('badgeColor'), gallery=gallery_json, description=description, brand=data.get('brand'), specs=specs_json)
         conn.close()
         return jsonify({'success': True})
     except Exception as e:

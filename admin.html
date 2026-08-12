@@ -362,7 +362,7 @@
                   <tr>
                     <th class="px-6 py-4">Imagen</th>
                     <th class="px-6 py-4">Producto</th>
-                    <th class="px-6 py-4">Precio (USD)</th>
+                    <th class="px-6 py-4">Precio (COP)</th>
                     <th class="px-6 py-4">Categoría</th>
                     <th class="px-6 py-4 text-right">Acción</th>
                   </tr>
@@ -1194,6 +1194,18 @@
             <input type="text" id="modal-motor-type" placeholder="Direct Drive" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-accent outline-none text-slate-800">
           </div>
           <div>
+            <label class="block text-sm font-semibold text-slate-600 mb-1">Largo de Puntada</label>
+            <input type="text" id="modal-stitch-length" placeholder="0.05 - 5.0 mm" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-accent outline-none text-slate-800">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-600 mb-1">Levantamiento de Prensatelas</label>
+            <input type="text" id="modal-presser-foot" placeholder="Auto: 15mm / Manual: 8mm" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-accent outline-none text-slate-800">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-600 mb-1">Sistema de Aguja</label>
+            <input type="text" id="modal-needle-system" placeholder="DB x 1 (#11-#18)" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-accent outline-none text-slate-800">
+          </div>
+          <div>
             <label class="block text-sm font-semibold text-slate-600 mb-1">Etiqueta (Badge)</label>
             <input type="text" id="modal-badge" placeholder="Ej. Nuevo, En Stock, Premium" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-accent outline-none text-slate-800">
           </div>
@@ -1744,6 +1756,11 @@
           document.getElementById('modal-brand').value = product.brand || '';
           document.getElementById('modal-description').value = product.description || '';
           
+          const specs = product.specs || {};
+          document.getElementById('modal-stitch-length').value = specs.stitchLength || product.stitchLength || '';
+          document.getElementById('modal-presser-foot').value = specs.presserFoot || product.presserFoot || '';
+          document.getElementById('modal-needle-system').value = specs.needleSystem || product.needleSystem || '';
+
           // Cargar galería
           if(product.gallery) {
             for(let i=0; i<4; i++) {
@@ -1762,6 +1779,9 @@
         badgeInput.value = '';
         badgeColorSelect.selectedIndex = 0;
         document.getElementById('modal-description').value = '';
+        document.getElementById('modal-stitch-length').value = '';
+        document.getElementById('modal-presser-foot').value = '';
+        document.getElementById('modal-needle-system').value = '';
         imgPreview.src = '';
         if (categorySelect.options.length > 0) categorySelect.selectedIndex = 0;
         
@@ -1854,7 +1874,13 @@
       const badge = document.getElementById('modal-badge').value;
       const badgeColor = document.getElementById('modal-badge-color').value;
 
-      const product = { name, price, category, maxSpeed, motorType, img, gallery, description, brand, badge, badgeColor };
+      const specs = {
+        stitchLength: document.getElementById('modal-stitch-length').value,
+        presserFoot: document.getElementById('modal-presser-foot').value,
+        needleSystem: document.getElementById('modal-needle-system').value
+      };
+
+      const product = { name, price, category, maxSpeed, motorType, img, gallery, description, brand, badge, badgeColor, specs };
       if (id) product.id = id;
 
       // Validación simple

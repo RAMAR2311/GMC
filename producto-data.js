@@ -52,6 +52,27 @@ function initProductDetail() {
         }
     });
 
+    // 4. Especificaciones Principales Dinámicas
+    const specs = product.specs || {};
+    const stitchLength = specs.stitchLength || product.stitchLength || '0.05 - 5.0 mm';
+    const presserFoot = specs.presserFoot || product.presserFoot || 'Auto: 15mm / Manual: 8mm';
+    const needleSystem = specs.needleSystem || product.needleSystem || 'DB x 1 (#11-#18)';
+
+    const elStitch = document.getElementById('spec-stitch-length');
+    if (elStitch) elStitch.innerText = stitchLength;
+
+    const elPresser = document.getElementById('spec-presser-foot');
+    if (elPresser) elPresser.innerText = presserFoot;
+
+    const elNeedle = document.getElementById('spec-needle-system');
+    if (elNeedle) elNeedle.innerText = needleSystem;
+
+    // Unidad de Moneda (COP / Unidad por defecto)
+    const currencyEl = document.getElementById('product-currency-unit');
+    if (currencyEl) {
+        currencyEl.innerText = (window.CMS_TEXTS && window.CMS_TEXTS['currency-unit']) ? window.CMS_TEXTS['currency-unit'] : 'COP / Unidad';
+    }
+
     // Imagen principal
     const mainImg = document.getElementById("main-product-img");
     if (mainImg && product.img) {
