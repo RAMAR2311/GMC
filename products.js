@@ -199,15 +199,8 @@ function renderCarouselSlides() {
           <p class="text-xs sm:text-sm text-slate-200 font-body leading-relaxed mb-6 max-w-lg drop-shadow">
             ${s.description || 'Equipos automáticos mecatrónicos de alta precisión para confección industrial, bordados y corte textil de última generación.'}
           </p>
-          <div class="flex flex-wrap items-center gap-3">
-            <a href="#product-grid" class="px-8 py-3.5 bg-[#007BFF] hover:bg-blue-600 text-white font-bold text-xs uppercase tracking-wider rounded-lg shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2">
-              <span>Ver Catálogo</span>
-              <span class="material-symbols-outlined text-base">arrow_forward</span>
-            </a>
-            <a href="https://wa.me/573000000000?text=Hola,%20deseo%20asesor%C3%ADa%20para%20maquinaria." target="_blank" rel="noopener noreferrer" class="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider rounded-lg backdrop-blur border border-white/30 transition-all flex items-center gap-2">
-              <span class="material-symbols-outlined text-base text-emerald-400">chat</span>
-              <span>Asesoría WhatsApp</span>
-            </a>
+          <div>
+            <a href="#product-grid" class="inline-block px-8 py-3.5 bg-[#007BFF] hover:bg-blue-600 text-white font-bold text-xs uppercase tracking-wider rounded-lg shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-[1.02] active:scale-95 transition-all">Ver Catálogo</a>
           </div>
         </div>
       </div>
