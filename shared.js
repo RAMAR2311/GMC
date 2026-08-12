@@ -182,7 +182,6 @@ function renderNavbar(activePage) {
   };
   window.addEventListener('scroll', window._onNavScroll);
 }
-}
 
 function toggleMobileMenu() {
   const menu = document.getElementById("mobile-menu");
